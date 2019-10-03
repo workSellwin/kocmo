@@ -1,0 +1,136 @@
+.about-us {
+  &__inner {
+    display: flex;
+    align-items: center;
+    font-size: 0;
+
+    @media @tabletMedia {
+      flex-direction: column;
+    }
+  }
+
+  &__img {
+    flex: none;
+    width: 51.4285%;
+
+    @media @tabletMedia {
+      width: calc(~"100% + 20px");
+      margin: 0 -10px;
+    }
+
+    img {
+      width: auto;
+      height: auto;
+
+      @media @tabletMedia {
+        width: 100%;
+      }
+    }
+  }
+
+  &__info {
+    padding: 41px 41px 62px 48px;
+    border: 2px solid @link-hover-color;
+    border-left: none;
+    flex: none;
+    width: calc(~"100% - 51.4285%");
+
+    @media @desktopContainerMedia {
+      padding: 33px 30px 46px;
+    }
+
+    @media @tabletMedia {
+      border-left: 2px solid @link-hover-color;
+      border-top: none;
+      padding: 26px 30px 32px;
+
+      width: 100%;
+    }
+
+    p {
+      .fsize(18);
+      color: #454545;
+      font-weight: 300;
+      .lineHeight(28,18);
+
+      @media @desktopContainerMedia {
+        .fsize(15);
+        .lineHeight(22,15);
+      }
+
+      @media @tabletMedia {
+        .fsize(14);
+        .lineHeight(24,14);
+      }
+    }
+
+    b {
+      font-weight: normal;
+      color: #0C0C0C;
+    }
+  }
+
+  &__title {
+    .fsize(42);
+    letter-spacing: -0.04em;
+    color: #2B2B2B;
+    margin-bottom: 26px;
+
+    @media @desktopContainerMedia {
+      .fsize(28);
+      margin-bottom: 16px;
+    }
+
+    @media @tabletMedia {
+      .fsize(20);
+      margin-bottom: 12px;
+    }
+
+    span {
+      color: @violet-color;
+    }
+  }
+
+  &__footer {
+    padding-top: 51px;
+
+    @media @desktopContainerMedia {
+      padding-top: 16px;
+    }
+
+    @media @tabletMedia {
+      padding-top: 20px;
+    }
+  }
+
+  &__footer-lnk {
+    letter-spacing: -0.02em;
+    .fsize(18);
+    color: #000000;
+
+    @media @desktopContainerMedia {
+      .fsize(14);
+    }
+
+    svg {
+      margin-left: 12px;
+      fill: @violet-color;
+
+      @media @tabletMedia {
+        fill: @link-hover-color;
+      }
+    }
+  }
+
+  &__home {
+    padding-bottom: 73px;
+
+    @media @desktopContainerMedia {
+      padding-bottom: 18px;
+    }
+
+    @media @tabletMedia {
+      padding-bottom: 7px;
+    }
+  }
+}

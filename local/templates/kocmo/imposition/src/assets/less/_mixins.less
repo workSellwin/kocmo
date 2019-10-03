@@ -1,0 +1,61 @@
+.position-absolute-stretch {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.transform-center {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+}
+
+.fsize(@font-size) {
+  font-size: @font-size/16rem;
+}
+
+.lineHeight (@line-height, @font-size) {
+  line-height: @line-height/@font-size;
+}
+
+.vwHeight (@height, @width) {
+  @vwHeight: ((@height / @width) * 100vw);
+}
+
+.placeholder(@color) {
+  &::-webkit-input-placeholder {
+    color: @color;
+  }
+
+  &:-moz-placeholder {
+    color: @color;
+  }
+
+  &::-moz-placeholder {
+    color: @color;
+  }
+
+  &:-ms-input-placeholder {
+    color: @color;
+  }
+}
+
+.placeholderFocusTransparent {
+  &:focus::-webkit-input-placeholder{
+    color:transparent;
+  }
+
+  &:focus::-moz-placeholder{
+    color:transparent;
+  }
+
+  &:focus:-ms-input-placeholder{
+    color:transparent;
+  }
+
+  &:focus::placeholder{
+    color:transparent;
+  }
+}

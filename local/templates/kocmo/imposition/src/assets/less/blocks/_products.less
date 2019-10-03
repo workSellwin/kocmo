@@ -1,0 +1,276 @@
+.products-item {
+  padding: 35px;
+  max-width: 360px;
+  transition: box-shadow @transition;
+  display: inline-block;
+  vertical-align: top;
+
+  @media @tabletMedia {
+    padding: 10px;
+  }
+
+  &:hover {
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.12);
+
+    @media @mobileMedia640 {
+      box-shadow: none;
+    }
+  }
+
+  &__img-wrap {
+    position: relative;
+    text-align: center;
+    margin-bottom: 22px;
+    display: block;
+
+    @media @tabletMedia {
+      margin-bottom: 17px;
+    }
+  }
+
+  &__img {
+    width: auto;
+    height: auto;
+  }
+
+  &__labels {
+    position: absolute;
+    top: 10px;
+    left: 0;
+  }
+
+  &__label {
+    border-width: 13px 7px;
+    color: #fff;
+    width: auto;
+    height: 0;
+    border-color: transparent;
+    border-style: solid;
+    margin-bottom: 10px;
+    line-height: 0;
+    padding: 0 6px;
+    letter-spacing: -0.02rem;
+    font-size: 18px;
+    text-transform: uppercase;
+
+    @media @tabletMedia {
+      border-width: 8px 5px;
+      margin-bottom: 5px;
+      padding: 0 4px;
+      font-size: 10px;
+    }
+
+    &--sale {
+      border-top-color: @violet-color;
+      border-bottom-color: @violet-color;
+    }
+
+    &--new {
+      border-top-color: #F6AC3C;
+      border-bottom-color: #F6AC3C;
+    }
+
+    &--add {
+      svg {
+        @media @tabletMedia {
+          width: 31px;
+        }
+      }
+    }
+  }
+
+  &__title-wrap {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 19px;
+
+    @media @tabletMedia {
+      margin-bottom: 11px;
+    }
+  }
+
+  &__title {
+    color: @violet-color;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    .fsize(18);
+    padding-right: 10px;
+    display: inline-block;
+    max-width: 63%;
+
+    @media @tabletMedia {
+      .fsize(14);
+    }
+  }
+
+  &__options {
+    flex: none;
+    width: auto;
+    color: @violet-color;
+    white-space: nowrap;
+    border-bottom: 1px solid @violet-color;
+    .fsize(16);
+    display: inline-block;
+
+    @media @tabletMedia {
+      .fsize(12);
+    }
+  }
+
+  &__description {
+    color: #333131;
+    font-weight: 300;
+    .fsize(15);
+    .lineHeight(20, 15);
+    margin-bottom: 22px;
+
+    @media @tabletMedia {
+      .fsize(12);
+      margin-bottom: 12px;
+    }
+  }
+
+  &__reviews {
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: space-between;
+
+    @media @tabletMedia {
+      display: none;
+    }
+  }
+
+  &__stars, &__reviews-lnk {
+    white-space: nowrap;
+  }
+
+  &__reviews-lnk {
+    color: #181818;
+    border-bottom: 1px solid #181818;
+    .fsize(16);
+  }
+
+  &__price-wrap {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 22px;
+
+    @media @tabletMedia {
+      margin-bottom: 15px;
+    }
+  }
+
+  &__price, &__old-price {
+    .fsize(28);
+    letter-spacing: 0.04rem;
+    white-space: nowrap;
+
+    @media @tabletMedia {
+      .fsize(16);
+    }
+
+    span {
+      .fsize(14);
+      letter-spacing: 0.05rem;
+
+      @media @tabletMedia {
+        .fsize(12);
+      }
+    }
+  }
+
+  &__price {
+    color: @link-hover-color;
+  }
+
+  &__old-price {
+    color: #8D9191;
+    position: relative;
+
+    &::after {
+      content: "";
+      left: 0;
+      right: 0;
+      top: 47%;
+      height: 1px;
+      background: #8D9191;
+      position: absolute;
+    }
+  }
+
+  &__btns {
+    display: flex;
+  }
+
+  &__add {
+    height: 57px;
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0 10px;
+    color: #3F3F3F;
+    text-transform: uppercase;
+    .fsize(16);
+
+    @media @tabletMedia {
+      .fsize(14);
+      height: 35px;
+    }
+
+    svg {
+      margin-right: 15px;
+      fill: @link-hover-color;
+
+      @media @tabletMedia {
+        margin-right: 9px;
+        width: 18px;
+        height: 18px;
+      }
+    }
+
+    &:hover {
+      svg {
+        fill: #fff;
+      }
+    }
+  }
+
+  &__wishlist {
+    flex: none;
+    width: 67px;
+    height: 57px;
+    margin-left: 13px;
+    padding: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-color: @violet-color;
+    transition: background-position 0s;
+
+    @media @tabletMedia {
+      display: none;
+    }
+
+    svg {
+      fill: @violet-color;
+    }
+
+    &:hover {
+      background-color: @violet-color;
+
+      svg {
+        fill: #fff;
+      }
+    }
+
+    &:active {
+      background: url(@spriteUrl) no-repeat -210px -93px;
+
+      svg {
+        display: none;
+      }
+    }
+  }
+}
