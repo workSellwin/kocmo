@@ -3,10 +3,10 @@
 namespace Asdrubael\Utils;
 require_once($_SERVER["DOCUMENT_ROOT"] . "/bitrix/modules/main/include/prolog_before.php");
 
-class BxStructureCreater
+class BxStructureCreator
 {
     /**
-     * BxStructureCreater constructor.
+     * BxStructureCreator constructor.
      */
     const PARENT_ID = 'Родитель';
     const ID = "UID";
@@ -15,15 +15,15 @@ class BxStructureCreater
     const DEPTH_LEVEL = 'DEPTH_LEVEL';
     const SECTION_ACTIVE = 'Y';
 
-    private $tree = null;
+    private $treeBuilder = null;
     private $error = [];
     private $catalogId = false;
     private $conformityHash = [];
 
-    public function __construct( array $tree, $catalogId )
+    public function __construct(treeHandler $treeBuilder, $catalogId )
     {
         if (\Bitrix\Main\Loader::includeModule('iblock')) {
-            $this->tree = $tree;
+            $this->treeBuilder = $treeBuilder;
 
             if( intval($catalogId) > 0){
                 $this->catalogId = $catalogId;
@@ -37,25 +37,34 @@ class BxStructureCreater
         }
     }
 
-    /**
-     * @return array
-     */
-    public function getTree()
-    {
-        return $this->tree;
-    }
-
     public function createStruct(){
 
-        if(is_array($this->tree)){
+        if(is_array($this->treeBuilder->getTree())){
 
+            $allXmlId = $this->treeBuilder->getAllXmlId();
+
+            if( count($allXmlId) ) {
+                $res = \CIBlockSection::GetList([], ["XML_ID" => $allXmlId, false, ['ID', 'IBLOCK_ID', 'NAME', 'CODE', 'XML_ID', 'DEPTH_LEVEL']]);
+            }
+
+            $xmlIdFromReq = [];
+
+            while( $fields = $res->fetch() ){
+                $xmlIdFromReq[] = $fields['XML_ID'];
+            }
+
+            //echo '<pre>' . print_r($xmlIdFromReq, true) . '</pre>';
             $cIBlockSection = new \CIBlockSection;
 
-            foreach($this->structGenerator($this->tree) as $section){
+            foreach($this->treeBuilder->structGenerator($this->treeBuilder->getTree()) as $section){
+                //echo '<pre>' . print_r($section, true) . '</pre>';
+                if( in_array($section[self::ID], $xmlIdFromReq) ){
+                    continue;
+                }
                 //echo '<pre>' . print_r($section, true) . '</pre>';
                 $this->addSection($section, $cIBlockSection);
             }
-            //echo '<pre>' . print_r($this->conformityHash, true) . '</pre>';
+            return true;
         }
         else{
             $this->error[] = "tree not found";
@@ -66,7 +75,7 @@ class BxStructureCreater
     private function addSection( array $arFieldsFrom1C, $cIBlockSection = false ){
 
         $arFields = $this->prepareFields($arFieldsFrom1C);
-        echo '<pre>' . print_r($arFields, true) . '</pre>';
+        echo '<pre>' . print_r($arFieldsFrom1C, true) . '</pre>';
         if($arFields == false){
             $this->error[] = "arFields incorrect";
             return false;
@@ -75,8 +84,8 @@ class BxStructureCreater
             $cIBlockSection = new \CIBlockSection;
         }
 
-        //$id = $cIBlockSection->Add($arFields);
-$id = 1;
+        $id = $cIBlockSection->Add($arFields);
+        //$id = 1;
         if( intval($id) == 0 ){
             $this->error[] = $cIBlockSection->LAST_ERROR;
             return false;
@@ -103,30 +112,38 @@ $id = 1;
         return $neededFields;
     }
 
-    private function structGenerator( $tree ){
-
-        foreach( $tree as &$section ){
-
-            yield $this->prepareSection($section);
-            if( count($section['CHILDREN']) ){
-                yield from $this->structGenerator($section['CHILDREN']);
-            }
-        }
+    /**
+     * @return array
+     */
+    public function getError()
+    {
+        return $this->error;
     }
 
-    private function prepareSection(&$section){
-
-        $tempArr = [];
-
-        $allowedFields = [
-            self::ID, self::PARENT_ID, self::NAME, self::DEPTH_LEVEL
-        ];
-
-        foreach( $section as $k => $fld){
-            if( in_array($k, $allowedFields) ){
-                $tempArr[$k] = $fld;
-            }
-        }
-        return $tempArr;
-    }
+//    private function structGenerator( $tree ){
+//
+//        foreach( $tree as &$section ){
+//
+//            yield $this->prepareSection($section);
+//            if( count($section[self::CHILDREN]) ){
+//                yield from $this->structGenerator($section[self::CHILDREN]);
+//            }
+//        }
+//    }
+//
+//    private function prepareSection(&$section){
+//
+//        $tempArr = [];
+//
+//        $allowedFields = [
+//            self::ID, self::PARENT_ID, self::NAME, self::DEPTH_LEVEL
+//        ];
+//
+//        foreach( $section as $k => $fld){
+//            if( in_array($k, $allowedFields) ){
+//                $tempArr[$k] = $fld;
+//            }
+//        }
+//        return $tempArr;
+//    }
 }
