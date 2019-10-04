@@ -8,16 +8,28 @@ class treeHandler
     const CHILDREN = 'CHILDREN';
     const DEPTH_LEVEL = 'DEPTH_LEVEL';
     const NAME = "Наименование";
+    const FULL_NAME = "НаименованиеПолное";
+    const PROPERTIES = "Свойства";
 
     private $tree = [];
     private $outputArr = [];
     private $points = [
         "sections" => 'http://kocmo1c.sellwin.by/Kosmo_Sergey/hs/Kocmo/GetFolder/GoodsOnlyGroup',
         "goods" => 'http://kocmo1c.sellwin.by/Kosmo_Sergey/hs/Kocmo/GetFolder/GoodsItems',
+        "reference" => 'http://kocmo1c.sellwin.by/Kosmo_Sergey/hs/Kocmo/GetReference/',
+        "image" => 'http://kocmo1c.sellwin.by/Kosmo_Sergey/hs/Kocmo/GetImage/',
     ];
     private $allowedGetParams = [
         'group'
     ];
+    private $referenceBooksGuid = [
+        "СтранаПроисхождения" => "42d1086a-9ccb-11e8-a215-00505601048d",
+        "ТоварнаяГруппа" => "42d1086e-9ccb-11e8-a215-00505601048d",
+        "Производитель" => "42d1082a-9ccb-11e8-a215-00505601048d",
+        "Марка" => "42d1082e-9ccb-11e8-a215-00505601048d",
+        "Коллекция" => "42d1081c-9ccb-11e8-a215-00505601048d",
+    ];
+    private $referenceBookds = [];
 
     function __construct()
     {
@@ -36,12 +48,23 @@ class treeHandler
         elseif( $_GET['mode'] == "get_all_xmlid" ){
             $uri = $this->points['sections'];
         }
+        elseif( $_GET['mode'] == "add_products" ){
+            $uri = $this->points['goods'];
+        }
+        elseif( $_GET['mode'] == "add_enum" ){
+            $uri = $this->points['reference'];
+        }
 
 
         if( empty($uri) ){
             echo "URL not defined";
             die();
         }
+
+        $this->fillInOutputArr($uri);
+    }
+
+    private function fillInOutputArr($uri){
 
         $getParamsStr = "";
 
@@ -54,7 +77,7 @@ class treeHandler
 
         $outputArr = $this->send($uri . '?' . $getParamsStr);
 
-        if(!empty($outputArr)) {
+        if(!empty($outputArr) && $uri == $this->points['sections']) {
 
             foreach ($outputArr as $key => $item) {
                 if (is_array($item[self::PARENT_ID]) && count($item[self::PARENT_ID])) {
@@ -69,6 +92,13 @@ class treeHandler
         }
         $this->outputArr = array_merge($outputArr, $tempArr);
     }
+    /**
+     * @return array
+     */
+    public function getRequestArr()
+    {
+        return $this->outputArr;
+    }
 
     private function send($uri)
     {
@@ -81,7 +111,7 @@ class treeHandler
             echo "error: status: " . $response->getStatusCode();
             die();
         }
-        return $outArr;
+        return isset($outArr) ? $outArr : false;
     }
     /**
      * @param array $tree
@@ -197,5 +227,45 @@ class treeHandler
             $allIdArr[] = $value[self::ID];
         }
         return $allIdArr;
+    }
+
+    public function getProductParentsXmlId(){
+
+        $returnVal = [];
+
+        foreach( $this->outputArr as $item){
+            $returnVal[$item[self::PARENT_ID]] =
+                isset($returnVal[$item[self::PARENT_ID]]) ? ++$returnVal[$item[self::PARENT_ID]] : 0;
+        }
+        return $returnVal;
+    }
+
+    private function getRefereceBook($gui){
+        $arr = $this->send($this->points['reference'] . $gui);
+        return $arr;
+    }
+
+    public function getRefValue($book, $gui){
+
+        if( !isset($this->referenceBookds[$book]) || !count($this->referenceBookds[$book])){
+            $this->referenceBookds[$book] = $this->getRefereceBook($this->referenceBooksGuid[$book]);
+        }
+
+        if( empty($this->referenceBookds[$book]) ){
+            return false;
+        }
+
+        foreach($this->referenceBookds[$book] as $item){
+            if( $item[self::ID] == $gui ){
+                return $item[self::NAME];
+            }
+        }
+        return false;
+    }
+
+    public function getPicture( $gui ){
+        //echo '<pre>' . print_r( $gui, true) . '</pre>';
+        $response = $this->send($this->points['image'] . $gui);
+        return $response['jpg'];
     }
 }
