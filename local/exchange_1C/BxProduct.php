@@ -11,6 +11,8 @@ namespace Asdrubael\Utils;
 
 class BxProduct extends BxHelper
 {
+    //const DETAIL_PICTURE = 'ФайлКартинки';
+
     private $matchXmlId = [];
     private $exportEnd = false;
     /**
@@ -222,22 +224,6 @@ class BxProduct extends BxHelper
             $xmlIdFromReq[$fields['XML_ID']] = $fields['ID'];
         }
         return $xmlIdFromReq;
-    }
-
-    private function checkRef($val)
-    {
-
-        if (is_string($val) && strlen($val) === 36 && $val != '00000000-0000-0000-0000-000000000000') {
-            $arr = explode('-', $val);
-
-            if (strlen($arr[0]) === 8 && strlen($arr[1]) === 4 && strlen($arr[2]) === 4
-                && strlen($arr[3]) === 4 && strlen($arr[4]) === 12) {
-                return true;
-            }
-            return false;
-        } else {
-            return false;
-        }
     }
 
     private function getPhoto($gui)

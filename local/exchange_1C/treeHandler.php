@@ -13,31 +13,32 @@ class treeHandler
     const FULL_NAME = "НаименованиеПолное";
     const PROPERTIES = "Свойства";
 
-    private $tempJsonFileName = [
+    protected $tempJsonFileName = [
         'products' => '/upload/tempProduct.json',
-        'sections' => '/upload/tempSection.json'
+        'sections' => '/upload/tempSection.json',
+        'images' => '/upload/tempImage.json'
     ];
-    private $tempJsonPath = false;
-    private $tree = [];
-    private $outputArr = [];
-    private $points = [
+    protected $tempJsonPath = false;
+    protected $tree = [];
+    protected $outputArr = [];
+    protected $points = [
         "sections" => 'http://kocmo1c.sellwin.by/Kosmo_Sergey/hs/Kocmo/GetFolder/GoodsOnlyGroup',
         "goods" => 'http://kocmo1c.sellwin.by/Kosmo_Sergey/hs/Kocmo/GetFolder/GoodsItems',
         "reference" => 'http://kocmo1c.sellwin.by/Kosmo_Sergey/hs/Kocmo/GetReference/',
         "image" => 'http://kocmo1c.sellwin.by/Kosmo_Sergey/hs/Kocmo/GetImage/',
     ];
-    private $allowedGetParams = [
+    protected $allowedGetParams = [
         'group'
     ];
-    private $referenceBooksGuid = [
+    protected $referenceBooksGuid = [
         "СтранаПроисхождения" => "42d1086a-9ccb-11e8-a215-00505601048d",
         "ТоварнаяГруппа" => "42d1086e-9ccb-11e8-a215-00505601048d",
         "Производитель" => "42d1082a-9ccb-11e8-a215-00505601048d",
         "Марка" => "42d1082e-9ccb-11e8-a215-00505601048d",
         "Коллекция" => "42d1081c-9ccb-11e8-a215-00505601048d",
     ];
-    private $referenceBookds = [];
-    private $startOffset = 0;
+    protected $referenceBookds = [];
+    protected $startOffset = 0;
 
     function __construct()
     {
@@ -66,10 +67,10 @@ class treeHandler
             $uri = $this->points['goods'];
             $this->tempJsonPath = $_SERVER['DOCUMENT_ROOT'] . $this->tempJsonFileName['products'];
         }
-        elseif( $_GET['mode'] == "add_enum" ){
-            $uri = $this->points['reference'];
+        elseif( $_GET['mode'] == "save_image" ){
+            $uri = $this->points['goods'];
+            $this->tempJsonPath = $_SERVER['DOCUMENT_ROOT'] . $this->tempJsonFileName['images'];
         }
-
 
         if( empty($uri) ){
             echo "URL not defined";
@@ -79,7 +80,7 @@ class treeHandler
         $this->fillInOutputArr($uri);
     }
 
-    private function fillInOutputArr($uri){
+    protected function fillInOutputArr($uri){
 
         if( file_exists( $this->tempJsonPath ) && !empty($_SESSION['offset']) ){
 
@@ -196,7 +197,7 @@ class treeHandler
         return unlink( $this->tempJsonPath );
     }
 
-    private function send($uri)
+    protected function send($uri)
     {
         $success = false;
         $client = new \GuzzleHttp\Client();
@@ -371,7 +372,6 @@ class treeHandler
     }
 
     public function getPicture( $gui ){
-        //echo '<pre>' . print_r( $gui, true) . '</pre>';
         $response = $this->send($this->points['image'] . $gui);
         return $response['jpg'];
     }

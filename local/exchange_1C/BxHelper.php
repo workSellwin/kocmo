@@ -20,7 +20,6 @@ abstract class BxHelper
     const FULL_NAME = "НаименованиеПолное";
     const PROPERTIES = "Свойства";
     const DESCRIPTION = 'Описание';
-    const DETAIL_PICTURE = 'ФайлКартинки';
 
     protected $treeBuilder = null;
     protected $error = [];
@@ -54,6 +53,22 @@ abstract class BxHelper
 
         } else {
             throw new \Error('module "iblock" or "catalog" not find!');
+        }
+    }
+
+    protected function checkRef($val)
+    {
+
+        if (is_string($val) && strlen($val) === 36 && $val != '00000000-0000-0000-0000-000000000000') {
+            $arr = explode('-', $val);
+
+            if (strlen($arr[0]) === 8 && strlen($arr[1]) === 4 && strlen($arr[2]) === 4
+                && strlen($arr[3]) === 4 && strlen($arr[4]) === 12) {
+                return true;
+            }
+            return false;
+        } else {
+            return false;
         }
     }
 
