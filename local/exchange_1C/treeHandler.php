@@ -106,6 +106,7 @@ class treeHandler
         $response = $client->request('GET', $uri);
 
         if ($response->getStatusCode() == 200) {
+            file_put_contents($_SERVER['DOCUMENT_ROOT'] . "/upload/temp.json", $response->getBody());
             $outArr = json_decode($response->getBody(), true);
         } else {
             echo "error: status: " . $response->getStatusCode();
