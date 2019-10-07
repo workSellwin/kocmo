@@ -3,6 +3,8 @@ namespace Asdrubael\Utils;
 
 class treeHandler
 {
+    const PRODUCT_LIMIT = 6000;
+    const WAITING_TIME = 0;
     const PARENT_ID = 'Родитель';
     const ID = "UID";
     const CHILDREN = 'CHILDREN';
@@ -11,6 +13,11 @@ class treeHandler
     const FULL_NAME = "НаименованиеПолное";
     const PROPERTIES = "Свойства";
 
+    private $tempJsonFileName = [
+        'products' => '/upload/tempProduct.json',
+        'sections' => '/upload/tempSection.json'
+    ];
+    private $tempJsonPath = false;
     private $tree = [];
     private $outputArr = [];
     private $points = [
@@ -30,26 +37,34 @@ class treeHandler
         "Коллекция" => "42d1081c-9ccb-11e8-a215-00505601048d",
     ];
     private $referenceBookds = [];
+    private $startOffset = 0;
 
     function __construct()
     {
+
         if( $_GET['mode'] == "get_sections" ) {
             $uri = $this->points['sections'];
+            $this->tempJsonPath = $_SERVER['DOCUMENT_ROOT'] . $this->tempJsonFileName['sections'];
         }
         if( $_GET['mode'] == "get_struct_sections" ) {
             $uri = $this->points['sections'];
+            $this->tempJsonPath = $_SERVER['DOCUMENT_ROOT'] . $this->tempJsonFileName['sections'];
         }
         elseif( $_GET['mode'] == "get_goods" ){
             $uri = $this->points['goods'];
+            $this->tempJsonPath = $_SERVER['DOCUMENT_ROOT'] . $this->tempJsonFileName['products'];
         }
         elseif( $_GET['mode'] == "create_structure" ){
             $uri = $this->points['sections'];
+            $this->tempJsonPath = $_SERVER['DOCUMENT_ROOT'] . $this->tempJsonFileName['sections'];
         }
         elseif( $_GET['mode'] == "get_all_xmlid" ){
             $uri = $this->points['sections'];
+            $this->tempJsonPath = $_SERVER['DOCUMENT_ROOT'] . $this->tempJsonFileName['sections'];
         }
         elseif( $_GET['mode'] == "add_products" ){
             $uri = $this->points['goods'];
+            $this->tempJsonPath = $_SERVER['DOCUMENT_ROOT'] . $this->tempJsonFileName['products'];
         }
         elseif( $_GET['mode'] == "add_enum" ){
             $uri = $this->points['reference'];
@@ -66,53 +81,144 @@ class treeHandler
 
     private function fillInOutputArr($uri){
 
-        $getParamsStr = "";
+        if( file_exists( $this->tempJsonPath ) && !empty($_SESSION['offset']) ){
 
-        foreach( $_GET as $key => $param){
-            if( in_array($key, $this->allowedGetParams) ){
-                $getParamsStr .= $key . '=' . $param . '&';
+            $this->startOffset = $_SESSION['offset'];
+            $_SESSION['offset'] = 0;
+            $this->updateJsonFile();
+            $this->setSliceFromJson();
+
+            if( count($this->outputArr) == 0){
+
+                $this->outputArr = false;
+                $this->delTempFile();
             }
         }
-        $tempArr = [];
+        else{
 
-        $outputArr = $this->send($uri . '?' . $getParamsStr);
+            $_SESSION['offset'] = 0;
+            $getParamsStr = "";
 
-        if(!empty($outputArr) && $uri == $this->points['sections']) {
+            foreach( $_GET as $key => $param){
+                if( in_array($key, $this->allowedGetParams) ){
+                    $getParamsStr .= $key . '=' . $param . '&';
+                }
+            }
 
-            foreach ($outputArr as $key => $item) {
+            $this->send($uri . '?' . $getParamsStr);
+        }
+
+        if(!empty($this->outputArr) && $uri == $this->points['sections']) {
+
+            $tempArr = [];
+
+            foreach ($this->outputArr as $key => $item) {
                 if (is_array($item[self::PARENT_ID]) && count($item[self::PARENT_ID])) {
                     foreach ($item[self::PARENT_ID] as $parentId) {
                         $temp = $item;
                         $temp[self::PARENT_ID] = $parentId;
                         $tempArr[] = $temp;
                     }
-                    unset($outputArr[$key]);
+                    unset($this->outputArr[$key]);
                 }
             }
+            $this->outputArr = array_merge($this->outputArr, $tempArr);
         }
-        $this->outputArr = array_merge($outputArr, $tempArr);
+        //$this->outputArr = $outputArr;
     }
+
     /**
-     * @return array
+     * @param int $processed
+     * @return array|bool
      */
-    public function getRequestArr()
+    public function getRequestArr(/*$processed = 0*/)
     {
-        return $this->outputArr;
+        /*
+        if( file_exists( $this->tempJsonPath ) ){
+            $file = file_get_contents($this->tempJsonPath);
+            $fromFileArr = json_decode($file, true);
+            $outputArr = array_slice(
+                $fromFileArr,
+                $step * self::PRODUCT_LIMIT,
+                self::PRODUCT_LIMIT
+            );
+            if( count($outputArr) == 0){
+                $this->outputArr = false;
+                $this->delTempFile();
+                //$_SESSION['product_step'] = 0;
+            }
+            else{
+                //$_SESSION['product_step']++;
+            }
+//            echo '<pre>' . print_r( count($outputArr), true) . '</pre>';
+        }
+        */
+
+//        $returnArr = array_slice(
+//            $this->outputArr,
+//            $processed,
+//            self::PRODUCT_LIMIT
+//        );
+//
+//        if( intval(self::WAITING_TIME) > 0){
+//            sleep(self::WAITING_TIME);
+//        }
+
+//        if( !count($returnArr) ){
+//            $this->updateJsonFile();
+//            $returnArr = false;
+//        }
+        return  $this->outputArr;//$returnArr;
+    }
+
+    private function setSliceFromJson(){
+
+        $this->outputArr = array_slice(
+            $this->outputArr,
+            0,
+            self::PRODUCT_LIMIT
+        );
+    }
+
+    private function updateJsonFile(){
+
+        $file = file_get_contents($this->tempJsonPath);
+        $fromFileArr = json_decode($file, true);
+
+        $this->outputArr = array_slice(
+            $fromFileArr,
+            $this->startOffset
+        );
+        file_put_contents($this->tempJsonPath, json_encode($this->outputArr));
+    }
+
+    private function delTempFile(){
+        return unlink( $this->tempJsonPath );
     }
 
     private function send($uri)
     {
+        $success = false;
         $client = new \GuzzleHttp\Client();
         $response = $client->request('GET', $uri);
 
         if ($response->getStatusCode() == 200) {
-            file_put_contents($_SERVER['DOCUMENT_ROOT'] . "/upload/temp.json", $response->getBody());
+            file_put_contents($this->tempJsonPath, $response->getBody());
             $outArr = json_decode($response->getBody(), true);
+
+            $this->outputArr = array_slice(
+                $outArr,
+                0,
+                self::PRODUCT_LIMIT
+             );
+
+            $success = true;
         } else {
             echo "error: status: " . $response->getStatusCode();
             die();
         }
-        return isset($outArr) ? $outArr : false;
+
+        return $success;
     }
     /**
      * @param array $tree

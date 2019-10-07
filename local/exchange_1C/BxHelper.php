@@ -11,6 +11,7 @@ require_once($_SERVER["DOCUMENT_ROOT"] . "/bitrix/modules/main/include/prolog_be
 
 abstract class BxHelper
 {
+    const TIME_LIMIT = 50;
     const PARENT_ID = 'Родитель';
     const ID = "UID";
     const NAME = "Наименование";
@@ -24,6 +25,8 @@ abstract class BxHelper
     protected $treeBuilder = null;
     protected $error = [];
     protected $catalogId = false;
+    protected $startTimestamp = false;
+    protected $finishTimestamp = false;
 
     /**
      * BxHelper constructor.

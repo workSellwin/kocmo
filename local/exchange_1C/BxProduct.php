@@ -12,6 +12,7 @@ namespace Asdrubael\Utils;
 class BxProduct extends BxHelper
 {
     private $matchXmlId = [];
+    private $exportEnd = false;
     /**
      * BxSection constructor.
      * @param treeHandler $treeBuilder
@@ -24,16 +25,39 @@ class BxProduct extends BxHelper
     }
 
 
-    public function addProducts($step = 1)
+    public function addProducts()
     {
-
-        $prodReqArr = $this->treeBuilder->getRequestArr();//массив из запроса
+        $this->startTimestamp = time();
 
         $oElement = new \CIBlockElement();
 
+        $processed = 0;
+       // echo '<pre>' . print_r($_SESSION['offset'], true) . '</pre>';
+        //while( $prodReqArr = $this->treeBuilder->getRequestArr($processed) ) {//массив из запроса
+        $prodReqArr = $this->treeBuilder->getRequestArr($processed);
+
         foreach ($this->productsGenerator($prodReqArr) as $arFields) {
-                $this->addProduct($arFields, $oElement);
+
+            if ((time() - $this->startTimestamp) > self::TIME_LIMIT) {
+                $_SESSION['offset'] = $processed;
+                return false;
+            }
+            $this->addProduct($arFields, $oElement);
+            ++$processed;
+            $_SESSION['offset'] = $processed;
         }
+            //echo '<pre>' . print_r($_SESSION['offset'], true) . '</pre>';
+        //}
+        $this->exportEnd = true;
+        return true;
+    }
+
+    public function exportEndStatus (){
+
+        if($this->exportEnd){
+            return true;
+        }
+        else false;
     }
 
     public function addProduct(array $arFields, $oElement = false)
