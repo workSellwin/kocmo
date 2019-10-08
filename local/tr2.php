@@ -29,10 +29,12 @@ elseif( $_GET['mode'] == "add_products" ){
     echo $_SESSION['offset'];
 }
 elseif( $_GET['mode'] == "save_image" ){
-
+    echo 'start: ', date("h:i:s"), "<br>";
     $tree = new Utils\treeImage();
+
     $bxImage = new Utils\BxImage( $tree, CATALOG_ID );
     $bxImage->upload();
+    echo 'finish: ', date("h:i:s"), "<br>";
 }
 
 

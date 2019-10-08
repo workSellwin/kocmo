@@ -26,9 +26,15 @@ class BxImage extends BxHelper
     }
 
     public function upload(){
+
+        $this->startTimestamp = time();
+
         foreach ( $this->imageGenerator($this->treeBuilder->getRequestArr() ) as $file ){
-            echo '<pre>' . print_r($file, true) . '</pre>';
+            if ((time() - $this->startTimestamp) > self::TIME_LIMIT) {
+                return false;
+            }
         }
+        return true;
     }
 
     public function imageGenerator( $arr ){
@@ -56,8 +62,10 @@ class BxImage extends BxHelper
             file_put_contents($fileName, $fileData);
 
             $file = \CFile::MakeFileArray($fileName);
+
             $file['MODULE_ID'] = 'sellwin.1CExchange';
             $file['description'] = $gui;
+            $file['name'] = $gui . '.' . $expansion;
 
             $fileSave = \CFile::SaveFile(
                 $file,

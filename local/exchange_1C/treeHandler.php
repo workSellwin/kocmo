@@ -125,54 +125,17 @@ class treeHandler
             }
             $this->outputArr = array_merge($this->outputArr, $tempArr);
         }
-        //$this->outputArr = $outputArr;
     }
 
     /**
-     * @param int $processed
      * @return array|bool
      */
-    public function getRequestArr(/*$processed = 0*/)
+    public function getRequestArr()
     {
-        /*
-        if( file_exists( $this->tempJsonPath ) ){
-            $file = file_get_contents($this->tempJsonPath);
-            $fromFileArr = json_decode($file, true);
-            $outputArr = array_slice(
-                $fromFileArr,
-                $step * self::PRODUCT_LIMIT,
-                self::PRODUCT_LIMIT
-            );
-            if( count($outputArr) == 0){
-                $this->outputArr = false;
-                $this->delTempFile();
-                //$_SESSION['product_step'] = 0;
-            }
-            else{
-                //$_SESSION['product_step']++;
-            }
-//            echo '<pre>' . print_r( count($outputArr), true) . '</pre>';
-        }
-        */
-
-//        $returnArr = array_slice(
-//            $this->outputArr,
-//            $processed,
-//            self::PRODUCT_LIMIT
-//        );
-//
-//        if( intval(self::WAITING_TIME) > 0){
-//            sleep(self::WAITING_TIME);
-//        }
-
-//        if( !count($returnArr) ){
-//            $this->updateJsonFile();
-//            $returnArr = false;
-//        }
         return  $this->outputArr;
     }
 
-    private function setSliceFromJson(){
+    protected function setSliceFromJson(){
 
         $this->outputArr = array_slice(
             $this->outputArr,
@@ -181,7 +144,7 @@ class treeHandler
         );
     }
 
-    private function updateJsonFile(){
+    protected function updateJsonFile(){
 
         $file = file_get_contents($this->tempJsonPath);
         $fromFileArr = json_decode($file, true);
@@ -193,7 +156,7 @@ class treeHandler
         file_put_contents($this->tempJsonPath, json_encode($this->outputArr));
     }
 
-    private function delTempFile(){
+    protected function delTempFile(){
         return unlink( $this->tempJsonPath );
     }
 
