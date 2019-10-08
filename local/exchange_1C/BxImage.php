@@ -12,7 +12,6 @@ class BxImage extends BxHelper
 {
     const DETAIL_PICTURE = 'ФайлКартинки';
 
-
     protected $treeBuilder = null;
 
     /**
@@ -27,28 +26,47 @@ class BxImage extends BxHelper
     }
 
     public function upload(){
-        echo '<pre>' . print_r($this->treeBuilder->getRequestArr(), true) . '</pre>';
+        foreach ( $this->imageGenerator($this->treeBuilder->getRequestArr() ) as $file ){
+            echo '<pre>' . print_r($file, true) . '</pre>';
+        }
+    }
+
+    public function imageGenerator( $arr ){
+
+        foreach ($arr as $item ){
+            if( $this->checkRef($item[self::DETAIL_PICTURE]) ){
+                //echo '<pre>' . print_r($item, true) . '</pre>';
+                yield $this->getPhoto($item[self::DETAIL_PICTURE]);
+            }
+            else{
+                continue;
+            }
+        }
     }
 
     private function getPhoto($gui)
     {
-        if ($this->checkRef($gui)) {
+        $ImgArr = $this->treeBuilder->getPicture($gui);
+        $expansion = key($ImgArr);
 
-            $base64Img = $this->treeBuilder->getPicture($gui);
-            if (!empty($base64Img)) {
-                $fileData = base64_decode($base64Img);
-                $fileName = $_SERVER['DOCUMENT_ROOT'] . '/upload/temp/temp-photo.jpg';
-                file_put_contents($fileName, $fileData);
+        if (!empty($ImgArr[$expansion])) {
 
-                $file = \CFile::MakeFileArray($fileName);
-                $fileSave = \CFile::SaveFile(
-                    $file,
-                    '/iblock'
-                );
+            $fileData = base64_decode($ImgArr[$expansion]);
+            $fileName = $_SERVER['DOCUMENT_ROOT'] . '/upload/temp-photo.' . $expansion;
+            file_put_contents($fileName, $fileData);
 
-                return \CFile::MakeFileArray($fileSave);
-            }
+            $file = \CFile::MakeFileArray($fileName);
+            $file['MODULE_ID'] = 'sellwin.1CExchange';
+            $file['description'] = $gui;
+
+            $fileSave = \CFile::SaveFile(
+                $file,
+                '/iblock'
+            );
+
+            return $fileSave;//\CFile::MakeFileArray($fileSave);
         }
-        return "";
+
+        return false;
     }
 }

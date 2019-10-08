@@ -6,6 +6,8 @@ namespace Asdrubael\Utils;
 
 class treeImage extends treeHandler
 {
+    const IMAGE_LIMIT = 1000;
+
     protected $allowedFields = [
         'UID', 'ФайлКартинки'
     ];
@@ -32,17 +34,17 @@ class treeImage extends treeHandler
 
             foreach($outArr as &$item){
                 foreach($item as $key => $value){
-                    if( in_array($key, $this->allowedFields) ){
+                    if( !in_array($key, $this->allowedFields) ){
                         unset($item[$key]);
                     }
                 }
             }
-            echo '<pre>' . print_r($outArr, true) . '</pre>';die();
-            file_put_contents($this->tempJsonPath, $response->getBody());
+            //echo '<pre>' . print_r($outArr, true) . '</pre>';die();
+            file_put_contents($this->tempJsonPath, json_encode($outArr));
             $this->outputArr = array_slice(
                 $outArr,
                 0,
-                self::PRODUCT_LIMIT
+                self::IMAGE_LIMIT
             );
 
             $success = true;
@@ -50,7 +52,19 @@ class treeImage extends treeHandler
             echo "error: status: " . $response->getStatusCode();
             die();
         }
-
+        //echo '<pre>' . print_r($this->outputArr, true) . '</pre>';die();
         return $success;
+    }
+
+
+    public function getPicture( $gui ){
+
+        $client = new \GuzzleHttp\Client();
+        $response = $client->request('GET', $this->points['image'] . $gui);
+        //echo '<pre>' . print_r($this->points['image'] . $gui, true) . '</pre>';
+        if ($response->getStatusCode() == 200) {
+            return json_decode($response->getBody(), true );
+        }
+        return false;
     }
 }

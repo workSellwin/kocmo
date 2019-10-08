@@ -72,6 +72,20 @@ abstract class BxHelper
         }
     }
 
+    protected function getFile($externalId){
+
+        if(!is_string($externalId)){
+            return false;
+        }
+
+        $res = CFile::GetList([], ["EXTERNAL_ID" => $externalId]);
+
+        if( $fields = $res->fetch() ){
+            return $fields;
+        }
+        return false;
+    }
+
     /**
      * @return array
      */

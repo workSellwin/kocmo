@@ -31,8 +31,8 @@ elseif( $_GET['mode'] == "add_products" ){
 elseif( $_GET['mode'] == "save_image" ){
 
     $tree = new Utils\treeImage();
-    //$bxImage = new Utils\BxImage($tree, CATALOG_ID);
-    //$bxImage->upload();
+    $bxImage = new Utils\BxImage( $tree, CATALOG_ID );
+    $bxImage->upload();
 }
 
 

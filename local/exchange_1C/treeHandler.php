@@ -169,7 +169,7 @@ class treeHandler
 //            $this->updateJsonFile();
 //            $returnArr = false;
 //        }
-        return  $this->outputArr;//$returnArr;
+        return  $this->outputArr;
     }
 
     private function setSliceFromJson(){
@@ -369,10 +369,5 @@ class treeHandler
             }
         }
         return false;
-    }
-
-    public function getPicture( $gui ){
-        $response = $this->send($this->points['image'] . $gui);
-        return $response['jpg'];
     }
 }
