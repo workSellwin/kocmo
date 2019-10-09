@@ -64,8 +64,9 @@ class BxImage extends BxHelper
             $file = \CFile::MakeFileArray($fileName);
 
             $file['MODULE_ID'] = 'sellwin.1CExchange';
-            $file['description'] = $gui;
-            $file['name'] = $gui . '.' . $expansion;
+            //$file['description'] = $gui;
+            $file['name'] = $gui;
+            //$file['name'] = $gui . '.' . $expansion;
 
             $fileSave = \CFile::SaveFile(
                 $file,

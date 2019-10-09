@@ -12,3 +12,7 @@ require 'BxHelper.php';
 require 'BxProduct.php';
 require 'BxSection.php';
 require 'BxImage.php';
+require 'BxProperty.php';
+require 'treeProduct.php';
+require 'treeSection.php';
+require 'treeProperty.php';

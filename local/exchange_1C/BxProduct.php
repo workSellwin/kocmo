@@ -11,7 +11,7 @@ namespace Asdrubael\Utils;
 
 class BxProduct extends BxHelper
 {
-    //const DETAIL_PICTURE = 'ФайлКартинки';
+    const DETAIL_PICTURE = 'ФайлКартинки';
 
     private $matchXmlId = [];
     private $exportEnd = false;
@@ -30,26 +30,20 @@ class BxProduct extends BxHelper
     public function addProducts()
     {
         $this->startTimestamp = time();
-
         $oElement = new \CIBlockElement();
+        $offsetKey = $this->treeBuilder->getOffsetKey();
+        $prodReqArr = $this->treeBuilder->getRequestArr();
 
-        $processed = 0;
-       // echo '<pre>' . print_r($_SESSION['offset'], true) . '</pre>';
-        //while( $prodReqArr = $this->treeBuilder->getRequestArr($processed) ) {//массив из запроса
-        $prodReqArr = $this->treeBuilder->getRequestArr($processed);
 
         foreach ($this->productsGenerator($prodReqArr) as $arFields) {
 
             if ((time() - $this->startTimestamp) > self::TIME_LIMIT) {
-                $_SESSION['offset'] = $processed;
                 return false;
             }
             $this->addProduct($arFields, $oElement);
-            ++$processed;
-            $_SESSION['offset'] = $processed;
+            ++$_SESSION[$offsetKey];
+            //echo '<pre>' . print_r($arFields, true) . '</pre>';die();
         }
-            //echo '<pre>' . print_r($_SESSION['offset'], true) . '</pre>';
-        //}
         $this->exportEnd = true;
         return true;
     }
@@ -114,9 +108,9 @@ class BxProduct extends BxHelper
 
             $props = [];
 
-            if (count($prod[self::PROPERTIES][0])) {
+            if (count($prod[static::PROPERTIES][0])) {
 
-                foreach ($prod[self::PROPERTIES][0] as $key => $prop) {
+                foreach ($prod[static::PROPERTIES][0] as $key => $prop) {
 
                     $code = $this->getPropertyCode($key);
 
@@ -140,7 +134,7 @@ class BxProduct extends BxHelper
                 "NAME" => $prod[self::FULL_NAME],
                 "CODE" => \CUtil::translit($prod[self::NAME], 'ru') . time(),
                 "DETAIL_TEXT" => $prod[self::DESCRIPTION],
-                //"DETAIL_PICTURE" => $this->getPhoto($prod[self::DETAIL_PICTURE]),
+                "DETAIL_PICTURE" => $this->getPhoto($prod[static::DETAIL_PICTURE]),
                 "PROPERTY_VALUES" => $props
             );
 
@@ -169,7 +163,7 @@ class BxProduct extends BxHelper
 
             $propId = $this->getPropIdFromCode($code);
 
-            if (intval($propId) > 0) {
+            if (intval($propId) > 0 && !empty($value) ) {
                 if ($enumId = $ibpenum->Add(['PROPERTY_ID' => $propId, 'VALUE' => $value, "XML_ID" => $xml_id])) {
                     return $enumId;
                 }
@@ -228,23 +222,31 @@ class BxProduct extends BxHelper
 
     private function getPhoto($gui)
     {
-        if ($this->checkRef($gui)) {
-
-            $base64Img = $this->treeBuilder->getPicture($gui);
-            if (!empty($base64Img)) {
-                $fileData = base64_decode($base64Img);
-                $fileName = $_SERVER['DOCUMENT_ROOT'] . '/upload/temp/temp-photo.png';
-                file_put_contents($fileName, $fileData);
-
-                $file = \CFile::MakeFileArray($fileName);
-                $fileSave = \CFile::SaveFile(
-                    $file,
-                    '/iblock'
-                );
-
-                return \CFile::MakeFileArray($fileSave);
-            }
+        $ImgArr = $this->treeBuilder->getPicture($gui);
+        $expansion = key($ImgArr);
+        if($expansion == 'Error'){
+            return false;
         }
-        return "";
+        if (!empty($ImgArr[$expansion])) {
+
+            $fileData = base64_decode($ImgArr[$expansion]);
+            $fileName = $_SERVER['DOCUMENT_ROOT'] . '/upload/temp-photo.' . $expansion;
+            file_put_contents($fileName, $fileData);
+
+            $file = \CFile::MakeFileArray($fileName);
+
+            $file['MODULE_ID'] = 'sellwin.1CExchange';
+            //$file['description'] = $gui;
+            //$file['name'] = $gui;
+            //$file['name'] = $gui . '.' . $expansion;
+
+            $fileSave = \CFile::SaveFile(
+                $file,
+                '/iblock'
+            );
+            return \CFile::MakeFileArray($fileSave);
+        }
+
+        return false;
     }
 }

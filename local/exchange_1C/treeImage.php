@@ -7,6 +7,12 @@ namespace Asdrubael\Utils;
 class treeImage extends treeHandler
 {
     const IMAGE_LIMIT = 1000;
+    //const PRODUCT_LIMIT = 6000;
+    const OFFSET_KEY = 'IMAGE_OFFSET';
+    const POINT_OF_ENTRY = 'http://kocmo1c.sellwin.by/Kosmo_Sergey/hs/Kocmo/GetFolder/GoodsItems';
+    const GET_IMAGE_URI = 'http://kocmo1c.sellwin.by/Kosmo_Sergey/hs/Kocmo/GetImage/';
+
+    protected $tempJsonFileName = '/upload/tempImage.json';
 
     protected $allowedFields = [
         'UID', 'ФайлКартинки'
@@ -15,14 +21,15 @@ class treeImage extends treeHandler
     function __construct()
     {
         parent::__construct();
+        $this->tempJsonPath = $_SERVER['DOCUMENT_ROOT'] . $this->tempJsonFileName;
     }
 
-    protected function fillInOutputArr($uri)
+    protected function fillInOutputArr()
     {
-        if( file_exists( $this->tempJsonPath ) && !empty($_SESSION['image_offset']) ){
+        if( file_exists( $this->tempJsonPath ) && !empty($_SESSION[self::OFFSET_KEY]) ){
 
-            $this->startOffset = $_SESSION['image_offset'];
-            $_SESSION['image_offset'] = 0;
+            $this->startOffset = $_SESSION[self::OFFSET_KEY];
+            $_SESSION[self::OFFSET_KEY] = 0;
             $this->updateJsonFile();
             $this->setSliceFromJson();
 
@@ -34,7 +41,7 @@ class treeImage extends treeHandler
         }
         else{
 
-            $_SESSION['image_offset'] = 0;
+            $_SESSION[self::OFFSET_KEY] = 0;
             $getParamsStr = "";
 
             foreach( $_GET as $key => $param){
@@ -43,7 +50,7 @@ class treeImage extends treeHandler
                 }
             }
 
-            $this->send($uri);
+            $this->send(self::POINT_OF_ENTRY);
         }
     }
 
@@ -82,9 +89,9 @@ class treeImage extends treeHandler
 
     public function getPicture( $gui ){
 
-        ++$_SESSION['image_offset'];
+        ++$_SESSION[self::OFFSET_KEY];
         $client = new \GuzzleHttp\Client();
-        $response = $client->request('GET', $this->points['image'] . $gui);
+        $response = $client->request('GET', self::GET_IMAGE_URI . $gui);
         //echo '<pre>' . print_r($this->points['image'] . $gui, true) . '</pre>';
         if ($response->getStatusCode() == 200) {
             return json_decode($response->getBody(), true );
