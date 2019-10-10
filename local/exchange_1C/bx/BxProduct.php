@@ -34,10 +34,9 @@ class BxProduct extends BxHelper
         $offsetKey = $this->treeBuilder->getOffsetKey();
         $prodReqArr = $this->treeBuilder->getRequestArr();
 
-
         foreach ($this->productsGenerator($prodReqArr) as $arFields) {
 
-            if ((time() - $this->startTimestamp) > self::TIME_LIMIT) {
+            if ((time() - $this->startTimestamp) > static::TIME_LIMIT) {
                 return false;
             }
             $this->addProduct($arFields, $oElement);
@@ -62,14 +61,12 @@ class BxProduct extends BxHelper
             $oElement = new \CIBlockElement();
         }
         $prod = $this->getProductFromIblock($arFields["XML_ID"]);
-//        echo '<pre>' . print_r($arFields, true) . '</pre>';
-//        echo '<pre>' . print_r($prod, true) . '</pre>';die();
         $id = 0;
 
         if ($prod === false) {
-            //echo '<pre>' . print_r($arFields, true) . '</pre>';die();
             $id = $oElement->Add($arFields);
         } else {
+            //echo '<pre>' . print_r($arFields, true) . '</pre>';
             $oElement->Update($prod['ID'], $arFields);
         }
 
@@ -114,7 +111,7 @@ class BxProduct extends BxHelper
 
                     $code = $this->getPropertyCode($key);
 
-                    if ($this->checkRef($prop)) {
+                    if ($this->checkRef($prop) || is_array($prop) ) {
                         $value = $this->getFromReferenceBook($key, $prop, $code);
                     } else {
                         $value = $prop;
@@ -142,15 +139,18 @@ class BxProduct extends BxHelper
         }
     }
 
-    private function getFromReferenceBook($key, $xml_id, $code)
+    protected function getFromReferenceBook($key, $value, $code)
     {
-
-        $arrProp = [];
-        $arrProp[$code] = Array("VALUE" => $this->getEnumId($xml_id, $key, $code));
+        if(is_array($value)){
+            $arrProp = $this->getEnumIdArr($value, $code);
+        }
+        else{
+            $arrProp = Array("VALUE" => $this->getEnumId($value, $key, $code));
+        }
         return $arrProp;
     }
 
-    private function getEnumId($xml_id, $key, $code)
+    protected function getEnumId($xml_id, $key, $code)
     {
 
         $property_enums = \CIBlockPropertyEnum::GetList([], Array("IBLOCK_ID" => $this->catalogId, "XML_ID" => $xml_id));
@@ -172,6 +172,49 @@ class BxProduct extends BxHelper
         return false;
     }
 
+    protected function getEnumIdArr(array $valueArr, $code)
+    {
+//        if($code == 'TIP_VOLOS'){//for test
+//            $valueArr = ['ДляВсехТиповВолос (Для всех типов волос)', 'Нормальные', 'Сухие'];
+//        }
+        if (count($valueArr) == 0) {
+            return false;
+        }
+        $returnArr = [];
+
+        $property_enums = \CIBlockPropertyEnum::GetList([], Array("IBLOCK_ID" => $this->catalogId, "CODE" => $code));
+
+        while ($enum_fields = $property_enums->GetNext()) {
+            $returnArr[$enum_fields['ID']] = $enum_fields["VALUE"];
+        }
+
+        $valueArr = array_filter($valueArr, function($val) use ($returnArr){
+            foreach($returnArr as $item){
+                if($item == $val){
+                    return false;
+                }
+            }
+            return true;
+        });
+
+        if( count($valueArr) ){
+
+            $ibpenum = new \CIBlockPropertyEnum;
+
+            foreach($valueArr as $val){
+
+                $propId = $this->getPropIdFromCode($code);
+
+                if (intval($propId) > 0 ) {
+                    if ($enumId = $ibpenum->Add(['PROPERTY_ID' => $propId, 'VALUE' => $val])) {
+                        $returnArr[$enumId] = $val;
+                    }
+                }
+            }
+        }
+        return array_keys($returnArr);
+    }
+
     private function getPropIdFromCode($code)
     {
 
@@ -180,9 +223,10 @@ class BxProduct extends BxHelper
         if ($ar_res = $res->GetNext()) {
             return $ar_res['ID'];
         }
+        return false;
     }
 
-    private function getPropertyCode($outCode)
+    protected function getPropertyCode($outCode)
     {
 
         $newStr = "";
@@ -237,6 +281,7 @@ class BxProduct extends BxHelper
 
             $file['MODULE_ID'] = 'sellwin.1CExchange';
             //$file['description'] = $gui;
+
             //$file['name'] = $gui;
             //$file['name'] = $gui . '.' . $expansion;
 

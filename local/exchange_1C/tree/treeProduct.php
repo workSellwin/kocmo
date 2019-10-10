@@ -6,7 +6,7 @@ namespace Asdrubael\Utils;
 
 class treeProduct extends treeHandler
 {
-    const PRODUCT_LIMIT = 5000;
+    const PRODUCT_LIMIT = 1000;
     const OFFSET_KEY = 'PRODUCT_OFFSET';
     const POINT_OF_ENTRY = 'http://kocmo1c.sellwin.by/Kosmo_Sergey/hs/Kocmo/GetFolder/GoodsItems';
     const REFERENCE_URL = 'http://kocmo1c.sellwin.by/Kosmo_Sergey/hs/Kocmo/GetReference/';
@@ -64,7 +64,7 @@ class treeProduct extends treeHandler
         }
     }
 
-        public function getProductParentsXmlId(){
+    public function getProductParentsXmlId(){
 
         $returnVal = [];
 

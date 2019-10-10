@@ -29,6 +29,7 @@ elseif( $_GET['mode'] == "add_products" ){
 elseif( $_GET['mode'] == "update_props" ){
     $tree = new Utils\treeProperty();
     $bx = new Utils\BxProperty( $tree, CATALOG_ID );
+    //echo '<pre>' . print_r($bx, true) . '</pre>';
     $bx->updateProperty();
 }
 //elseif( $_GET['mode'] == "save_image" ){

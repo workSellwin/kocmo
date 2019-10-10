@@ -22,9 +22,11 @@ abstract class treeHandler
 
     protected $referenceBooks = [];
     protected $startOffset = 0;
+    protected $status = ['status' => 'start'];
 
     function __construct()
     {
+        $this->status['status'] = 'run';
     }
 
     abstract protected function fillInOutputArr();
@@ -56,11 +58,22 @@ abstract class treeHandler
             $fromFileArr,
             $this->startOffset
         );
-        file_put_contents($this->tempJsonPath, json_encode($this->outputArr));
+
+        if( count($this->outputArr) ){
+            file_put_contents($this->tempJsonPath, json_encode($this->outputArr));
+        }
+        else{
+            $this->delTempFile();
+        }
     }
 
     protected function delTempFile(){
+        $this->status['status'] = 'end';
         return unlink( $this->tempJsonPath );
+    }
+
+    public function getStatus(){
+        return $this->status;
     }
 
     protected function send($uri)
@@ -76,7 +89,7 @@ abstract class treeHandler
             $this->outputArr = array_slice(
                 $outArr,
                 0,
-                self::PRODUCT_LIMIT
+                static::PRODUCT_LIMIT
              );
 
             $success = true;
