@@ -134,7 +134,7 @@ class BxProduct extends BxHelper
                 "NAME" => $prod[self::FULL_NAME],
                 "CODE" => \CUtil::translit($prod[self::NAME], 'ru') . time(),
                 "DETAIL_TEXT" => $prod[self::DESCRIPTION],
-                "DETAIL_PICTURE" => $this->getPhoto($prod[static::DETAIL_PICTURE]),
+                //"DETAIL_PICTURE" => $this->getPhoto($prod[static::DETAIL_PICTURE]),
                 "PROPERTY_VALUES" => $props
             );
 

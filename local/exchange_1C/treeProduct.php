@@ -6,7 +6,7 @@ namespace Asdrubael\Utils;
 
 class treeProduct extends treeHandler
 {
-    const PRODUCT_LIMIT = 6000;
+    const PRODUCT_LIMIT = 5000;
     const OFFSET_KEY = 'PRODUCT_OFFSET';
     const POINT_OF_ENTRY = 'http://kocmo1c.sellwin.by/Kosmo_Sergey/hs/Kocmo/GetFolder/GoodsItems';
     const REFERENCE_URL = 'http://kocmo1c.sellwin.by/Kosmo_Sergey/hs/Kocmo/GetReference/';
@@ -34,7 +34,7 @@ class treeProduct extends treeHandler
 
     protected function fillInOutputArr(){
 
-        if( file_exists( $this->tempJsonPath ) && !empty($_SESSION[self::OFFSET_KEY]) ){
+        if( empty($_GET['group']) && file_exists( $this->tempJsonPath ) && !empty($_SESSION[self::OFFSET_KEY]) ){
 
             $this->startOffset = $_SESSION[self::OFFSET_KEY];
             $_SESSION[self::OFFSET_KEY] = 0;
@@ -60,7 +60,7 @@ class treeProduct extends treeHandler
 
             $this->send(self::POINT_OF_ENTRY . '?' . $getParamsStr);
 
-           $this->send(static::POINT_OF_ENTRY );
+           //$this->send(static::POINT_OF_ENTRY );
         }
     }
 
