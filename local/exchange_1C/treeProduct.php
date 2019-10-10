@@ -8,7 +8,7 @@ class treeProduct extends treeHandler
 {
     const PRODUCT_LIMIT = 6000;
     const OFFSET_KEY = 'PRODUCT_OFFSET';
-    const POINT_OF_ENTRY = 'http://kocmo1c.sellwin.by/Kosmo_Sergey/hs/Kocmo/GetFolder/GoodsItems?group=00f9b68a-85ea-11e9-b3b3-005056aa8896';
+    const POINT_OF_ENTRY = 'http://kocmo1c.sellwin.by/Kosmo_Sergey/hs/Kocmo/GetFolder/GoodsItems';
     const REFERENCE_URL = 'http://kocmo1c.sellwin.by/Kosmo_Sergey/hs/Kocmo/GetReference/';
     const GET_IMAGE_URI = 'http://kocmo1c.sellwin.by/Kosmo_Sergey/hs/Kocmo/GetImage/';
 
@@ -50,15 +50,15 @@ class treeProduct extends treeHandler
         else{
 
             $_SESSION[self::OFFSET_KEY] = 0;
-//            $getParamsStr = "";
-////
-////            foreach( $_GET as $key => $param){
-////                if( in_array($key, $this->allowedGetParams) ){
-////                    $getParamsStr .= $key . '=' . $param . '&';
-////                }
-////            }
-////
-////            $this->send(self::POINT_OF_ENTRY . '?' . $getParamsStr);
+            $getParamsStr = "";
+
+            foreach( $_GET as $key => $param){
+                if( in_array($key, $this->allowedGetParams) ){
+                    $getParamsStr .= $key . '=' . $param . '&';
+                }
+            }
+
+            $this->send(self::POINT_OF_ENTRY . '?' . $getParamsStr);
 
            $this->send(static::POINT_OF_ENTRY );
         }

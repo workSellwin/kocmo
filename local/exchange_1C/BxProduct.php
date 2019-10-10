@@ -124,7 +124,7 @@ class BxProduct extends BxHelper
                 }
             }
 
-            //echo '<pre>' . print_r($props, true) . '</pre>';die();
+            //echo '<pre>' . print_r($props, true) . '</pre>';
 
             $arFields = array(
                 "ACTIVE" => "Y",
