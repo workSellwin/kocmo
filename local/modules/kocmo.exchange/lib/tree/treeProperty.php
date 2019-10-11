@@ -1,0 +1,22 @@
+<?php
+
+
+namespace Asdrubael\Utils;
+
+
+class treeProperty extends treeProduct
+{
+    const PRODUCT_LIMIT = 1;
+
+    function __construct()
+    {
+        parent::__construct();
+    }
+
+    protected function fillInOutputArr(){
+
+        $this->send(static::POINT_OF_ENTRY . '?group=f7465fbc-c80a-11e9-a247-00505601048d');//gui group может быть любая
+        $this->outputArr = $this->outputArr[0][static::PROPERTIES][0];
+
+    }
+}
