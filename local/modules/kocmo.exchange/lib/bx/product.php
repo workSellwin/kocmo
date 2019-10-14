@@ -21,8 +21,9 @@ class Product extends Helper
      * @param \Kocmo\Exchange\Tree\Handler $treeBuilder
      * @param $catalogId
      */
-    public function __construct(\Kocmo\Exchange\Tree\Handler $treeBuilder, $catalogId)
+    public function __construct($catalogId)
     {
+        $treeBuilder = new \Kocmo\Exchange\Tree\Product();
         parent::__construct($treeBuilder, $catalogId);
     }
 
@@ -30,7 +31,7 @@ class Product extends Helper
     {
         $this->startTimestamp = time();
         $this->setMatchXmlId();
-       // echo '<pre>' . print_r($this->matchXmlId, true) . '</pre>';die();
+
         $oElement = new \CIBlockElement();
         $offsetKey = $this->treeBuilder->getOffsetKey();
         $prodReqArr = $this->treeBuilder->getRequestArr();
@@ -42,7 +43,6 @@ class Product extends Helper
             }
             $this->addProduct($arFields, $oElement);
             ++$_SESSION[$offsetKey];
-            //echo '<pre>' . print_r($arFields, true) . '</pre>';die();
         }
         $this->exportEnd = true;
         return true;
@@ -247,24 +247,6 @@ class Product extends Helper
             return $ar_res['ID'];
         }
         return false;
-    }
-
-    protected function getPropertyCode($outCode)
-    {
-
-        $newStr = "";
-
-        for ($i = 0; $i < mb_strlen($outCode); $i++) {
-            $char = mb_substr($outCode, $i, 1);
-
-            if (strpos('АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ', $char) !== false && $i) {
-                $newStr .= '_' . $char;
-            } else {
-                $newStr .= $char;
-            }
-        }
-
-        return \CUtil::translit($newStr, 'ru', ['change_case' => 'U']);
     }
 
     private function getSectionMatch($allXmlId)

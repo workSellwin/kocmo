@@ -43,7 +43,7 @@ abstract class Helper
                 $this->catalogId = intval($catalogId);
 
                 if (\CCatalog::GetByID($this->catalogId) === false) {
-                    throw new \Error('infoblock with code $ID does not exist or is not a trade catalog');
+                    throw new \Error("infoblock with code $catalogId does not exist or is not a trade catalog");
                 }
             } else {
                 throw new \Error('catalog id empty!');
@@ -91,5 +91,23 @@ abstract class Helper
     public function getError()
     {
         return $this->error;
+    }
+
+    protected function getPropertyCode($outCode)
+    {
+
+        $newStr = "";
+
+        for ($i = 0; $i < mb_strlen($outCode); $i++) {
+            $char = mb_substr($outCode, $i, 1);
+
+            if (strpos('АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ', $char) !== false && $i) {
+                $newStr .= '_' . $char;
+            } else {
+                $newStr .= $char;
+            }
+        }
+
+        return \CUtil::translit($newStr, 'ru', ['change_case' => 'U']);
     }
 }

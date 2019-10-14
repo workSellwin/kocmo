@@ -53,17 +53,17 @@ class kocmo_exchange extends CModule
 //		return ($bl1);
 //	}
 	
-//	function installDB(){
-//
-//		global $DB;
-//		return $DB->RunSqlBatch( __DIR__ . '/DB/mySQL/install.sql' );
-//	}
-//
-//	function UnInstallDB(){
-//
-//		global $DB;
-//		return $DB->RunSqlBatch( __DIR__ . '/DB/mySQL/uninstall.sql' );;
-//	}
+	function installDB(){
+
+		global $DB;
+		return $DB->RunSqlBatch( __DIR__ . '/DB/mySQL/install.sql' );
+	}
+
+	function UnInstallDB(){
+
+		global $DB;
+		return $DB->RunSqlBatch( __DIR__ . '/DB/mySQL/uninstall.sql' );;
+	}
 	
 	function DoInstall(){
 	
@@ -85,7 +85,7 @@ class kocmo_exchange extends CModule
 			elseif ( $step == 2 ){
         
 //				$this->InstallFiles();
-//				$this->installDB();
+				$this->installDB();
 
 				RegisterModule($this->MODULE_ID);	
 				$APPLICATION->IncludeAdminFile(
@@ -115,9 +115,9 @@ class kocmo_exchange extends CModule
 //			if($_REQUEST['uninstall_files'] == 'Y'){
 //				$this->UnInstallFiles();
 //			}
-//			if($_REQUEST['uninstall_db'] == 'Y'){
-//				$this->UnInstallDB();
-//			}
+			if($_REQUEST['uninstall_db'] == 'Y'){
+				$this->UnInstallDB();
+			}
 
 			UnRegisterModule($this->MODULE_ID);
 			

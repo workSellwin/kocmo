@@ -1,9 +1,0 @@
-drwx------    6 1719     600          4096 Mar 24  2015 .
-drwx------   55 1719     600          4096 Aug 11  2015 ..
--rwx------    1 1719     600          1834 Mar 24  2015 .parameters.php
--rwx------    1 1719     600         10315 Jul 05  2015 component.php
-drwx------    2 1719     600          4096 Apr 11  2013 help
-drwx------    2 1719     600          4096 Mar 24  2015 images
-drwx------    4 1719     600          4096 Apr 11  2013 lang
--rwx------    1 1719     600          2866 Feb 10  2015 search.php
-drwx------    4 1719     600          4096 Apr 11  2013 templates

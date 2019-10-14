@@ -4,12 +4,13 @@
 namespace Kocmo\Exchange\Bx;
 
 
-class Property extends Product
+class Property extends Helper
 {
     protected $prepareProperties = [];
 
-    public function __construct(\Kocmo\Exchange\Tree\Handler $treeBuilder, $catalogId)
+    public function __construct($catalogId)
     {
+        $treeBuilder = new \Kocmo\Exchange\Tree\Property();
         parent::__construct($treeBuilder, $catalogId);
         $this->prepareProperties();
     }

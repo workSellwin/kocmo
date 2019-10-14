@@ -20,8 +20,9 @@ class Image extends Helper
      * @param $catalogId
      * @throws \Bitrix\Main\LoaderException
      */
-    function __construct(\Kocmo\Exchange\Tree\Handler $treeBuilder, $catalogId)
+    function __construct($catalogId)
     {
+        $treeBuilder = new \Kocmo\Exchange\Tree\Image();
         parent::__construct($treeBuilder, $catalogId);
     }
 

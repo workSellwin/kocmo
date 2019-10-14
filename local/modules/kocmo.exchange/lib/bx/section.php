@@ -20,8 +20,9 @@ class Section extends Helper
      * @param \Kocmo\Exchange\Tree\Handler $treeBuilder
      * @param $catalogId
      */
-    public function __construct(\Kocmo\Exchange\Tree\Handler $treeBuilder, $catalogId)
+    public function __construct($catalogId)
     {
+        $treeBuilder = new \Kocmo\Exchange\Tree\Section();
         parent::__construct($treeBuilder, $catalogId);
     }
 
@@ -43,7 +44,7 @@ class Section extends Helper
                 );
 
                 while ($fields = $res->fetch()) {
-                    $xmlIdFromReq[ $fields['XML_ID'] ] = true;
+                    $xmlIdFromReq[ $fields['XML_ID'] ] = $fields['ID'];
                 }
             }
             $cIBlockSection = new \CIBlockSection;
@@ -51,9 +52,13 @@ class Section extends Helper
             foreach ($this->treeBuilder->structGenerator($this->treeBuilder->getTree()) as $section) {
 
                 if ( isset($xmlIdFromReq[ $section[self::ID] ]) ) {
-                    continue;
+
+                    $section['ID'] = $xmlIdFromReq[$section['UID']];
+                    $this->updateSection($section, $cIBlockSection);
                 }
-                $this->addSection($section, $cIBlockSection);
+                else{
+                    $this->addSection($section, $cIBlockSection);
+                }
             }
             return true;
         } else {
@@ -77,12 +82,35 @@ class Section extends Helper
         $id = $cIBlockSection->Add($arFields);
 
         if (intval($id) == 0) {
-            $this->error[] = $cIBlockSection->LAST_ERROR;
-            return false;
+//            $this->error[] = $cIBlockSection->LAST_ERROR;
+//            return false;
+            throw new \Error($cIBlockSection->LAST_ERROR);
         } else {
             $this->conformityHash[$arFieldsFrom1C[self::ID]] = $id;
         }
         return true;
+    }
+
+    protected function updateSection(array $arFieldsFrom1C, $cIBlockSection = false){
+
+        $arFields = $this->prepareFields($arFieldsFrom1C);
+
+        if ($arFields == false) {
+            throw new \Error("arFields incorrect");
+        }
+
+        if (!$cIBlockSection) {
+            $cIBlockSection = new \CIBlockSection;
+        }
+
+        $success = $cIBlockSection->Update($arFieldsFrom1C['ID'], $arFields);
+
+        if (!$success) {
+
+            throw new \Error($cIBlockSection->LAST_ERROR);
+        } else {
+            return true;
+        }
     }
 
     private function prepareFields(array $from1CArr)

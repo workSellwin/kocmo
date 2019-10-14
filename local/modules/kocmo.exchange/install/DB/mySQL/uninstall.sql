@@ -1,1 +1,1 @@
-drop table if exists manao_cdekCities;
+drop table if exists kocmo_exchange_data;
