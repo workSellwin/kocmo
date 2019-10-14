@@ -6,7 +6,7 @@ namespace Kocmo\Exchange\Tree;
 
 class Section extends Handler
 {
-    const PRODUCT_LIMIT = 6000;
+    const PRODUCT_LIMIT = 1000;
     const OFFSET_KEY = 'SECTION_OFFSET';
     const POINT_OF_ENTRY = 'http://kocmo1c.sellwin.by/Kosmo_Sergey/hs/Kocmo/GetFolder/GoodsOnlyGroup';
 
