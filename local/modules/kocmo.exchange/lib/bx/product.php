@@ -27,8 +27,42 @@ class Product extends Helper
         parent::__construct($treeBuilder, $catalogId);
     }
 
+    public function addItemInDb($uri){
+
+        $arrForDb = $this->treeBuilder->send2($uri);
+        $rowId = [];
+
+        if( is_array($arrForDb) && count($arrForDb) ) {
+            foreach ($this->prepareFieldsGen($arrForDb) as $item) {
+
+                try{
+                    $rowId[] = \Kocmo\Exchange\DataTable::add($item);
+                } catch ( \Bitrix\Main\DB\SqlQueryException $e ){
+                    //например попытка добавить с не уникальным UID
+                }
+            }
+        }
+        else{
+            return false;
+        }
+        //\Kocmo\Exchange\DataTable::add();
+
+        pr($rowId);
+        return count($rowId) ? $rowId : false;
+    }
+
+    private function prepareFieldsGen(&$prodReqArr){
+
+        foreach( $prodReqArr as $key => $item ){
+            yield ["UID" => $key, "JSON" => $item];
+        }
+    }
+
     public function addProducts()
     {
+        if( empty($this->treeBuilder) ||  !is_array($this->treeBuilder)){
+            throw new \Error("tree not exist!");
+        }
         $this->startTimestamp = time();
         $this->setMatchXmlId();
 

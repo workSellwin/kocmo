@@ -16,10 +16,10 @@ class Section extends Handler
     {
         parent::__construct();
         $this->tempJsonPath = $_SERVER['DOCUMENT_ROOT'] . $this->tempJsonFileName;
-        $this->fillInOutputArr();
+        //$this->fillInOutputArr();
     }
 
-    protected function fillInOutputArr()
+    public function fillInOutputArr()
     {
 
         if (file_exists($this->tempJsonPath) && !empty($_SESSION[self::OFFSET_KEY])) {

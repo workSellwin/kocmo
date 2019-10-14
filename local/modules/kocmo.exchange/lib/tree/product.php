@@ -29,27 +29,27 @@ class Product extends Handler
         parent::__construct();
         $this->tempJsonPath = $_SERVER['DOCUMENT_ROOT'] . $this->tempJsonFileName;
 
-        $this->fillInOutputArr();
+        //$this->fillInOutputArr();
     }
 
-    protected function fillInOutputArr(){
+    public function fillInOutputArr(){
 
         if( empty($_GET['group']) && file_exists( $this->tempJsonPath ) && !empty($_SESSION[self::OFFSET_KEY]) ){
 
             $this->startOffset = $_SESSION[self::OFFSET_KEY];
             $_SESSION[self::OFFSET_KEY] = 0;
-            $this->updateJsonFile();
-            $this->setSliceFromJson();
+            //$this->updateJsonFile();
+            //$this->setSliceFromJson();
 
             if( count($this->outputArr) == 0){
 
                 $this->outputArr = false;
-                $this->delTempFile();
+                //$this->delTempFile();
             }
         }
         else{
 
-            $_SESSION[self::OFFSET_KEY] = 0;
+            //$_SESSION[self::OFFSET_KEY] = 0;
             $getParamsStr = "";
 
             foreach( $_GET as $key => $param){
@@ -62,6 +62,29 @@ class Product extends Handler
 
            //$this->send(static::POINT_OF_ENTRY );
         }
+    }
+
+    public function send2($uri)
+    {
+        $client = new \GuzzleHttp\Client();
+        $response = $client->request('GET', $uri);
+        $arrForDb = [];
+
+        if ($response->getStatusCode() == 200) {
+
+            $outArr = json_decode($response->getBody(), true);
+
+            foreach( $outArr as $key => $item ){
+
+                $arrForDb[$item['UID']] = json_encode($item);
+                $outArr[$key] = null;
+            }
+
+        } else {
+            throw new \Error("error: status: " . $response->getStatusCode());
+        }
+
+        return count($arrForDb) ? $arrForDb : false;
     }
 
     public function getProductParentsXmlId(){

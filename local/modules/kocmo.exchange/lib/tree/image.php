@@ -24,7 +24,7 @@ class Image extends Handler
         $this->tempJsonPath = $_SERVER['DOCUMENT_ROOT'] . $this->tempJsonFileName;
     }
 
-    protected function fillInOutputArr()
+    public function fillInOutputArr()
     {
         if( file_exists( $this->tempJsonPath ) && !empty($_SESSION[self::OFFSET_KEY]) ){
 

@@ -29,14 +29,13 @@ abstract class Handler
         $this->status['status'] = 'run';
     }
 
-    abstract protected function fillInOutputArr();
+    abstract public function fillInOutputArr();
 
     /**
      * @return array|bool
      */
     public function getRequestArr()
     {
-        //echo '<pre>' . print_r($this->outputArr, true) . '</pre>';die();
         return  $this->outputArr;
     }
 
@@ -76,21 +75,22 @@ abstract class Handler
         return $this->status;
     }
 
-    protected function send($uri)
+    protected function send($uri, $getArray = true )
     {
         $success = false;
         $client = new \GuzzleHttp\Client();
         $response = $client->request('GET', $uri);
 
         if ($response->getStatusCode() == 200) {
-            file_put_contents($this->tempJsonPath, $response->getBody());
-            $outArr = json_decode($response->getBody(), true);
+            //file_put_contents($this->tempJsonPath, $response->getBody());
+            //$outArr = json_decode($response->getBody(), true);
+            $this->outputArr = json_decode($response->getBody(), true);
 
-            $this->outputArr = array_slice(
-                $outArr,
-                0,
-                static::PRODUCT_LIMIT
-             );
+//            $this->outputArr = array_slice(
+//                $outArr,
+//                0,
+//                static::PRODUCT_LIMIT
+//             );
 
             $success = true;
         } else {

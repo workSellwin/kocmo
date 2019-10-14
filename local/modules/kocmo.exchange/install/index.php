@@ -35,23 +35,22 @@ class kocmo_exchange extends CModule
 		$this->PARTNER_URI = "https://kocmo.by";
 	}
 	
-//	function InstallFiles($arParams = array()){
-//
-//		$bl1 = CopyDirFiles($_SERVER["DOCUMENT_ROOT"].getLocalPath("modules/" . $this->MODULE_ID. "/install/files/delivery_cdek.php"),
-//			$_SERVER["DOCUMENT_ROOT"]."/bitrix/php_interface/include/sale_delivery/delivery_cdek.php", true, true);
-//
-//		$bl2 = CopyDirFiles($_SERVER["DOCUMENT_ROOT"].getLocalPath("modules/" . $this->MODULE_ID. "/install/components"),
-//			$_SERVER["DOCUMENT_ROOT"]."/bitrix/components/manao", true, true);
-//
-//		return ($bl1 && $bl2);
-//	}
-//
-//	function UnInstallFiles(){
-//
-//		$bl1 = DeleteDirFilesEx("/bitrix/php_interface/include/sale_delivery/delivery_cdek.php");
-//
-//		return ($bl1);
-//	}
+	function InstallFiles($arParams = array()){
+
+        $bl1 = copyDirFiles(
+            $_SERVER['DOCUMENT_ROOT'] . getLocalPath("modules/" . $this->MODULE_ID. "/install/admin"),
+            $_SERVER['DOCUMENT_ROOT'] . '/bitrix/admin',
+            true, true
+        );
+		return boolval($bl1);//($bl1 && $bl2);
+	}
+
+	function UnInstallFiles(){
+
+		$bl1 = DeleteDirFilesEx("/bitrix/admin/kocmo_exchange.php");
+
+		return boolval($bl1);
+	}
 	
 	function installDB(){
 
@@ -62,7 +61,7 @@ class kocmo_exchange extends CModule
 	function UnInstallDB(){
 
 		global $DB;
-		return $DB->RunSqlBatch( __DIR__ . '/DB/mySQL/uninstall.sql' );;
+		return $DB->RunSqlBatch( __DIR__ . '/DB/mySQL/uninstall.sql' );
 	}
 	
 	function DoInstall(){
@@ -84,7 +83,7 @@ class kocmo_exchange extends CModule
 			}
 			elseif ( $step == 2 ){
         
-//				$this->InstallFiles();
+				$this->InstallFiles();
 				$this->installDB();
 
 				RegisterModule($this->MODULE_ID);	
@@ -112,9 +111,9 @@ class kocmo_exchange extends CModule
 		
 			$this->ERROR = false;
 			
-//			if($_REQUEST['uninstall_files'] == 'Y'){
-//				$this->UnInstallFiles();
-//			}
+			if($_REQUEST['uninstall_files'] == 'Y'){
+				$this->UnInstallFiles();
+			}
 			if($_REQUEST['uninstall_db'] == 'Y'){
 				$this->UnInstallDB();
 			}

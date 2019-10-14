@@ -2,8 +2,12 @@
 $MESS["CLEAR_OPTIONS"] = "Очистить все свойства?";
 $MESS["MAIN_OPTIONS"] = "Настройки";
 $MESS["MODULE_OPTIONS"] = "Настройки параметров модуля";
-$MESS["FILL_CITIES_TAB"] = "Создать таблицу городов";
-$MESS["FILL_CITIES_TITLE"] = "Создать таблицу городов в БД";
+
+$MESS["HREF_GET_SECTIONS"] = "Ссылка на сервис, для получения разделов";
+$MESS["HREF_GET_PRODUCTS"] = "Ссылка на сервис, для получения товаров";
+
+
+
 $MESS["ADD_CITY_TAB"] = "Добавить город";
 $MESS["ADD_CITY_TITLE"] = "добавить произвольный город в БД";
 
