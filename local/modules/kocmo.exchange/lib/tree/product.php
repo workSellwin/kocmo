@@ -64,10 +64,18 @@ class Product extends Handler
         }
     }
 
-    public function send2($uri)
+    public function send2()
     {
+        $getParamsStr = "";
+
+        foreach( $_GET as $key => $param){
+            if( in_array($key, $this->allowedGetParams) ){
+                $getParamsStr .= $key . '=' . $param . '&';
+            }
+        }
+
         $client = new \GuzzleHttp\Client();
-        $response = $client->request('GET', $uri);
+        $response = $client->request('GET', static::POINT_OF_ENTRY . '?' . $getParamsStr);
         $arrForDb = [];
 
         if ($response->getStatusCode() == 200) {

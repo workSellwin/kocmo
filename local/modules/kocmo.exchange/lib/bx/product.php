@@ -27,16 +27,16 @@ class Product extends Helper
         parent::__construct($treeBuilder, $catalogId);
     }
 
-    public function addItemInDb($uri){
+    public function addItemInDb(){
 
-        $arrForDb = $this->treeBuilder->send2($uri);
-        $rowId = [];
+        $arrForDb = $this->treeBuilder->send2();
+        $rowsId = [];
 
         if( is_array($arrForDb) && count($arrForDb) ) {
             foreach ($this->prepareFieldsGen($arrForDb) as $item) {
 
                 try{
-                    $rowId[] = \Kocmo\Exchange\DataTable::add($item);
+                    $rowsId[] = \Kocmo\Exchange\DataTable::add($item);
                 } catch ( \Bitrix\Main\DB\SqlQueryException $e ){
                     //например попытка добавить с не уникальным UID
                 }
@@ -45,10 +45,80 @@ class Product extends Helper
         else{
             return false;
         }
-        //\Kocmo\Exchange\DataTable::add();
+        return count($rowsId) ? $rowsId : false;
+    }
 
-        pr($rowId);
-        return count($rowId) ? $rowId : false;
+    public function addProductsFromDb()
+    {
+        $this->startTimestamp = time();
+        $oElement = new \CIBlockElement();
+
+        foreach ($this->getTempDataGen() as $row){
+
+            if ((time() - $this->startTimestamp) > static::TIME_LIMIT) {
+                return false;
+            }
+            $this->addProduct($row, $oElement);
+        }
+        $connection = \Bitrix\Main\Application::getConnection();
+        $connection->truncateTable(\Kocmo\Exchange\DataTable::getTableName());
+    }
+
+    public function getTempDataGen(){
+
+        $iterator = \Kocmo\Exchange\DataTable::getList([]);
+        $sectionsMatch = $this->getAllSectionsXmlId();
+
+        while($row = $iterator->fetch() ){
+            $row = json_decode($row['JSON'], true);
+            //pr($row);
+            $props = [];
+
+            if (count($row[static::PROPERTIES][0])) {
+
+                foreach ($row[static::PROPERTIES][0] as $key => $prop) {
+
+                    $code = $this->getPropertyCode($key);
+
+                    if ($this->checkRef($prop) || is_array($prop) ) {
+                        $value = $this->getFromReferenceBook($key, $prop, $code);
+                    } else {
+                        $value = $prop;
+                    }
+
+                    $props[$code] = $value;
+                }
+            }
+
+            $arFields = array(
+                "ACTIVE" => "Y",
+                "IBLOCK_ID" => $this->catalogId,
+                "IBLOCK_SECTION_ID" => $sectionsMatch[$row[self::PARENT_ID]],
+                "XML_ID" => $row[self::ID],
+                "NAME" => $row[self::FULL_NAME],
+                "CODE" => \CUtil::translit($row[self::NAME], 'ru') . time(),
+                "DETAIL_TEXT" => $row[self::DESCRIPTION],
+                //"DETAIL_PICTURE" => $this->getPhoto($prod[static::DETAIL_PICTURE]),
+                "PROPERTY_VALUES" => $props
+            );
+
+            yield $arFields;
+        }
+    }
+
+    protected function getAllSectionsXmlId(){
+
+        $entity = \Bitrix\Iblock\Model\Section::compileEntityByIblock($this->catalogId);
+        $iterator = $entity::getList([
+            "filter" => ["IBLOCK_ID" => $this->catalogId],
+            "select" => ["XML_ID", "ID"]
+        ]);
+        $sections = [];
+
+        while($row = $iterator->fetch() ){
+            $sections[$row['XML_ID']] = $row['ID'];
+        }
+        return $sections;
     }
 
     private function prepareFieldsGen(&$prodReqArr){

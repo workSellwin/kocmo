@@ -41,4 +41,26 @@ elseif( $_GET['mode'] == "update_props" ){
 //    echo 'finish: ', date("h:i:s"), "<br>";
 //}
 
+//
+//use Kocmo\Exchange;
+//
+//$_GET['group'] = 'c7406c56-8768-11e9-a245-00505601048d';
+//
+//\Bitrix\Main\Loader::includeModule('kocmo.exchange');
+//
+//$bx = new Exchange\Bx\Product(7);
+//$bx->addProductsFromDb();
+
+///////////
+/// \Bitrix\Main\Loader::includeModule('iblock');
+//
+//$entity = \Bitrix\Iblock\Model\Section::compileEntityByIblock(7);
+//$iterator = $entity::getList(["filter" => ["IBLOCK_ID" => 7], "select" => ["XML_ID", "ID"]]);
+//$sections = [];
+//while($row = $iterator->fetch() ){
+//	$sections[$row['XML_ID']] = $row['ID'];
+//}
+//pr(count($sections));
+
+
 
