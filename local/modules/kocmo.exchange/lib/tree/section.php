@@ -6,15 +6,12 @@ namespace Kocmo\Exchange\Tree;
 
 class Section extends Handler
 {
-    const PRODUCT_LIMIT = 1000;
-    const OFFSET_KEY = 'SECTION_OFFSET';
-    //const POINT_OF_ENTRY = 'http://kocmo1c.sellwin.by/Kosmo_Sergey/hs/Kocmo/GetFolder/GoodsOnlyGroup';
-    const POINT_OF_ENTRY = 'http://kocmo1c.sellwin.by/Kosmo_Sergey/hs/Kocmo/GetFolder/GoodsOnlyGroupOld';
 
     protected $tempJsonFileName = '/upload/tempSection.json';
 
     function __construct()
     {
+
         parent::__construct();
     }
 
@@ -22,21 +19,21 @@ class Section extends Handler
     {
             $getParamsStr = "";
 
-//            foreach ($_GET as $key => $param) {
-//                if (in_array($key, $this->allowedGetParams)) {
-//                    $getParamsStr .= $key . '=' . $param . '&';
-//                }
-//            }
+            foreach ($_GET as $key => $param) {
+                if (in_array($key, $this->allowedGetParams)) {
+                    $getParamsStr .= $key . '=' . $param . '&';
+                }
+            }
 
-        $this->send(static::POINT_OF_ENTRY . '?' . $getParamsStr);
+        $this->send($this->arParams['SECT_POINT_OF_ENTRY'] . '?' . $getParamsStr);
 
         $tempArr = [];
 
         foreach ($this->outputArr as $key => $item) {
-            if (is_array($item[self::PARENT_ID]) && count($item[self::PARENT_ID])) {
-                foreach ($item[self::PARENT_ID] as $parentId) {
+            if (is_array($item[$this->arParams['PARENT_ID']]) && count($item[$this->arParams['PARENT_ID']])) {
+                foreach ($item[$this->arParams['PARENT_ID']] as $parentId) {
                     $temp = $item;
-                    $temp[self::PARENT_ID] = $parentId;
+                    $temp[$this->arParams['PARENT_ID']] = $parentId;
                     $tempArr[] = $temp;
                 }
                 unset($this->outputArr[$key]);
@@ -62,17 +59,17 @@ class Section extends Handler
 
         foreach( $this->outputArr as $key => $item ){
 
-            if( $item[self::PARENT_ID] === "" )
+            if( $item[$this->arParams['PARENT_ID']] === "" )
             {
-                $this->tree[$item[self::ID]] = $item;
-                $this->tree[$item[self::ID]][self::DEPTH_LEVEL] = 0;
-                $this->tree[$item[self::ID]][self::CHILDREN] = [];
+                $this->tree[$item[$this->arParams['ID']]] = $item;
+                $this->tree[$item[$this->arParams['ID']]][$this->arParams['DEPTH_LEVEL']] = 0;
+                $this->tree[$item[$this->arParams['ID']]][$this->arParams['CHILDREN']] = [];
                 //unset($this->outputArr[$key]);
             }
-            elseif( is_array($item[self::PARENT_ID]) && count($item[self::PARENT_ID]) )
+            elseif( is_array($item[$this->arParams['PARENT_ID']]) && count($item[$this->arParams['PARENT_ID']]) )
             {
             }
-            elseif( strlen($item[self::PARENT_ID]) > 0 )
+            elseif( strlen($item[$this->arParams['PARENT_ID']]) > 0 )
             {
                 if( $this->putChild($item, $this->tree) ) {
                     //unset($this->outputArr[$key]);
@@ -88,19 +85,19 @@ class Section extends Handler
 
     private function putChild($outputItem, &$treeArr, $depthLvl = 1)
     {
-        $needId = $outputItem[self::PARENT_ID];
+        $needId = $outputItem[$this->arParams['PARENT_ID']];
 
         foreach( $treeArr as &$item ){
 
-            if( $item[self::ID] == $needId && !$this->checkExist($outputItem[self::ID], $item[self::CHILDREN]) )
+            if( $item[$this->arParams['ID']] == $needId && !$this->checkExist($outputItem[$this->arParams['ID']], $item[$this->arParams['CHILDREN']]) )
             {
-                $outputItem[self::DEPTH_LEVEL] = $depthLvl;
-                $item[self::CHILDREN][] = array_merge($outputItem, [self::CHILDREN => []]);
+                $outputItem[$this->arParams['DEPTH_LEVEL']] = $depthLvl;
+                $item[$this->arParams['CHILDREN']][] = array_merge($outputItem, [$this->arParams['CHILDREN'] => []]);
                 return true;
             }
-            elseif( is_array( $item[self::CHILDREN] ) && count( $item[self::CHILDREN] ) )
+            elseif( is_array( $item[$this->arParams['CHILDREN']] ) && count( $item[$this->arParams['CHILDREN']] ) )
             {
-                $this->putChild( $outputItem, $item[self::CHILDREN], $depthLvl+1);
+                $this->putChild( $outputItem, $item[$this->arParams['CHILDREN']], $depthLvl+1);
             }
         }
         return false;
@@ -110,7 +107,7 @@ class Section extends Handler
     {
         foreach( $arr as $item )
         {
-            if( $item[self::ID] == $need)
+            if( $item[$this->arParams['ID']] == $need)
             {
                 return true;
             }
@@ -123,7 +120,7 @@ class Section extends Handler
         $allIdArr = [];
 
         foreach( $this->structGenerator( $this->getTree() ) as $value){
-            $allIdArr[] = $value[self::ID];
+            $allIdArr[] = $value[$this->arParams['ID']];
         }
         return $allIdArr;
     }
@@ -133,8 +130,8 @@ class Section extends Handler
         foreach( $tree as &$section ){
 
             yield $this->prepareSection($section);
-            if( count($section[self::CHILDREN]) ){
-                yield from $this->structGenerator($section[self::CHILDREN]);
+            if( count($section[$this->arParams['CHILDREN']]) ){
+                yield from $this->structGenerator($section[$this->arParams['CHILDREN']]);
             }
         }
     }
@@ -144,7 +141,7 @@ class Section extends Handler
         $tempArr = [];
 
         $allowedFields = [
-            self::ID, self::PARENT_ID, self::NAME, self::DEPTH_LEVEL
+            $this->arParams['ID'], $this->arParams['PARENT_ID'], $this->arParams['NAME'], $this->arParams['DEPTH_LEVEL']
         ];
 
         foreach( $section as $k => $fld){

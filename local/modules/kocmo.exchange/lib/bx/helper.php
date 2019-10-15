@@ -20,7 +20,7 @@ abstract class Helper
 //    const PROPERTIES = "Свойства";
 //    const DESCRIPTION = 'Описание';
 
-    protected $arParam = [];
+    protected $arParams = [];
     protected $treeBuilder = null;
     protected $error = [];
     protected $catalogId = false;
@@ -36,11 +36,7 @@ abstract class Helper
     public function __construct(\Kocmo\Exchange\Tree\Handler $treeBuilder, $catalogId)
     {
         try{
-            $arParam = require $GLOBALS['kocmo.exchange.config-path'];
-            $dir = end( explode('/', __DIR__) );
-            $this->arParam = $arParam[$dir];
-            unset($dir);
-            unset($arParam);
+            $this->setParams();
 
             \Bitrix\Main\Loader::includeModule('iblock');
             \Bitrix\Main\Loader::includeModule('catalog');
@@ -59,6 +55,13 @@ abstract class Helper
         } catch(\Error $e) {
             $error[] = $e;
         }
+    }
+
+    protected function setParams(){
+
+        $arParam = require $GLOBALS['kocmo.exchange.config-path'];
+        $dir = end( explode('/', __DIR__) );
+        $this->arParams = $arParam[$dir];
     }
 
     protected function checkRef($val)

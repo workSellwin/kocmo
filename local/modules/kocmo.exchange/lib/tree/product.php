@@ -6,30 +6,9 @@ namespace Kocmo\Exchange\Tree;
 
 class Product extends Handler
 {
-    //const PRODUCT_LIMIT = 1000;
-//    const PIC_FILE = 'ФайлКартинки';
-//    const OFFSET_KEY = 'PRODUCT_OFFSET';
-//    const POINT_OF_ENTRY = '';
-//    const REFERENCE_URL = 'http://kocmo1c.sellwin.by/Kosmo_Sergey/hs/Kocmo/GetReference/';
-//    const GET_IMAGE_URI = 'http://kocmo1c.sellwin.by/Kosmo_Sergey/hs/Kocmo/GetImage/';
-
-    protected $tempJsonFileName = '/upload/tempProduct.json';
-    protected $referenceBooksGuid = [
-        "СтранаПроисхождения" => "42d1086a-9ccb-11e8-a215-00505601048d",
-        "ТоварнаяГруппа" => "42d1086e-9ccb-11e8-a215-00505601048d",
-        "Производитель" => "42d1082a-9ccb-11e8-a215-00505601048d",
-        "Марка" => "42d1082e-9ccb-11e8-a215-00505601048d",
-        "Коллекция" => "42d1081c-9ccb-11e8-a215-00505601048d",
-    ];
-    protected $multyDefaultProperty = [
-        'Статус', 'ТипКожи', 'ТипВолос', 'СостояниеВолос', 'SPFФактор', 'СтепеньФиксации',
-    ];
-
     function __construct()
     {
         parent::__construct();
-        $this->tempJsonPath = $_SERVER['DOCUMENT_ROOT'] . $this->tempJsonFileName;
-
         //$this->fillInOutputArr();
     }
 

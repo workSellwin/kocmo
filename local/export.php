@@ -41,32 +41,32 @@ elseif($step == 10){
         $response = $client->request('GET', $uri . '?step=20');
     }
 }
-elseif($step == 20){
-    $bx = new Bx\Product(CATALOG_ID);
-
-    if( $bx->addProductsInDb() ){
-
-        $client = new \GuzzleHttp\Client();
-        $response = $client->request('GET', $uri . '?step=30');
-    }
-}
-elseif($step == 30){
-    $bx = new Bx\Product(CATALOG_ID);
-
-    if( $bx->addProductsFromDb() ){
-
-        $client = new \GuzzleHttp\Client();
-        $response = $client->request('GET', $uri . '?step=40');
-    }
-}
-elseif($step == 40){
-    $bx = new Bx\Image(CATALOG_ID);
-
-    if( $bx->updateDetailPictures() ){
+//elseif($step == 20){
+//    $bx = new Bx\Product(CATALOG_ID);
+//
+//    if( $bx->addProductsInDb() ){
+//
 //        $client = new \GuzzleHttp\Client();
-//        $response = $client->request('GET', $uri . '?step=50');
-    }
-}
+//        $response = $client->request('GET', $uri . '?step=30');
+//    }
+//}
+//elseif($step == 30){
+//    $bx = new Bx\Product(CATALOG_ID);
+//
+//    if( $bx->addProductsFromDb() ){
+//
+//        $client = new \GuzzleHttp\Client();
+//        $response = $client->request('GET', $uri . '?step=40');
+//    }
+//}
+//elseif($step == 40){
+//    $bx = new Bx\Image(CATALOG_ID);
+//
+//    if( $bx->updateDetailPictures() ){
+////        $client = new \GuzzleHttp\Client();
+////        $response = $client->request('GET', $uri . '?step=50');
+//    }
+//}
 else{
     die('die');
 }

@@ -26,6 +26,7 @@ return [
         'PIC_FILE' => 'ФайлКартинки',
         'PROP_POINT_OF_ENTRY' => 'http://kocmo1c.sellwin.by/Kosmo_Sergey/hs/Kocmo/GetScheme/22e8d9ce-ed52-47ca-a524-e32b586aab0a',
         'PROD_POINT_OF_ENTRY' => 'http://kocmo1c.sellwin.by/Kosmo_Sergey/hs/Kocmo/GetFolder/GoodsItems',
+        'SECT_POINT_OF_ENTRY' => 'http://kocmo1c.sellwin.by/Kosmo_Sergey/hs/Kocmo/GetFolder/GoodsOnlyGroupOld',
         'GET_IMAGE_URI' => 'http://kocmo1c.sellwin.by/Kosmo_Sergey/hs/Kocmo/GetImage/',
         'REFERENCE_URL' => 'http://kocmo1c.sellwin.by/Kosmo_Sergey/hs/Kocmo/GetReference/'
     ],
