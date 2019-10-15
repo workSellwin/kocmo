@@ -26,22 +26,22 @@ class Image extends Handler
 
     public function fillInOutputArr()
     {
-        if( file_exists( $this->tempJsonPath ) && !empty($_SESSION[self::OFFSET_KEY]) ){
+//        if( file_exists( $this->tempJsonPath ) && !empty($_SESSION[self::OFFSET_KEY]) ){
+//
+//            $this->startOffset = $_SESSION[self::OFFSET_KEY];
+//            $_SESSION[self::OFFSET_KEY] = 0;
+//            $this->updateJsonFile();
+//            $this->setSliceFromJson();
+//
+//            if( count($this->outputArr) == 0){
+//
+//                $this->outputArr = false;
+//                $this->delTempFile();
+//            }
+//        }
+//        else{
 
-            $this->startOffset = $_SESSION[self::OFFSET_KEY];
-            $_SESSION[self::OFFSET_KEY] = 0;
-            $this->updateJsonFile();
-            $this->setSliceFromJson();
-
-            if( count($this->outputArr) == 0){
-
-                $this->outputArr = false;
-                $this->delTempFile();
-            }
-        }
-        else{
-
-            $_SESSION[self::OFFSET_KEY] = 0;
+            //$_SESSION[self::OFFSET_KEY] = 0;
             $getParamsStr = "";
 
             foreach( $_GET as $key => $param){
@@ -51,48 +51,49 @@ class Image extends Handler
             }
 
             $this->send(self::POINT_OF_ENTRY);
-        }
+        //}
     }
 
-    protected function send($uri){
-
-        $success = false;
-        $client = new \GuzzleHttp\Client();
-        $response = $client->request('GET', $uri);
-
-        if ($response->getStatusCode() == 200) {
-
-            $outArr = json_decode($response->getBody(), true);
-
-            foreach($outArr as &$item){
-                foreach($item as $key => $value){
-                    if( !in_array($key, $this->allowedFields) ){
-                        unset($item[$key]);
-                    }
-                }
-            }
-            file_put_contents($this->tempJsonPath, json_encode($outArr));
-            $this->outputArr = array_slice(
-                $outArr,
-                0,
-                self::IMAGE_LIMIT
-            );
-
-            $success = true;
-        } else {
-            echo "error: status: " . $response->getStatusCode();
-            die();
-        }
-        return $success;
-    }
-
+//    protected function send($uri){
+//
+//        $success = false;
+//        $client = new \GuzzleHttp\Client();
+//        $response = $client->request('GET', $uri);
+//
+//        if ($response->getStatusCode() == 200) {
+//
+//            $outArr = json_decode($response->getBody(), true);
+//
+//            foreach($outArr as &$item){
+//
+//                foreach($item as $key => $value){
+//
+//                    if( !in_array($key, $this->allowedFields) ){
+//                        unset($item[$key]);
+//                    }
+//                }
+//            }
+//
+//            file_put_contents($this->tempJsonPath, json_encode($outArr));
+//            $this->outputArr = array_slice(
+//                $outArr,
+//                0,
+//                self::IMAGE_LIMIT
+//            );
+//
+//            $success = true;
+//        } else {
+//            echo "error: status: " . $response->getStatusCode();
+//            die();
+//        }
+//        return $success;
+//    }
 
     public function getPicture( $gui ){
 
-        ++$_SESSION[self::OFFSET_KEY];
         $client = new \GuzzleHttp\Client();
-        $response = $client->request('GET', self::GET_IMAGE_URI . $gui);
-        //echo '<pre>' . print_r($this->points['image'] . $gui, true) . '</pre>';
+        $response = $client->request('GET', static::GET_IMAGE_URI . $gui);
+
         if ($response->getStatusCode() == 200) {
             return json_decode($response->getBody(), true );
         }

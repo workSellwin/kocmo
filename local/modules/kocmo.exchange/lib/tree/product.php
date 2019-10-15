@@ -7,6 +7,7 @@ namespace Kocmo\Exchange\Tree;
 class Product extends Handler
 {
     const PRODUCT_LIMIT = 1000;
+    const PIC_FILE = 'ФайлКартинки';
     const OFFSET_KEY = 'PRODUCT_OFFSET';
     const POINT_OF_ENTRY = 'http://kocmo1c.sellwin.by/Kosmo_Sergey/hs/Kocmo/GetFolder/GoodsItems';
     const REFERENCE_URL = 'http://kocmo1c.sellwin.by/Kosmo_Sergey/hs/Kocmo/GetReference/';
@@ -84,7 +85,8 @@ class Product extends Handler
 
             foreach( $outArr as $key => $item ){
 
-                $arrForDb[$item['UID']] = json_encode($item);
+                $arrForDb[$item['UID']]['JSON'] = json_encode($item);
+                $arrForDb[$item['UID']]["IMG_GUI"] = $item[static::PIC_FILE];
                 $outArr[$key] = null;
             }
 
@@ -147,5 +149,9 @@ class Product extends Handler
             return json_decode($response->getBody(), true );
         }
         return false;
+    }
+
+    public function getImageUri(){
+        return static::GET_IMAGE_URI;
     }
 }

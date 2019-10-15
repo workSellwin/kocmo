@@ -10,7 +10,7 @@ namespace Kocmo\Exchange\Bx;
  */
 class Image extends Helper
 {
-    const DETAIL_PICTURE = 'ФайлКартинки';
+    //const DETAIL_PICTURE = 'ФайлКартинки';
 
     protected $treeBuilder = null;
 
@@ -26,30 +26,48 @@ class Image extends Helper
         parent::__construct($treeBuilder, $catalogId);
     }
 
-    public function upload(){
+    public function updateDetailPictures(){
 
-        $this->startTimestamp = time();
+        $iterator = \Kocmo\Exchange\ProductImageTable::getList([]);
+        $oElement = new \CIBlockElement();
 
-        foreach ( $this->imageGenerator($this->treeBuilder->getRequestArr() ) as $file ){
-            if ((time() - $this->startTimestamp) > self::TIME_LIMIT) {
-                return false;
+        while($row = $iterator->fetch() ) {
+            $arPic = $this->getPhoto($row['IMG_GUI']);
+            //pr($arPic);
+            if( is_array($arPic) ){
+                $oElement->Update($row['PRODUCT_ID'], ["DETAIL_PICTURE" => $arPic]);
             }
+
         }
-        return true;
+
+        $connection = \Bitrix\Main\Application::getConnection();
+        $connection->truncateTable(\Kocmo\Exchange\ProductImageTable::getTableName());
     }
 
-    public function imageGenerator( $arr ){
-
-        foreach ($arr as $item ){
-            if( $this->checkRef($item[self::DETAIL_PICTURE]) ){
-                //echo '<pre>' . print_r($item, true) . '</pre>';
-                yield $this->getPhoto($item[self::DETAIL_PICTURE]);
-            }
-            else{
-                continue;
-            }
-        }
-    }
+//    public function upload(){
+//
+//        $this->startTimestamp = time();
+//
+//        foreach ( $this->imageGenerator($this->treeBuilder->getRequestArr() ) as $file ){
+//            if ((time() - $this->startTimestamp) > self::TIME_LIMIT) {
+//                return false;
+//            }
+//        }
+//        return true;
+//    }
+//
+//    public function imageGenerator( $arr ){
+//
+//        foreach ($arr as $item ){
+//            if( $this->checkRef($item[self::DETAIL_PICTURE]) ){
+//                //echo '<pre>' . print_r($item, true) . '</pre>';
+//                yield $this->getPhoto($item[self::DETAIL_PICTURE]);
+//            }
+//            else{
+//                continue;
+//            }
+//        }
+//    }
 
     private function getPhoto($gui)
     {
@@ -64,17 +82,15 @@ class Image extends Helper
 
             $file = \CFile::MakeFileArray($fileName);
 
-            $file['MODULE_ID'] = 'sellwin.1CExchange';
+            $file['MODULE_ID'] = 'kocmo.exchange';
             //$file['description'] = $gui;
-            $file['name'] = $gui;
-            //$file['name'] = $gui . '.' . $expansion;
 
             $fileSave = \CFile::SaveFile(
                 $file,
                 '/iblock'
             );
 
-            return $fileSave;//\CFile::MakeFileArray($fileSave);
+            return \CFile::MakeFileArray($fileSave);
         }
 
         return false;

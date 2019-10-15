@@ -27,19 +27,28 @@ class Product extends Helper
         parent::__construct($treeBuilder, $catalogId);
     }
 
-    public function addItemInDb(){
+    public function addProductsInDb(){
 
         $arrForDb = $this->treeBuilder->send2();
+        //$getImageUri = $this->treeBuilder->getImageUri();
         $rowsId = [];
 
         if( is_array($arrForDb) && count($arrForDb) ) {
             foreach ($this->prepareFieldsGen($arrForDb) as $item) {
+
+                //$imgGui = $item['IMG_GUI'];
+               // unset($item['IMG_GUI']);
 
                 try{
                     $rowsId[] = \Kocmo\Exchange\DataTable::add($item);
                 } catch ( \Bitrix\Main\DB\SqlQueryException $e ){
                     //например попытка добавить с не уникальным UID
                 }
+//                try{
+//                    //\Kocmo\Exchange\ProductImageTable::add(["IMG_GUI" => $imgGui, "PRODUCT_ID" => ]);
+//                } catch ( \Bitrix\Main\DB\SqlQueryException $e ){
+//                    //например попытка добавить с не уникальным IMG_GUI
+//                }
             }
         }
         else{
@@ -58,7 +67,15 @@ class Product extends Helper
             if ((time() - $this->startTimestamp) > static::TIME_LIMIT) {
                 return false;
             }
-            $this->addProduct($row, $oElement);
+            $id = $this->addProduct($row, $oElement);
+
+            if( $id > 0 && $this->checkRef($row['DETAIL_PICTURE'])) {
+                try {
+                    \Kocmo\Exchange\ProductImageTable::add(["IMG_GUI" => $row['DETAIL_PICTURE'], "PRODUCT_ID" => $id]);
+                } catch (\Bitrix\Main\DB\SqlQueryException $e) {
+                    //например попытка добавить с не уникальным IMG_GUI
+                }
+            }
         }
         $connection = \Bitrix\Main\Application::getConnection();
         $connection->truncateTable(\Kocmo\Exchange\DataTable::getTableName());
@@ -98,7 +115,7 @@ class Product extends Helper
                 "NAME" => $row[self::FULL_NAME],
                 "CODE" => \CUtil::translit($row[self::NAME], 'ru') . time(),
                 "DETAIL_TEXT" => $row[self::DESCRIPTION],
-                //"DETAIL_PICTURE" => $this->getPhoto($prod[static::DETAIL_PICTURE]),
+                "DETAIL_PICTURE" => $row[static::DETAIL_PICTURE],
                 "PROPERTY_VALUES" => $props
             );
 
@@ -124,7 +141,11 @@ class Product extends Helper
     private function prepareFieldsGen(&$prodReqArr){
 
         foreach( $prodReqArr as $key => $item ){
-            yield ["UID" => $key, "JSON" => $item];
+            yield [
+                "UID" => $key,
+                "JSON" => $item["JSON"],
+                //"IMG_GUI" => $item["IMG_GUI"]
+            ];
         }
     }
 
@@ -137,7 +158,7 @@ class Product extends Helper
         $this->setMatchXmlId();
 
         $oElement = new \CIBlockElement();
-        $offsetKey = $this->treeBuilder->getOffsetKey();
+        //$offsetKey = $this->treeBuilder->getOffsetKey();
         $prodReqArr = $this->treeBuilder->getRequestArr();
 
         foreach ($this->productsGenerator($prodReqArr) as $arFields) {
@@ -145,8 +166,8 @@ class Product extends Helper
             if ((time() - $this->startTimestamp) > static::TIME_LIMIT) {
                 return false;
             }
-            $this->addProduct($arFields, $oElement);
-            ++$_SESSION[$offsetKey];
+            $id = $this->addProduct($arFields, $oElement);
+            //++$_SESSION[$offsetKey];
         }
         $this->exportEnd = true;
         return true;
@@ -180,6 +201,7 @@ class Product extends Helper
         if($oElement == false){
             $oElement = new \CIBlockElement();
         }
+
         $prod = $this->getProductFromIblock($arFields["XML_ID"]);
         $id = 0;
 
@@ -187,13 +209,12 @@ class Product extends Helper
             $id = $oElement->Add($arFields);
         } else {
             //echo '<pre>' . print_r($arFields, true) . '</pre>';
-            $oElement->Update($prod['ID'], $arFields);
+            if( $oElement->Update($prod['ID'], $arFields) ){
+                $id = $prod['ID'];
+            }
         }
 
-        if( intval($id) > 0){
-            return $id;
-        }
-        return false;
+        return intval($id);
     }
 
     private function getProductFromIblock($xml_id)
