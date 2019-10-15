@@ -15,8 +15,6 @@ namespace Kocmo\Exchange\Bx;
  */
 class Section extends Helper
 {
-    const SECTION_ACTIVE = 'Y';
-
     private $conformityHash = [];
 
     /**
@@ -56,7 +54,7 @@ class Section extends Helper
 
             foreach ($this->treeBuilder->structGenerator($this->treeBuilder->getTree()) as $section) {
 
-                if ( isset($xmlIdFromReq[ $section[self::ID] ]) ) {
+                if ( isset($xmlIdFromReq[ $section[$this->arParams['ID']] ]) ) {
 
                     $section['ID'] = $xmlIdFromReq[$section['UID']];
                     $this->updateSection($section, $cIBlockSection);
@@ -91,7 +89,7 @@ class Section extends Helper
 //            return false;
             throw new \Error($cIBlockSection->LAST_ERROR);
         } else {
-            $this->conformityHash[$arFieldsFrom1C[self::ID]] = $id;
+            $this->conformityHash[$arFieldsFrom1C[$this->arParams['ID']]] = $id;
         }
         return true;
     }
@@ -122,14 +120,14 @@ class Section extends Helper
     {
 
         $neededFields = [
-            'ACTIVE' => self::SECTION_ACTIVE,
-            'IBLOCK_SECTION_ID' => $this->conformityHash[$from1CArr[self::PARENT_ID]],
+            'ACTIVE' => 'Y',
+            'IBLOCK_SECTION_ID' => $this->conformityHash[$from1CArr[$this->arParams['PARENT_ID']]],
             'IBLOCK_ID' => $this->catalogId,
-            'NAME' => $from1CArr[self::NAME],
+            'NAME' => $from1CArr[$this->arParams['NAME']],
             'SORT' => 500,
-            'XML_ID' => $from1CArr[self::ID],
-            'DEPTH_LEVEL' => $from1CArr[self::DEPTH_LEVEL],
-            'CODE' => \CUtil::translit($from1CArr[self::NAME], 'ru')
+            'XML_ID' => $from1CArr[$this->arParams['ID']],
+            'DEPTH_LEVEL' => $from1CArr[$this->arParams['DEPTH_LEVEL']],
+            'CODE' => \CUtil::translit($from1CArr[$this->arParams['NAME']], 'ru')
         ];
 
         return $neededFields;

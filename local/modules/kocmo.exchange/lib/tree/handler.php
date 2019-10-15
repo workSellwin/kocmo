@@ -3,16 +3,17 @@ namespace Kocmo\Exchange\Tree;
 
 abstract class Handler
 {
-    const PRODUCT_LIMIT = 1000;
-    const WAITING_TIME = 0;
-    const PARENT_ID = 'Родитель';
-    const ID = "UID";
-    const CHILDREN = 'CHILDREN';
-    const DEPTH_LEVEL = 'DEPTH_LEVEL';
-    const NAME = "Наименование";
-    const FULL_NAME = "НаименованиеПолное";
-    const PROPERTIES = "Свойства";
+//    const PRODUCT_LIMIT = 1000;
+//    const WAITING_TIME = 0;
+//    const PARENT_ID = 'Родитель';
+//    const ID = "UID";
+//    const CHILDREN = 'CHILDREN';
+//    const DEPTH_LEVEL = 'DEPTH_LEVEL';
+//    const NAME = "Наименование";
+//    const FULL_NAME = "НаименованиеПолное";
+//    const PROPERTIES = "Свойства";
 
+    protected $arParam = [];
     protected $tempJsonPath = false;
     protected $tree = [];
     protected $outputArr = [];
@@ -26,7 +27,12 @@ abstract class Handler
 
     function __construct()
     {
-        $this->status['status'] = 'run';
+        $arParam = require $GLOBALS['kocmo.exchange.config-path'];
+        $dir = end( explode('/', __DIR__) );
+        $this->arParam = $arParam[$dir];
+        unset($dir);
+        unset($arParam);
+        //$this->status['status'] = 'run';
     }
 
     abstract public function fillInOutputArr();

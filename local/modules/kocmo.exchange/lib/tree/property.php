@@ -28,7 +28,7 @@ class Property extends Product
 
     public function fillInOutputArr(){
 
-        $this->send(static::POINT_OF_ENTRY);
+        $this->send($this->arParams['PROP_POINT_OF_ENTRY']);
 
         $properties = [];
 

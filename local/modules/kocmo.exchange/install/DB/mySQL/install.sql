@@ -13,5 +13,5 @@ create table if not exists kocmo_exchange_product_image
 	IMG_GUI    varchar(36) NOT NULL,
 	PRODUCT_ID int         NOT NULL,
 	primary key (ID),
-	UNIQUE (IMG_GUI)
+	UNIQUE (PRODUCT_ID)
 );

@@ -66,7 +66,6 @@ elseif($step == 40){
 //        $client = new \GuzzleHttp\Client();
 //        $response = $client->request('GET', $uri . '?step=50');
     }
-
 }
 else{
     die('die');

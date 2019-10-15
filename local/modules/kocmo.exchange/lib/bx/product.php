@@ -10,11 +10,9 @@ namespace Kocmo\Exchange\Bx;
 
 class Product extends Helper
 {
-    const DETAIL_PICTURE = 'ФайлКартинки';
-
     private $productMatchXmlId = [];
-    private $sectionMatchXmlId = [];
-    private $exportEnd = false;
+    //private $sectionMatchXmlId = [];
+    //private $exportEnd = false;
 
     /**
      * BxProduct constructor.
@@ -54,7 +52,7 @@ class Product extends Helper
 
         foreach ($this->getTempDataGen() as $row){
 
-//            if ((time() - $this->startTimestamp) > static::TIME_LIMIT) {
+//            if ((time() - $this->startTimestamp) > $this->arParams['TIME_LIMIT']) {
 //                return false;
 //            }
             $id = $this->addProduct($row, $oElement);
@@ -102,12 +100,12 @@ class Product extends Helper
             $arFields = array(
                 "ACTIVE" => "Y",
                 "IBLOCK_ID" => $this->catalogId,
-                "IBLOCK_SECTION_ID" => $sectionsMatch[$row[self::PARENT_ID]],
-                "XML_ID" => $row[self::ID],
-                "NAME" => $row[self::FULL_NAME],
-                "CODE" => \CUtil::translit($row[self::NAME], 'ru') . time(),
-                "DETAIL_TEXT" => $row[self::DESCRIPTION],
-                "DETAIL_PICTURE" => $row[static::DETAIL_PICTURE],
+                "IBLOCK_SECTION_ID" => $sectionsMatch[$row[$this->arParams['PARENT_ID']]],
+                "XML_ID" => $row[$this->arParams['ID']],
+                "NAME" => $row[$this->arParams['FULL_NAME']],
+                "CODE" => \CUtil::translit($row[$this->arParams['NAME']], 'ru') . time(),
+                "DETAIL_TEXT" => $row[$this->arParams['DESCRIPTION']],
+                "DETAIL_PICTURE" => $row[$this->arParams['PIC_FILE']],
                 "PROPERTY_VALUES" => $props
             );
 
@@ -141,52 +139,44 @@ class Product extends Helper
         }
     }
 
-    public function addProducts()
-    {
-        if( empty($this->treeBuilder) ||  !is_array($this->treeBuilder)){
-            throw new \Error("tree not exist!");
-        }
-        $this->startTimestamp = time();
-        $this->setMatchXmlId();
+//    public function addProducts()
+//    {
+//        if( empty($this->treeBuilder) ||  !is_array($this->treeBuilder)){
+//            throw new \Error("tree not exist!");
+//        }
+//        $this->startTimestamp = time();
+//        $this->setMatchXmlId();
+//
+//        $oElement = new \CIBlockElement();
+//        //$offsetKey = $this->treeBuilder->getOffsetKey();
+//        $prodReqArr = $this->treeBuilder->getRequestArr();
+//
+//        foreach ($this->productsGenerator($prodReqArr) as $arFields) {
+//
+//            if ((time() - $this->startTimestamp) > $this->arParams['TIME_LIMIT']) {
+//                return false;
+//            }
+//            $id = $this->addProduct($arFields, $oElement);
+//            //++$_SESSION[$offsetKey];
+//        }
+//        $this->exportEnd = true;
+//        return true;
+//    }
 
-        $oElement = new \CIBlockElement();
-        //$offsetKey = $this->treeBuilder->getOffsetKey();
-        $prodReqArr = $this->treeBuilder->getRequestArr();
-
-        foreach ($this->productsGenerator($prodReqArr) as $arFields) {
-
-            if ((time() - $this->startTimestamp) > static::TIME_LIMIT) {
-                return false;
-            }
-            $id = $this->addProduct($arFields, $oElement);
-            //++$_SESSION[$offsetKey];
-        }
-        $this->exportEnd = true;
-        return true;
-    }
-
-    private function setMatchXmlId(){
-
-        $res = \CIBlockElement::GetList(
-            [],
-            ["IBLOCK_ID" => $this->catalogId],
-            false,
-            false,
-            ["ID", "IBLOCK_ID", "XML_ID"]
-        );
-
-        while($fields = $res->fetch()) {
-            $this->productMatchXmlId[$fields["XML_ID"]] = $fields["ID"];
-        }
-    }
-
-    public function exportEndStatus (){
-
-        if($this->exportEnd){
-            return true;
-        }
-        else false;
-    }
+//    private function setMatchXmlId(){
+//
+//        $res = \CIBlockElement::GetList(
+//            [],
+//            ["IBLOCK_ID" => $this->catalogId],
+//            false,
+//            false,
+//            ["ID", "IBLOCK_ID", "XML_ID"]
+//        );
+//
+//        while($fields = $res->fetch()) {
+//            $this->productMatchXmlId[$fields["XML_ID"]] = $fields["ID"];
+//        }
+//    }
 
     public function addProduct(array $arFields, $oElement = false)
     {
@@ -236,48 +226,48 @@ class Product extends Helper
        // return false;
     }
 
-    private function productsGenerator($prodReqArr)
-    {
-        $productsSectionsId = $this->treeBuilder->getProductParentsXmlId();//xml_id родителей товара
-        $this->sectionMatchXmlId = $this->getSectionMatch(array_keys($productsSectionsId));//сопоставленные id и xml_id
-
-        foreach ($prodReqArr as $prod) {
-
-            $props = [];
-
-            if (count($prod[static::PROPERTIES][0])) {
-
-                foreach ($prod[static::PROPERTIES][0] as $key => $prop) {
-
-                    $code = $this->getPropertyCode($key);
-
-                    if ($this->checkRef($prop) || is_array($prop) ) {
-                        $value = $this->getFromReferenceBook($key, $prop, $code);
-                    } else {
-                        $value = $prop;
-                    }
-
-                    $props[$code] = $value;
-                }
-            }
-
-            //echo '<pre>' . print_r($props, true) . '</pre>';
-
-            $arFields = array(
-                "ACTIVE" => "Y",
-                "IBLOCK_ID" => $this->catalogId,
-                "IBLOCK_SECTION_ID" => $this->sectionMatchXmlId[$prod[self::PARENT_ID]],
-                "XML_ID" => $prod[self::ID],
-                "NAME" => $prod[self::FULL_NAME],
-                "CODE" => \CUtil::translit($prod[self::NAME], 'ru') . time(),
-                "DETAIL_TEXT" => $prod[self::DESCRIPTION],
-                //"DETAIL_PICTURE" => $this->getPhoto($prod[static::DETAIL_PICTURE]),
-                "PROPERTY_VALUES" => $props
-            );
-
-            yield $arFields;
-        }
-    }
+//    private function productsGenerator($prodReqArr)
+//    {
+//        $productsSectionsId = $this->treeBuilder->getProductParentsXmlId();//xml_id родителей товара
+//        $this->sectionMatchXmlId = $this->getSectionMatch(array_keys($productsSectionsId));//сопоставленные id и xml_id
+//
+//        foreach ($prodReqArr as $prod) {
+//
+//            $props = [];
+//
+//            if (count($prod[static::PROPERTIES][0])) {
+//
+//                foreach ($prod[static::PROPERTIES][0] as $key => $prop) {
+//
+//                    $code = $this->getPropertyCode($key);
+//
+//                    if ($this->checkRef($prop) || is_array($prop) ) {
+//                        $value = $this->getFromReferenceBook($key, $prop, $code);
+//                    } else {
+//                        $value = $prop;
+//                    }
+//
+//                    $props[$code] = $value;
+//                }
+//            }
+//
+//            //echo '<pre>' . print_r($props, true) . '</pre>';
+//
+//            $arFields = array(
+//                "ACTIVE" => "Y",
+//                "IBLOCK_ID" => $this->catalogId,
+//                "IBLOCK_SECTION_ID" => $this->sectionMatchXmlId[$prod[$this->arParams['PARENT_ID']]],
+//                "XML_ID" => $prod[$this->arParams['ID']],
+//                "NAME" => $prod[$this->arParams['FULL_NAME']],
+//                "CODE" => \CUtil::translit($prod[$this->arParams['NAME']], 'ru') . time(),
+//                "DETAIL_TEXT" => $prod[$this->arParams['DESCRIPTION']],
+//                //"DETAIL_PICTURE" => $this->getPhoto($prod[$this->arParams['DETAIL_PICTURE']]),
+//                "PROPERTY_VALUES" => $props
+//            );
+//
+//            yield $arFields;
+//        }
+//    }
 
     protected function getFromReferenceBook($key, $value, $code)
     {
@@ -314,9 +304,6 @@ class Product extends Helper
 
     protected function getEnumIdArr(array $valueArr, $code)
     {
-//        if($code == 'TIP_VOLOS'){//for test
-//            $valueArr = ['ДляВсехТиповВолос (Для всех типов волос)', 'Нормальные', 'Сухие'];
-//        }
         if (count($valueArr) == 0) {
             return false;
         }
@@ -366,54 +353,54 @@ class Product extends Helper
         return false;
     }
 
-    private function getSectionMatch($allXmlId)
-    {
-
-        if (count($allXmlId)) {
-            $res = \CIBlockSection::GetList(
-                [],
-                ["XML_ID" => $allXmlId, 'IBLOCK_ID' => $this->catalogId],
-                false,
-                ['ID', 'IBLOCK_ID', 'XML_ID']
-            );
-        }
-
-        $xmlIdFromReq = [];
-
-        while ($fields = $res->fetch()) {
-            $xmlIdFromReq[$fields['XML_ID']] = $fields['ID'];
-        }
-        return $xmlIdFromReq;
-    }
-
-    private function getPhoto($gui)
-    {
-        $ImgArr = $this->treeBuilder->getPicture($gui);
-        $expansion = key($ImgArr);
-        if($expansion == 'Error'){
-            return false;
-        }
-        if (!empty($ImgArr[$expansion])) {
-
-            $fileData = base64_decode($ImgArr[$expansion]);
-            $fileName = $_SERVER['DOCUMENT_ROOT'] . '/upload/temp-photo.' . $expansion;
-            file_put_contents($fileName, $fileData);
-
-            $file = \CFile::MakeFileArray($fileName);
-
-            $file['MODULE_ID'] = 'sellwin.1CExchange';
-            //$file['description'] = $gui;
-
-            //$file['name'] = $gui;
-            //$file['name'] = $gui . '.' . $expansion;
-
-            $fileSave = \CFile::SaveFile(
-                $file,
-                '/iblock'
-            );
-            return \CFile::MakeFileArray($fileSave);
-        }
-
-        return false;
-    }
+//    private function getSectionMatch($allXmlId)
+//    {
+//
+//        if (count($allXmlId)) {
+//            $res = \CIBlockSection::GetList(
+//                [],
+//                ["XML_ID" => $allXmlId, 'IBLOCK_ID' => $this->catalogId],
+//                false,
+//                ['ID', 'IBLOCK_ID', 'XML_ID']
+//            );
+//        }
+//
+//        $xmlIdFromReq = [];
+//
+//        while ($fields = $res->fetch()) {
+//            $xmlIdFromReq[$fields['XML_ID']] = $fields['ID'];
+//        }
+//        return $xmlIdFromReq;
+//    }
+//
+//    private function getPhoto($gui)
+//    {
+//        $ImgArr = $this->treeBuilder->getPicture($gui);
+//        $expansion = key($ImgArr);
+//        if($expansion == 'Error'){
+//            return false;
+//        }
+//        if (!empty($ImgArr[$expansion])) {
+//
+//            $fileData = base64_decode($ImgArr[$expansion]);
+//            $fileName = $_SERVER['DOCUMENT_ROOT'] . '/upload/temp-photo.' . $expansion;
+//            file_put_contents($fileName, $fileData);
+//
+//            $file = \CFile::MakeFileArray($fileName);
+//
+//            $file['MODULE_ID'] = 'sellwin.1CExchange';
+//            //$file['description'] = $gui;
+//
+//            //$file['name'] = $gui;
+//            //$file['name'] = $gui . '.' . $expansion;
+//
+//            $fileSave = \CFile::SaveFile(
+//                $file,
+//                '/iblock'
+//            );
+//            return \CFile::MakeFileArray($fileSave);
+//        }
+//
+//        return false;
+//    }
 }

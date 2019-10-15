@@ -45,31 +45,6 @@ class Image extends Helper
         return true;
     }
 
-//    public function upload(){
-//
-//        $this->startTimestamp = time();
-//
-//        foreach ( $this->imageGenerator($this->treeBuilder->getRequestArr() ) as $file ){
-//            if ((time() - $this->startTimestamp) > self::TIME_LIMIT) {
-//                return false;
-//            }
-//        }
-//        return true;
-//    }
-//
-//    public function imageGenerator( $arr ){
-//
-//        foreach ($arr as $item ){
-//            if( $this->checkRef($item[self::DETAIL_PICTURE]) ){
-//                //echo '<pre>' . print_r($item, true) . '</pre>';
-//                yield $this->getPhoto($item[self::DETAIL_PICTURE]);
-//            }
-//            else{
-//                continue;
-//            }
-//        }
-//    }
-
     private function getPhoto($gui)
     {
         $ImgArr = $this->treeBuilder->getPicture($gui);

@@ -16,28 +16,10 @@ class Section extends Handler
     function __construct()
     {
         parent::__construct();
-        //$this->tempJsonPath = $_SERVER['DOCUMENT_ROOT'] . $this->tempJsonFileName;
-        //$this->fillInOutputArr();
     }
 
     public function fillInOutputArr()
     {
-//        if (file_exists($this->tempJsonPath) && !empty($_SESSION[self::OFFSET_KEY])) {
-//
-//            $this->startOffset = $_SESSION[self::OFFSET_KEY];
-//            $_SESSION[self::OFFSET_KEY] = 0;
-//            $this->updateJsonFile();
-//            $this->setSliceFromJson();
-//
-//            if (count($this->outputArr) == 0) {
-//
-//                $this->outputArr = false;
-//                $this->delTempFile();
-//            }
-//        } else {
-
-            //$_SESSION[self::OFFSET_KEY] = 0;
-
             $getParamsStr = "";
 
 //            foreach ($_GET as $key => $param) {
@@ -46,8 +28,7 @@ class Section extends Handler
 //                }
 //            }
 
-            $this->send(static::POINT_OF_ENTRY /*. '?' . $getParamsStr*/);
-        //}
+        $this->send(static::POINT_OF_ENTRY . '?' . $getParamsStr);
 
         $tempArr = [];
 
@@ -80,11 +61,7 @@ class Section extends Handler
         $length = count($this->outputArr);
 
         foreach( $this->outputArr as $key => $item ){
-//            pr($item);
-//            pr($item[self::ID]);
-//            pr(self::DEPTH_LEVEL);
-//            pr(self::CHILDREN);
-//            die();
+
             if( $item[self::PARENT_ID] === "" )
             {
                 $this->tree[$item[self::ID]] = $item;
