@@ -8,45 +8,46 @@ class Section extends Handler
 {
     const PRODUCT_LIMIT = 1000;
     const OFFSET_KEY = 'SECTION_OFFSET';
-    const POINT_OF_ENTRY = 'http://kocmo1c.sellwin.by/Kosmo_Sergey/hs/Kocmo/GetFolder/GoodsOnlyGroup';
+    //const POINT_OF_ENTRY = 'http://kocmo1c.sellwin.by/Kosmo_Sergey/hs/Kocmo/GetFolder/GoodsOnlyGroup';
+    const POINT_OF_ENTRY = 'http://kocmo1c.sellwin.by/Kosmo_Sergey/hs/Kocmo/GetFolder/GoodsOnlyGroupOld';
 
     protected $tempJsonFileName = '/upload/tempSection.json';
 
     function __construct()
     {
         parent::__construct();
-        $this->tempJsonPath = $_SERVER['DOCUMENT_ROOT'] . $this->tempJsonFileName;
+        //$this->tempJsonPath = $_SERVER['DOCUMENT_ROOT'] . $this->tempJsonFileName;
         //$this->fillInOutputArr();
     }
 
     public function fillInOutputArr()
     {
+//        if (file_exists($this->tempJsonPath) && !empty($_SESSION[self::OFFSET_KEY])) {
+//
+//            $this->startOffset = $_SESSION[self::OFFSET_KEY];
+//            $_SESSION[self::OFFSET_KEY] = 0;
+//            $this->updateJsonFile();
+//            $this->setSliceFromJson();
+//
+//            if (count($this->outputArr) == 0) {
+//
+//                $this->outputArr = false;
+//                $this->delTempFile();
+//            }
+//        } else {
 
-        if (file_exists($this->tempJsonPath) && !empty($_SESSION[self::OFFSET_KEY])) {
+            //$_SESSION[self::OFFSET_KEY] = 0;
 
-            $this->startOffset = $_SESSION[self::OFFSET_KEY];
-            $_SESSION[self::OFFSET_KEY] = 0;
-            $this->updateJsonFile();
-            $this->setSliceFromJson();
-
-            if (count($this->outputArr) == 0) {
-
-                $this->outputArr = false;
-                $this->delTempFile();
-            }
-        } else {
-
-            $_SESSION[self::OFFSET_KEY] = 0;
             $getParamsStr = "";
 
-            foreach ($_GET as $key => $param) {
-                if (in_array($key, $this->allowedGetParams)) {
-                    $getParamsStr .= $key . '=' . $param . '&';
-                }
-            }
+//            foreach ($_GET as $key => $param) {
+//                if (in_array($key, $this->allowedGetParams)) {
+//                    $getParamsStr .= $key . '=' . $param . '&';
+//                }
+//            }
 
-            $this->send(self::POINT_OF_ENTRY . '?' . $getParamsStr);
-        }
+            $this->send(static::POINT_OF_ENTRY /*. '?' . $getParamsStr*/);
+        //}
 
         $tempArr = [];
 
@@ -73,25 +74,32 @@ class Section extends Handler
 
     private function createTree()
     {
+        if(!count($this->outputArr)){
+            $this->fillInOutputArr();
+        }
         $length = count($this->outputArr);
 
         foreach( $this->outputArr as $key => $item ){
-
+//            pr($item);
+//            pr($item[self::ID]);
+//            pr(self::DEPTH_LEVEL);
+//            pr(self::CHILDREN);
+//            die();
             if( $item[self::PARENT_ID] === "" )
             {
                 $this->tree[$item[self::ID]] = $item;
                 $this->tree[$item[self::ID]][self::DEPTH_LEVEL] = 0;
                 $this->tree[$item[self::ID]][self::CHILDREN] = [];
-
-                unset($this->outputArr[$key]);
+                //unset($this->outputArr[$key]);
             }
             elseif( is_array($item[self::PARENT_ID]) && count($item[self::PARENT_ID]) )
             {
             }
             elseif( strlen($item[self::PARENT_ID]) > 0 )
             {
-                if( $this->putChild($item, $this->tree) )
-                    unset($this->outputArr[$key]);
+                if( $this->putChild($item, $this->tree) ) {
+                    //unset($this->outputArr[$key]);
+                }
             }
         }
 

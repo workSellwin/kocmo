@@ -9,6 +9,10 @@
 namespace Kocmo\Exchange\Bx;
 
 
+/**
+ * Class Section
+ * @package Kocmo\Exchange\Bx
+ */
 class Section extends Helper
 {
     const SECTION_ACTIVE = 'Y';
@@ -17,7 +21,7 @@ class Section extends Helper
 
     /**
      * BxSection constructor.
-     * @param \Kocmo\Exchange\Tree\Handler $treeBuilder
+     * @param \Kocmo\Exchange\Tree\Section $treeBuilder
      * @param $catalogId
      */
     public function __construct($catalogId)
@@ -28,7 +32,8 @@ class Section extends Helper
 
     public function createStruct()
     {
-        /** @var \Kocmo\Exchange\Tree\Handler $this->treeBuilder*/
+
+        /** @var \Kocmo\Exchange\Tree\Section $this->treeBuilder*/
 
         if (is_array( $this->treeBuilder->getTree() )) {
 

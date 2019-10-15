@@ -37,11 +37,12 @@ class Image extends Helper
             if( is_array($arPic) ){
                 $oElement->Update($row['PRODUCT_ID'], ["DETAIL_PICTURE" => $arPic]);
             }
-
         }
 
         $connection = \Bitrix\Main\Application::getConnection();
         $connection->truncateTable(\Kocmo\Exchange\ProductImageTable::getTableName());
+
+        return true;
     }
 
 //    public function upload(){

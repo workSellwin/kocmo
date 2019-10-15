@@ -30,43 +30,33 @@ class Product extends Helper
     public function addProductsInDb(){
 
         $arrForDb = $this->treeBuilder->send2();
-        //$getImageUri = $this->treeBuilder->getImageUri();
-        $rowsId = [];
 
         if( is_array($arrForDb) && count($arrForDb) ) {
             foreach ($this->prepareFieldsGen($arrForDb) as $item) {
 
-                //$imgGui = $item['IMG_GUI'];
-               // unset($item['IMG_GUI']);
-
                 try{
-                    $rowsId[] = \Kocmo\Exchange\DataTable::add($item);
+                    \Kocmo\Exchange\DataTable::add($item);
                 } catch ( \Bitrix\Main\DB\SqlQueryException $e ){
                     //например попытка добавить с не уникальным UID
                 }
-//                try{
-//                    //\Kocmo\Exchange\ProductImageTable::add(["IMG_GUI" => $imgGui, "PRODUCT_ID" => ]);
-//                } catch ( \Bitrix\Main\DB\SqlQueryException $e ){
-//                    //например попытка добавить с не уникальным IMG_GUI
-//                }
             }
         }
         else{
             return false;
         }
-        return count($rowsId) ? $rowsId : false;
+        return true;
     }
 
     public function addProductsFromDb()
     {
-        $this->startTimestamp = time();
+        //$this->startTimestamp = time();
         $oElement = new \CIBlockElement();
 
         foreach ($this->getTempDataGen() as $row){
 
-            if ((time() - $this->startTimestamp) > static::TIME_LIMIT) {
-                return false;
-            }
+//            if ((time() - $this->startTimestamp) > static::TIME_LIMIT) {
+//                return false;
+//            }
             $id = $this->addProduct($row, $oElement);
 
             if( $id > 0 && $this->checkRef($row['DETAIL_PICTURE'])) {
@@ -79,6 +69,8 @@ class Product extends Helper
         }
         $connection = \Bitrix\Main\Application::getConnection();
         $connection->truncateTable(\Kocmo\Exchange\DataTable::getTableName());
+
+        return true;
     }
 
     public function getTempDataGen(){

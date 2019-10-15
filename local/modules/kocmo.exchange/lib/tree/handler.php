@@ -75,7 +75,7 @@ abstract class Handler
         return $this->status;
     }
 
-    protected function send($uri, $getArray = true )
+    protected function send($uri)
     {
         $success = false;
         $client = new \GuzzleHttp\Client();
@@ -96,7 +96,6 @@ abstract class Handler
         } else {
             throw new \Error("error: status: " . $response->getStatusCode());
         }
-
         return $success;
     }
 

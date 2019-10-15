@@ -35,34 +35,15 @@ class Product extends Handler
 
     public function fillInOutputArr(){
 
-        if( empty($_GET['group']) && file_exists( $this->tempJsonPath ) && !empty($_SESSION[self::OFFSET_KEY]) ){
+        $getParamsStr = "";
 
-            $this->startOffset = $_SESSION[self::OFFSET_KEY];
-            $_SESSION[self::OFFSET_KEY] = 0;
-            //$this->updateJsonFile();
-            //$this->setSliceFromJson();
-
-            if( count($this->outputArr) == 0){
-
-                $this->outputArr = false;
-                //$this->delTempFile();
+        foreach ($_GET as $key => $param) {
+            if (in_array($key, $this->allowedGetParams)) {
+                $getParamsStr .= $key . '=' . $param . '&';
             }
         }
-        else{
-
-            //$_SESSION[self::OFFSET_KEY] = 0;
-            $getParamsStr = "";
-
-            foreach( $_GET as $key => $param){
-                if( in_array($key, $this->allowedGetParams) ){
-                    $getParamsStr .= $key . '=' . $param . '&';
-                }
-            }
-
-            $this->send(self::POINT_OF_ENTRY . '?' . $getParamsStr);
-
-           //$this->send(static::POINT_OF_ENTRY );
-        }
+        $getParamsStr = 'group=00f9b68a-85ea-11e9-b3b3-005056aa8896';
+        $this->send(self::POINT_OF_ENTRY . '?' . $getParamsStr);
     }
 
     public function send2()
@@ -74,7 +55,7 @@ class Product extends Handler
                 $getParamsStr .= $key . '=' . $param . '&';
             }
         }
-
+        $getParamsStr = 'group=00f9b68a-85ea-11e9-b3b3-005056aa8896';//temp
         $client = new \GuzzleHttp\Client();
         $response = $client->request('GET', static::POINT_OF_ENTRY . '?' . $getParamsStr);
         $arrForDb = [];
