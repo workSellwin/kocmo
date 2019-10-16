@@ -9,7 +9,6 @@ class Product extends Handler
     function __construct()
     {
         parent::__construct();
-        //$this->fillInOutputArr();
     }
 
     public function fillInOutputArr(){

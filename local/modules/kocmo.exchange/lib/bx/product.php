@@ -7,6 +7,7 @@
  */
 
 namespace Kocmo\Exchange\Bx;
+use \Bitrix\Catalog;
 
 class Product extends Helper
 {
@@ -81,9 +82,9 @@ class Product extends Helper
 
             $props = [];
 
-            if (count($row[static::PROPERTIES][0])) {
+            if (count($row[$this->arParams['PROPERTIES']][0])) {
 
-                foreach ($row[static::PROPERTIES][0] as $key => $prop) {
+                foreach ($row[$this->arParams['PROPERTIES']][0] as $key => $prop) {
 
                     $code = $this->getPropertyCode($key);
 
@@ -156,7 +157,7 @@ class Product extends Helper
                 $id = $prod['ID'];
             }
         }
-
+        Catalog\Model\Product::add(array('fields' => ['ID' => intval($id)]));//add to b_catalog_product
         return intval($id);
     }
 
@@ -231,14 +232,14 @@ class Product extends Helper
 
         if( count($valueArr) ){
 
-            $ibpenum = new \CIBlockPropertyEnum;
+            $bxPropEnum = new \CIBlockPropertyEnum;
 
             foreach($valueArr as $val){
 
                 $propId = $this->getPropIdFromCode($code);
 
                 if (intval($propId) > 0 ) {
-                    if ($enumId = $ibpenum->Add(['PROPERTY_ID' => $propId, 'VALUE' => $val])) {
+                    if ($enumId = $bxPropEnum->Add(['PROPERTY_ID' => $propId, 'VALUE' => $val])) {
                         $returnArr[$enumId] = $val;
                     }
                 }
@@ -249,7 +250,6 @@ class Product extends Helper
 
     private function getPropIdFromCode($code)
     {
-
         $res = \CIBlockProperty::GetByID($code, $this->catalogId);
 
         if ($ar_res = $res->GetNext()) {
