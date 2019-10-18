@@ -16,7 +16,7 @@ class Image extends Helper
 
     /**
      * Image constructor.
-     * @param \Kocmo\Exchange\Tree\Handler $treeBuilder
+     * @param \Kocmo\Exchange\Tree\Builder $treeBuilder
      * @param $catalogId
      * @throws \Bitrix\Main\LoaderException
      */

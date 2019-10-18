@@ -1,7 +1,7 @@
 <?php
 namespace Kocmo\Exchange\Tree;
 
-abstract class Handler
+abstract class Builder
 {
 
     protected $arParams = [];

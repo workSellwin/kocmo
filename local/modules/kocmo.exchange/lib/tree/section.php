@@ -4,7 +4,7 @@
 namespace Kocmo\Exchange\Tree;
 
 
-class Section extends Handler
+class Section extends Builder
 {
 
     protected $tempJsonFileName = '/upload/tempSection.json';

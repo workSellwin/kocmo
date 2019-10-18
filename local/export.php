@@ -1,4 +1,23 @@
 <?php
+//https://documenter.getpostman.com/view/155604/SVtZwmvs?version=latest
+/*
+ * Схема свойств
+ * http://kocmo1c.sellwin.by/Kosmo_Sergey/hs/Kocmo/GetScheme/22e8d9ce-ed52-47ca-a524-e32b586aab0a
+ *
+ * Группы / Разделы
+ * http://kocmo1c.sellwin.by/Kosmo_Sergey/hs/Kocmo/GetSections
+ *
+ *  Каталог Товаров
+ * http://kocmo1c.sellwin.by/Kosmo_Sergey/hs/Kocmo/GetCatalog
+ *
+ * Предложения
+ *http://kocmo1c.sellwin.by/Kosmo_Sergey/hs/Kocmo/GetOffers
+ *
+ * Справочники
+ * http://kocmo1c.sellwin.by/Kosmo_Sergey/hs/Kocmo/GetReference/42d10805-9ccb-11e8-a215-00505601048d
+ *
+ *
+ */
 require_once($_SERVER["DOCUMENT_ROOT"]."/bitrix/modules/main/include/prolog_before.php");
 \Bitrix\Main\Loader::includeModule('kocmo.exchange');
 define('CATALOG_ID', 7);

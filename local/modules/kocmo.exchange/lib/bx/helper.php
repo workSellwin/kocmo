@@ -29,11 +29,11 @@ abstract class Helper
 
     /**
      * Helper constructor.
-     * @param \Kocmo\Exchange\Tree\Handler $treeBuilder
+     * @param \Kocmo\Exchange\Tree\Builder $treeBuilder
      * @param $catalogId
      * @throws \Bitrix\Main\LoaderException
      */
-    public function __construct(\Kocmo\Exchange\Tree\Handler $treeBuilder, $catalogId)
+    public function __construct(\Kocmo\Exchange\Tree\Builder $treeBuilder, $catalogId)
     {
         try{
             $this->setParams();

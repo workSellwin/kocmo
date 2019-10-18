@@ -17,7 +17,7 @@ class Product extends Helper
 
     /**
      * BxProduct constructor.
-     * @param \Kocmo\Exchange\Tree\Handler $treeBuilder
+     * @param \Kocmo\Exchange\Tree\Builder $treeBuilder
      * @param $catalogId
      */
     public function __construct($catalogId)

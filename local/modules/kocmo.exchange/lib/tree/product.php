@@ -4,7 +4,7 @@
 namespace Kocmo\Exchange\Tree;
 
 
-class Product extends Handler
+class Product extends Builder
 {
 
     protected $conformity = [];

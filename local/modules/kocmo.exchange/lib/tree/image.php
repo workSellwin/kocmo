@@ -4,7 +4,7 @@
 namespace Kocmo\Exchange\Tree;
 
 
-class Image extends Handler
+class Image extends Builder
 {
     
     const GET_IMAGE_URI = 'http://kocmo1c.sellwin.by/Kosmo_Sergey/hs/Kocmo/GetImage/';
