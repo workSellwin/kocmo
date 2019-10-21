@@ -80,8 +80,6 @@ elseif($step == 30){
     if( $bx->addProductsFromDb() ){
         header('Location: ' . $uri . '?step=40');
         exit;
-//        $client = new \GuzzleHttp\Client();
-//        $response = $client->request('GET', $uri . '?step=40');
     }
 }
 elseif($step == 40){

@@ -12,6 +12,7 @@ use \Bitrix\Catalog;
 class Product extends Helper
 {
     private $productMatchXmlId = [];
+    protected $arProperty = [];
     //private $sectionMatchXmlId = [];
     //private $exportEnd = false;
 
@@ -24,6 +25,16 @@ class Product extends Helper
     {
         $treeBuilder = new \Kocmo\Exchange\Tree\Product();
         parent::__construct($treeBuilder, $catalogId);
+        unset($treeBuilder);
+//        $propsArr = $this->treeBuilder->send4();
+//
+//        foreach($propsArr as $prop){
+//            //$uid = $prop['UID'];
+//            //unset($prop['UID']);
+//            $guiMatch = $this->treeBuilder->getStrFromGuid($prop['UID']);
+//            $this->arProperty[$guiMatch] = $prop;
+//        }
+        //pr($this->arProperty);
     }
 
     public function addProductsInDb(){
@@ -50,26 +61,34 @@ class Product extends Helper
     {
         //$this->startTimestamp = time();
         $oElement = new \CIBlockElement();
+        $this->setMatchXmlId();
 
         foreach ($this->getTempDataGen() as $row){
 
 //            if ((time() - $this->startTimestamp) > $this->arParams['TIME_LIMIT']) {
 //                return false;
 //            }
+
             $id = $this->addProduct($row, $oElement);
 
             if( $id > 0 && $this->checkRef($row['DETAIL_PICTURE'])) {
+
                 try {
+
                     \Kocmo\Exchange\ProductImageTable::add(["IMG_GUI" => $row['DETAIL_PICTURE'], "PRODUCT_ID" => $id]);
                 } catch (\Bitrix\Main\DB\SqlQueryException $e) {
                     //например попытка добавить с не уникальным IMG_GUI
                 }
             }
         }
-        $connection = \Bitrix\Main\Application::getConnection();
-        $connection->truncateTable(\Kocmo\Exchange\DataTable::getTableName());
+//        $connection = \Bitrix\Main\Application::getConnection();
+//        $connection->truncateTable(\Kocmo\Exchange\DataTable::getTableName());
 
         return true;
+    }
+
+    public function addProductInDb(){
+
     }
 
     public function getTempDataGen(){
@@ -82,17 +101,17 @@ class Product extends Helper
 
             $props = [];
 
-            if (count($row[$this->arParams['PROPERTIES']][0])) {
+            if (count($row[$this->arParams['PROPERTIES']])) {
 
-                foreach ($row[$this->arParams['PROPERTIES']][0] as $key => $prop) {
+                foreach ($row[$this->arParams['PROPERTIES']] as $key => $prop) {
 
                     $code = $this->getPropertyCode($key);
 
-                    if ($this->checkRef($prop) || is_array($prop) ) {
-                        $value = $this->getFromReferenceBook($key, $prop, $code);
-                    } else {
+//                    if ($this->checkRef($prop) || is_array($prop) ) {
+//                        $value = $this->getFromReferenceBook($key, $prop, $code);
+//                    } else {
                         $value = $prop;
-                    }
+                    //}
 
                     $props[$code] = $value;
                 }
@@ -151,13 +170,12 @@ class Product extends Helper
 
         if ($prod === false) {
             $id = $oElement->Add($arFields);
+            Catalog\Model\Product::add(array('fields' => ['ID' => $id]));//add to b_catalog_product
         } else {
-
-            if( $oElement->Update($prod['ID'], $arFields) ){
-                $id = $prod['ID'];
+            if( $oElement->Update($prod, $arFields) ){
+                $id = $prod;
             }
         }
-        Catalog\Model\Product::add(array('fields' => ['ID' => intval($id)]));//add to b_catalog_product
         return intval($id);
     }
 
@@ -172,6 +190,20 @@ class Product extends Helper
             return $this->productMatchXmlId[$xml_id];
         } else {
             return false;
+        }
+    }
+
+    private function setMatchXmlId(){
+
+        $res = \CIBlockElement::GetList(
+            [],
+            ["IBLOCK_ID" => $this->catalogId],
+            false,
+            false,
+            ["ID", "IBLOCK_ID", "XML_ID"]
+        );
+        while($fields = $res->fetch()) {
+            $this->productMatchXmlId[$fields["XML_ID"]] = $fields["ID"];
         }
     }
 

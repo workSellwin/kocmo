@@ -6,9 +6,9 @@ namespace Kocmo\Exchange\Tree;
 
 class Product extends Builder
 {
-
     protected $conformity = [];
     protected $conformityName = [];
+    protected $arProperty = [];
 
     function __construct()
     {
@@ -30,16 +30,26 @@ class Product extends Builder
 
     public function send2()
     {
-        $getParamsStr = "";
+        $propsArr = $this->send4();
+
+        foreach($propsArr as $prop){
+            //$uid = $prop['UID'];
+            //unset($prop['UID']);
+            $guiMatch = $this->getStrFromGuid($prop['UID']);
+            $this->arProperty[$guiMatch] = $prop;
+        }
+        //pr($this->arProperty);die();
+
+        $getParamsStr = "?";
 
         foreach( $_GET as $key => $param){
             if( in_array($key, $this->allowedGetParams) ){
                 $getParamsStr .= $key . '=' . $param . '&';
             }
         }
-        $getParamsStr = 'group=00f9b68a-85ea-11e9-b3b3-005056aa8896';//temp
+        //$getParamsStr = 'group=00f9b68a-85ea-11e9-b3b3-005056aa8896';//temp
         $client = new \GuzzleHttp\Client();
-        $response = $client->request('GET', $this->arParams['PROD_POINT_OF_ENTRY'] . '?' . $getParamsStr);
+        $response = $client->request('GET', $this->arParams['PROD_POINT_OF_ENTRY'] . $getParamsStr);
         $arrForDb = [];
 
         if ($response->getStatusCode() == 200) {
@@ -48,8 +58,39 @@ class Product extends Builder
 
             foreach( $outArr as $key => $item ){
 
-                $arrForDb[$item['UID']]['JSON'] = json_encode($item);
-                $arrForDb[$item['UID']]["IMG_GUI"] = $item[$this->arParams['PIC_FILE']];
+                $prepareItem = [];
+                //pr($item);die();
+                foreach( $item as $k => $v ){
+
+                    if($k == $this->arParams['ID']){
+                        $g_uid = $this->arParams['ID'];
+                    }
+                    elseif($k == $this->arParams['PROPERTIES']){
+                        $g_uid = $this->arParams['PROPERTIES'];
+                    }
+                    else{
+                        $g_uid = $this->arProperty[$k][$this->arParams['NAME']];
+                    }
+
+                    if( $k == $this->arParams['PROPERTIES'] ){
+
+                        $tempProps = [];
+
+                        foreach ($v as $k1 => $v1){
+                            $tempProps[ $this->arProperty[$k1][$this->arParams['NAME']] ] = $v1;
+                        }
+                        $prepareItem[ $g_uid ] = $tempProps;
+                    }
+                    else{
+                        $prepareItem[ $g_uid ] = $v;
+                    }
+                }
+//                pr($item);
+//                pr($prepareItem);
+//                pr($this->arProperty);
+//                die();
+                $arrForDb[$prepareItem['UID']]['JSON'] = json_encode($prepareItem);
+                $arrForDb[$prepareItem['UID']]["IMG_GUI"] = $prepareItem[$this->arParams['PIC_FILE']];
                 $outArr[$key] = null;
             }
 
@@ -57,7 +98,26 @@ class Product extends Builder
             throw new \Error("error: status: " . $response->getStatusCode());
         }
 
-        return count($arrForDb) ? $arrForDb : false;
+       return count($arrForDb) ? $arrForDb : false;
+    }
+
+    public function send4()
+    {
+        $client = new \GuzzleHttp\Client();
+
+        $response = $client->request('GET', $this->arParams['PROP_POINT_OF_ENTRY']);
+
+        if ($response->getStatusCode() == 200) {
+
+            $outputArr = json_decode($response->getBody(), true);
+        } else {
+            throw new \Error("error: status: " . $response->getStatusCode());
+        }
+        return $outputArr;
+    }
+
+    protected function getRefVal( $propGui, $valGui ){
+        return "";
     }
 
     public function send3(){

@@ -6,8 +6,6 @@ namespace Kocmo\Exchange\Tree;
 
 class Property extends Product
 {
-    const POINT_OF_ENTRY = 'http://kocmo1c.sellwin.by/Kosmo_Sergey/hs/Kocmo/GetScheme/22e8d9ce-ed52-47ca-a524-e32b586aab0a';
-
     protected $languageConstants = [
         'UID' => 'UID',
         'NAME' => 'Наименование',
@@ -31,7 +29,7 @@ class Property extends Product
         $this->send($this->arParams['PROP_POINT_OF_ENTRY']);
 
         $properties = [];
-
+        //echo '<pre>', print_r($this->outputArr, true), '</pre>';
         foreach( $this->outputArr as $item ){
 
             if( $item[$this->languageConstants['IS_PROP']] == $this->languageConstants['YES'] ){
