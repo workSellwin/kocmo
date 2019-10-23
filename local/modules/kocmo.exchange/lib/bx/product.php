@@ -87,8 +87,85 @@ class Product extends Helper
         return true;
     }
 
-    public function addProductInDb(){
+    public function addProductFromDb($xmlId){
 
+        if( !is_string($xmlId) ){
+            return false;
+        }
+        $iterator = \Kocmo\Exchange\DataTable::getList(['filter' => ['UID' => $xmlId]]);
+        $oElement = new \CIBlockElement();
+        $this->setMatchXmlId();
+        $sectionsMatch = $this->getAllSectionsXmlId();
+
+        if( $row = $iterator->fetch() ){
+
+            $row = json_decode($row['JSON'], true);
+
+            $props = [];
+
+            if (count($row[$this->arParams['PROPERTIES']])) {
+
+                foreach ($row[$this->arParams['PROPERTIES']] as $key => $prop) {
+
+                    $code = $this->getPropertyCode($key);
+
+//                    if ($this->checkRef($prop) || is_array($prop) ) {
+//                        $value = $this->getFromReferenceBook($key, $prop, $code);
+//                    } else {
+                    $value = $prop;
+                    //}
+
+                    $props[$code] = $value;
+                }
+            }
+
+            $oImage = new Image($this->catalogId);
+            $arPic = $oImage->getPhoto( $row[$this->arParams['PIC_FILE']] );
+
+            if( empty($arPic)){
+                $arPic = "";
+            }
+
+            $arFields = array(
+                "ACTIVE" => "Y",
+                "IBLOCK_ID" => $this->catalogId,
+                "IBLOCK_SECTION_ID" => $sectionsMatch[$row[$this->arParams['PARENT_ID']]],
+                "XML_ID" => $row[$this->arParams['ID']],
+                "NAME" => $row[$this->arParams['FULL_NAME']],
+                "CODE" => \CUtil::translit($row[$this->arParams['NAME']], 'ru') . time(),
+                "DETAIL_TEXT" => $row[$this->arParams['DESCRIPTION']],
+                "DETAIL_PICTURE" => $arPic,
+                "PROPERTY_VALUES" => $props
+            );
+            $row = $arFields;
+
+            $id = $this->addProduct($row, $oElement);
+
+            if( $id > 0 && $this->checkRef($row['DETAIL_PICTURE'])) {
+
+                try {
+
+                    \Kocmo\Exchange\ProductImageTable::add(["IMG_GUI" => $row['DETAIL_PICTURE'], "PRODUCT_ID" => $id]);
+                } catch (\Bitrix\Main\DB\SqlQueryException $e) {
+                    //например попытка добавить с не уникальным IMG_GUI
+                }
+            }
+        }
+
+//        foreach ($this->getTempDataGen() as $row){
+//
+//            $id = $this->addProduct($row, $oElement);
+//
+//            if( $id > 0 && $this->checkRef($row['DETAIL_PICTURE'])) {
+//
+//                try {
+//
+//                    \Kocmo\Exchange\ProductImageTable::add(["IMG_GUI" => $row['DETAIL_PICTURE'], "PRODUCT_ID" => $id]);
+//                } catch (\Bitrix\Main\DB\SqlQueryException $e) {
+//                    //например попытка добавить с не уникальным IMG_GUI
+//                }
+//            }
+//        }
     }
 
     public function getTempDataGen(){
@@ -166,10 +243,18 @@ class Product extends Helper
         }
 
         $prod = $this->getProductFromIblock($arFields["XML_ID"]);
+
         $id = 0;
 
         if ($prod === false) {
+            //$arFields['IBLOCK_SECTION_ID'] = 2;//пока нет разделов
+           // unset($arFields['PROPERTY_VALUES'], $arFields['DETAIL_PICTURE']);
             $id = $oElement->Add($arFields);
+//            if(!$id){
+//                echo "Error: ".$oElement->LAST_ERROR;
+//            }
+            //pr($arFields);
+           // pr($id);
             Catalog\Model\Product::add(array('fields' => ['ID' => $id]));//add to b_catalog_product
         } else {
             if( $oElement->Update($prod, $arFields) ){

@@ -45,7 +45,7 @@ class Image extends Helper
         return true;
     }
 
-    private function getPhoto($gui)
+    public function getPhoto($gui)
     {
         $ImgArr = $this->treeBuilder->getPicture($gui);
         $expansion = key($ImgArr);
