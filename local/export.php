@@ -20,12 +20,12 @@
  */
 require_once($_SERVER["DOCUMENT_ROOT"]."/bitrix/modules/main/include/prolog_before.php");
 \Bitrix\Main\Loader::includeModule('kocmo.exchange');
-define('CATALOG_ID', 7);
+define('CATALOG_ID', 6);
+define('PRODUCT_PART', 500);
 
 use Kocmo\Exchange;
 use Kocmo\Exchange\Bx;
 
-//require $_SERVER['DOCUMENT_ROOT'] . '/local/vendor/autoload.php';
 $uri = $_SERVER['SCRIPT_URI'];
 
 if( empty($_GET['step']) ){
@@ -45,51 +45,56 @@ else{
 
 if($step == 0){
     $bx = new Exchange\Bx\Section(CATALOG_ID);
-    if( $bx->createStruct() ){
-        //sleep(2);
+    if( $bx->update() ){
         header('Location: ' . $uri . '?step=10');
         exit;
-//        $client = new \GuzzleHttp\Client();
-//        $response = $client->request('GET', $uri . '?step=10');
     }
 }
 elseif($step == 10){
     $bx = new Bx\Property(CATALOG_ID);
 
-    if( $bx->updateProperty() ){
-        //sleep(2);
+    if( $bx->update() ){
         header('Location: ' . $uri . '?step=20');
         exit;
-//        $client = new \GuzzleHttp\Client();
-//        $response = $client->request('GET', $uri . '?step=20');
     }
 }
-elseif($step == 20){
-    $bx = new Bx\Product(CATALOG_ID);
-
-    if( $bx->addProductsInDb() ){
-        header('Location: ' . $uri . '?step=30');
-        exit;
-//        $client = new \GuzzleHttp\Client();
-//        $response = $client->request('GET', $uri . '?step=30');
-    }
-}
+//elseif($step == 20){
+//    $bx = new Bx\Product(CATALOG_ID);
+//    $result = $bx->addProductsInDb();
+//
+//    if( $result === true){
+//        header('Location: ' . $uri . '?step=30');
+//        exit;
+//    }
+//    elseif(is_string($result)){
+//        header('Location: ' . $uri . '?step=20&item=' . $result . '&count=' . PRODUCT_PART);
+//        exit;
+//    }
+//    else{
+//        die("On $step - error");
+//    }
+//}
 elseif($step == 30){
     $bx = new Bx\Product(CATALOG_ID);
-
-    if( $bx->addProductsFromDb() ){
+    $result = $bx->addProductsFromDb();
+    if( $result === true ){
         header('Location: ' . $uri . '?step=40');
         exit;
     }
-}
-elseif($step == 40){
-    $bx = new Bx\Image(CATALOG_ID);
-
-    if( $bx->updateDetailPictures() ){
-//        $client = new \GuzzleHttp\Client();
-//        $response = $client->request('GET', $uri . '?step=50');
+    elseif(is_string($result)){
+        header('Location: ' . $uri . '?step=30&item=' . $result . "&count=500");
+        exit;
+    }
+    else{
+        die("On $step - error");
     }
 }
+//elseif($step == 40){
+//    $bx = new Bx\Image(CATALOG_ID);
+//
+//    if( $bx->updateDetailPictures() ){
+//    }
+//}
 else{
     die('die');
 }

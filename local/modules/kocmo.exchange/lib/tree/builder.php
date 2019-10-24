@@ -9,7 +9,7 @@ abstract class Builder
     protected $tree = [];
     protected $outputArr = [];
     protected $allowedGetParams = [
-        'group'
+        'count', 'item'
     ];
 
     protected $referenceBooks = [];

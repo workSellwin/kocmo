@@ -24,7 +24,7 @@ class Product extends Builder
                 $getParamsStr .= $key . '=' . $param . '&';
             }
         }
-        $getParamsStr = 'group=00f9b68a-85ea-11e9-b3b3-005056aa8896';
+
         $this->send($this->arParams['PROD_POINT_OF_ENTRY'] . '?' . $getParamsStr);
     }
 
@@ -47,7 +47,7 @@ class Product extends Builder
                 $getParamsStr .= $key . '=' . $param . '&';
             }
         }
-        //$getParamsStr = 'group=00f9b68a-85ea-11e9-b3b3-005056aa8896';//temp
+
         $client = new \GuzzleHttp\Client();
         $response = $client->request('GET', $this->arParams['PROD_POINT_OF_ENTRY'] . $getParamsStr);
         $arrForDb = [];
@@ -59,7 +59,7 @@ class Product extends Builder
             foreach( $outArr as $key => $item ){
 
                 $prepareItem = [];
-                //pr($item);die();
+
                 foreach( $item as $k => $v ){
 
                     if($k == $this->arParams['ID']){
@@ -85,10 +85,7 @@ class Product extends Builder
                         $prepareItem[ $g_uid ] = $v;
                     }
                 }
-//                pr($item);
-//                pr($prepareItem);
-//                pr($this->arProperty);
-//                die();
+
                 $arrForDb[$prepareItem['UID']]['JSON'] = json_encode($prepareItem);
                 $arrForDb[$prepareItem['UID']]["IMG_GUI"] = $prepareItem[$this->arParams['PIC_FILE']];
                 $outArr[$key] = null;

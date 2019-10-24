@@ -40,34 +40,37 @@ class Product extends Helper
     public function addProductsInDb(){
 
         $arrForDb = $this->treeBuilder->send2();
+        $lastUid = true;
 
         if( is_array($arrForDb) && count($arrForDb) ) {
             foreach ($this->prepareFieldsGen($arrForDb) as $item) {
 
                 try{
-                    \Kocmo\Exchange\DataTable::add($item);
+                    $result = \Kocmo\Exchange\DataTable::add($item);
+//                    if(!$result->isSuccess()){
+//                        pr($result);
+//                    }
+                    $lastUid = $item["UID"];
                 } catch ( \Bitrix\Main\DB\SqlQueryException $e ){
                     //например попытка добавить с не уникальным UID
                 }
             }
         }
         else{
-            return false;
+            return $lastUid;
         }
-        return true;
+        return $lastUid;
     }
 
     public function addProductsFromDb()
     {
-        //$this->startTimestamp = time();
         $oElement = new \CIBlockElement();
         $this->setMatchXmlId();
 
         foreach ($this->getTempDataGen() as $row){
 
-//            if ((time() - $this->startTimestamp) > $this->arParams['TIME_LIMIT']) {
-//                return false;
-//            }
+            $detailPic = $row['DETAIL_PICTURE'];
+            unset($row['DETAIL_PICTURE']);
 
             $id = $this->addProduct($row, $oElement);
 
@@ -75,14 +78,14 @@ class Product extends Helper
 
                 try {
 
-                    \Kocmo\Exchange\ProductImageTable::add(["IMG_GUI" => $row['DETAIL_PICTURE'], "PRODUCT_ID" => $id]);
+                    \Kocmo\Exchange\ProductImageTable::add(["IMG_GUI" => $detailPic, "PRODUCT_ID" => $id]);
                 } catch (\Bitrix\Main\DB\SqlQueryException $e) {
                     //например попытка добавить с не уникальным IMG_GUI
                 }
             }
         }
-//        $connection = \Bitrix\Main\Application::getConnection();
-//        $connection->truncateTable(\Kocmo\Exchange\DataTable::getTableName());
+        $connection = \Bitrix\Main\Application::getConnection();
+        $connection->truncateTable(\Kocmo\Exchange\DataTable::getTableName());
 
         return true;
     }
@@ -129,7 +132,7 @@ class Product extends Helper
             $arFields = array(
                 "ACTIVE" => "Y",
                 "IBLOCK_ID" => $this->catalogId,
-                "IBLOCK_SECTION_ID" => $sectionsMatch[$row[$this->arParams['PARENT_ID']]],
+                "IBLOCK_SECTION_ID" => $sectionsMatch[$row[$this->arParams['PARENT_ID']][0]],
                 "XML_ID" => $row[$this->arParams['ID']],
                 "NAME" => $row[$this->arParams['FULL_NAME']],
                 "CODE" => \CUtil::translit($row[$this->arParams['NAME']], 'ru') . time(),
@@ -141,15 +144,15 @@ class Product extends Helper
 
             $id = $this->addProduct($row, $oElement);
 
-            if( $id > 0 && $this->checkRef($row['DETAIL_PICTURE'])) {
-
-                try {
-
-                    \Kocmo\Exchange\ProductImageTable::add(["IMG_GUI" => $row['DETAIL_PICTURE'], "PRODUCT_ID" => $id]);
-                } catch (\Bitrix\Main\DB\SqlQueryException $e) {
-                    //например попытка добавить с не уникальным IMG_GUI
-                }
-            }
+//            if( $id > 0 && $this->checkRef($row['DETAIL_PICTURE'])) {
+//
+//                try {
+//
+//                    \Kocmo\Exchange\ProductImageTable::add(["IMG_GUI" => $row['DETAIL_PICTURE'], "PRODUCT_ID" => $id]);
+//                } catch (\Bitrix\Main\DB\SqlQueryException $e) {
+//                    //например попытка добавить с не уникальным IMG_GUI
+//                }
+//            }
         }
 
 //        foreach ($this->getTempDataGen() as $row){
@@ -170,7 +173,7 @@ class Product extends Helper
 
     public function getTempDataGen(){
 
-        $iterator = \Kocmo\Exchange\DataTable::getList([]);
+        $iterator = \Kocmo\Exchange\DataTable::getList(['limit'=>1000]);
         $sectionsMatch = $this->getAllSectionsXmlId();
 
         while($row = $iterator->fetch() ){

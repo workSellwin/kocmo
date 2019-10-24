@@ -7,12 +7,32 @@ namespace Kocmo\Exchange\Bx;
 class Property extends Helper
 {
     protected $prepareProperties = [];
+    protected $issetProps = [];
 
     public function __construct($catalogId)
     {
-        $treeBuilder = new \Kocmo\Exchange\Tree\Property();
-        parent::__construct($treeBuilder, $catalogId);
-        $this->prepareProperties();
+        try{
+            \Bitrix\Main\Loader::includeModule('iblock');
+
+            $treeBuilder = new \Kocmo\Exchange\Tree\Property();
+            parent::__construct($treeBuilder, $catalogId);
+            $this->prepareProperties();
+
+            $res = \Bitrix\Iblock\PropertyTable::getList( ['filter' => ["IBLOCK_ID"=> $catalogId, "ACTIVE" => 'Y'] ] );
+
+            while( $fields = $res->fetch() ){
+                $this->issetProps[$fields['CODE']] = [
+                    "ID" => $fields['ID'],
+                    "CODE" => $fields['CODE'],
+                    "NAME" => $fields['NAME'],
+                    "PROPERTY_TYPE" => $fields['PROPERTY_TYPE'],
+                    "MULTIPLE" => $fields['MULTIPLE'],
+                ];
+            }
+        } catch(\Error $error){
+            //
+        }
+
     }
 
     private function prepareProperties(){
@@ -33,7 +53,7 @@ class Property extends Helper
         }
     }
 
-    public function updateProperty(){
+    public function update(){
 
         $ibp = new \CIBlockProperty;
 
@@ -43,17 +63,24 @@ class Property extends Helper
 
                 $ibp->Add( $arFields );
             }
+            else{
+                //свойство есть, возможно стоит его обновить
+            }
         }
        return true;
     }
 
     protected function checkProp($code){
-
-        if( !is_string($code)){
-            return false;
-        }
-        $res = \CIBlockProperty::GetList([], ["IBLOCK_ID"=>$this->catalogId, "CODE" => $code]);
-        if( $fields = $res->fetch() ){
+//old core
+//        if( !is_string($code)){
+//            return false;
+//        }
+//        $res = \CIBlockProperty::GetList([], ["IBLOCK_ID"=>$this->catalogId, "CODE" => $code]);
+//        if( $fields = $res->fetch() ){
+//            return true;
+//        }
+//        return false;
+        if(isset($this->issetProps[$code])){
             return true;
         }
         return false;

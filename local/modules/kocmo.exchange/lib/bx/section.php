@@ -28,7 +28,7 @@ class Section extends Helper
         parent::__construct($treeBuilder, $catalogId);
     }
 
-    public function createStruct()
+    public function update()
     {
 
         /** @var \Kocmo\Exchange\Tree\Section $this->treeBuilder*/

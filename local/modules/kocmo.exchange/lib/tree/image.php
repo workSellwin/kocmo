@@ -7,9 +7,8 @@ namespace Kocmo\Exchange\Tree;
 class Image extends Builder
 {
     
-    const GET_IMAGE_URI = 'http://kocmo1c.sellwin.by/Kosmo_Sergey/hs/Kocmo/GetImage/';
-
-    protected $tempJsonFileName = '/upload/tempImage.json';
+    //const GET_IMAGE_URI = 'http://kocmo1c.sellwin.by/Kosmo_Sergey/hs/Kocmo/GetImage/';
+    //protected $tempJsonFileName = '/upload/tempImage.json';
 
     protected $allowedFields = [
         'UID', 'ФайлКартинки'
@@ -18,7 +17,7 @@ class Image extends Builder
     function __construct()
     {
         parent::__construct();
-        $this->tempJsonPath = $_SERVER['DOCUMENT_ROOT'] . $this->tempJsonFileName;
+        //$this->tempJsonPath = $_SERVER['DOCUMENT_ROOT'] . $this->tempJsonFileName;
     }
 
     public function fillInOutputArr()
