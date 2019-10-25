@@ -3,7 +3,6 @@
 
 namespace Kocmo\Exchange\Bx;
 
-
 class Property extends Helper
 {
     protected $prepareProperties = [];
@@ -72,15 +71,18 @@ class Property extends Helper
 
             if( !$this->checkProp($key) ){
 
-                $arFields = $this->getDefaultArFields( $value );
+                try {
+                    $arFields = $this->getDefaultArFields($value);
+                    $result = \Bitrix\Iblock\PropertyTable::add($arFields);
 
-                $result = \Bitrix\Iblock\PropertyTable::add( $arFields );
+                    if ($result->isSuccess()) {
 
-                if( $result->isSuccess() ){
-
-                    if( $arFields["PROPERTY_TYPE"] == 'L' ){
-                        $this->updateEnum($arFields["XML_ID"], $result->getId());
+                        if ($arFields["PROPERTY_TYPE"] == 'L') {
+                            $this->addEnum($arFields["XML_ID"], $result->getId());
+                        }
                     }
+                } catch (\Exception $e){
+
                 }
             }
             else{
@@ -124,11 +126,13 @@ class Property extends Helper
 
     }
 
-    public function updateEnum($xml_id, $propId){
+    protected function addEnum($xml_id, $propId){
 
         $arEnum = $this->treeBuilder->getEnum($xml_id);
 
         if( count($arEnum)){
+
+            //$this->addEnumInDb($xml_id, $arEnum);
             $ibpenum = new \CIBlockPropertyEnum;
 
             foreach ($arEnum as $enum){
@@ -141,5 +145,43 @@ class Property extends Helper
                 }
             }
         }
+    }
+
+    protected function addEnumInDb($xml_id, $arEnum){
+
+        if( !is_array($arEnum) ){
+            return false;
+        }
+        try {
+            $result = \Kocmo\Exchange\PropsTable::add([
+                "UID" => $xml_id,
+                "JSON" => json_encode($arEnum),
+            ]);
+        }catch(\Exception $e){
+
+        }
+        return true;
+    }
+
+    protected function updateEnumInDb($xml_id, $arEnum){
+
+        if( !is_array($arEnum) ){
+            return false;
+        }
+        try {
+            $res = \Kocmo\Exchange\PropsTable::getlist(["limit" => 1, "filter" => ["UID" => $xml_id]]);
+
+            if($row = $res->fetch() ){
+
+                $result = \Kocmo\Exchange\PropsTable::update($row["ID"], [
+                    "UID" => $xml_id,
+                    "JSON" => json_encode($arEnum),
+                ]);
+            }
+
+        }catch(\Exception $e){
+
+        }
+        return true;
     }
 }

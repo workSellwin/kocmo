@@ -83,8 +83,10 @@ elseif($step == 20){
     }
 }
 elseif($step == 30){
+
     $bx = new Bx\Product(CATALOG_ID);
     $result = $bx->addProductsFromDb();
+
     if( $result === true || true){
         header('Location: ' . $uri . '?step=40');
         exit;

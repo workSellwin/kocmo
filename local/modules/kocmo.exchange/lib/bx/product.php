@@ -13,6 +13,7 @@ class Product extends Helper
 {
     private $productMatchXmlId = [];
     protected $arProperty = [];
+    protected $arEnumMatch = [];
     protected $defaultLimit = 1000;
 
     /**
@@ -62,7 +63,7 @@ class Product extends Helper
         $oElement = new \CIBlockElement();
         $this->setMatchXmlId();
 
-        foreach ($this->getTempDataGen() as $row){
+        foreach ($this->productsGenerator() as $row){
 
             $detailPic = $row['DETAIL_PICTURE'];
             unset($row['DETAIL_PICTURE']);
@@ -72,10 +73,11 @@ class Product extends Helper
             if( $id > 0 && $this->checkRef($detailPic)) {
 
                 try {
-
                     \Kocmo\Exchange\ProductImageTable::add(["IMG_GUI" => $detailPic, "PRODUCT_ID" => $id]);
                 } catch (\Bitrix\Main\DB\SqlQueryException $e) {
                     //например попытка добавить с не уникальным IMG_GUI
+                } catch (\Exception $e) {
+
                 }
             }
         }
@@ -141,14 +143,16 @@ class Product extends Helper
         }
     }
 
-    public function getTempDataGen(){
+    public function productsGenerator(){
 
         $iterator = \Kocmo\Exchange\DataTable::getList(['limit' => $this->defaultLimit]);
+
         $sectionsMatch = $this->getAllSectionsXmlId();
+        $this->setEnumMatch();
 
         while($row = $iterator->fetch() ){
-            $row = json_decode($row['JSON'], true);
 
+            $row = json_decode($row['JSON'], true);
             $props = [];
 
             if (count($row[$this->arParams['PROPERTIES']])) {
@@ -157,11 +161,19 @@ class Product extends Helper
 
                     $code = $this->getPropertyCode($key);
 
-                    if ($this->checkRef($prop) ) {
-                        $value = $this->getFromReferenceBook($key, $prop, $code);
+                    if ($this->checkRef($prop) && isset($this->arEnumMatch[$prop]) ) {
+                        $value = $this->arEnumMatch[$prop];//$this->getFromReferenceBook($key, $prop, $code);
                     }
                     elseif(is_array($prop)) {
 
+                        $value = [];
+
+                        foreach($prop as $v){
+
+                            if(isset($this->arEnumMatch[$v])){
+                                $value[] = $this->arEnumMatch[$v];
+                            }
+                        }
                     }
                     else {
                         $value = $prop;
@@ -170,7 +182,6 @@ class Product extends Helper
                     $props[$code] = $value;
                 }
             }
-
             $arFields = array(
                 "ACTIVE" => "Y",
                 "IBLOCK_ID" => $this->catalogId,
@@ -184,6 +195,15 @@ class Product extends Helper
             );
 
             yield $arFields;
+        }
+    }
+
+    protected function setEnumMatch(){
+
+        $property_enums = \CIBlockPropertyEnum::GetList([], ["IBLOCK_ID" => $this->catalogId]);
+
+        while($enum_fields = $property_enums->GetNext()){
+            $this->arEnumMatch[$enum_fields['XML_ID']] = $enum_fields['ID'];
         }
     }
 
@@ -220,18 +240,15 @@ class Product extends Helper
         }
 
         $prod = $this->getProductFromIblock($arFields["XML_ID"]);
-
         $id = 0;
 
         if ($prod === false) {
-            //$arFields['IBLOCK_SECTION_ID'] = 2;//пока нет разделов
-           // unset($arFields['PROPERTY_VALUES'], $arFields['DETAIL_PICTURE']);
+
             $id = $oElement->Add($arFields);
 //            if(!$id){
 //                echo "Error: ".$oElement->LAST_ERROR;
 //            }
-            //pr($arFields);
-           // pr($id);
+
             Catalog\Model\Product::add(array('fields' => ['ID' => $id]));//add to b_catalog_product
         } else {
             if( $oElement->Update($prod, $arFields) ){
