@@ -15,22 +15,21 @@ namespace Kocmo\Exchange\Bx;
  */
 class Section extends Helper
 {
-    private $conformityHash = [];
+    private $conformityHash = [];//xml_id => id
 
     /**
      * BxSection constructor.
-     * @param \Kocmo\Exchange\Tree\Section $treeBuilder
      * @param $catalogId
      */
     public function __construct($catalogId)
     {
+        /** @var \Kocmo\Exchange\Tree\Section $this->treeBuilder*/
         $treeBuilder = new \Kocmo\Exchange\Tree\Section();
         parent::__construct($treeBuilder, $catalogId);
     }
 
     public function update()
     {
-
         /** @var \Kocmo\Exchange\Tree\Section $this->treeBuilder*/
 
         if (is_array( $this->treeBuilder->getTree() )) {
@@ -73,7 +72,7 @@ class Section extends Helper
     {
 
         $arFields = $this->prepareFields($arFieldsFrom1C);
-        //echo '<pre>' . print_r($arFieldsFrom1C, true) . '</pre>';
+
         if ($arFields == false) {
             throw new \Error("arFields incorrect");
         }

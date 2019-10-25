@@ -7,7 +7,8 @@ namespace Kocmo\Exchange\Bx;
 class Property extends Helper
 {
     protected $prepareProperties = [];
-    protected $issetProps = [];
+    protected $props = [];
+    protected $propsEnum = [];
 
     public function __construct($catalogId)
     {
@@ -21,13 +22,21 @@ class Property extends Helper
             $res = \Bitrix\Iblock\PropertyTable::getList( ['filter' => ["IBLOCK_ID"=> $catalogId, "ACTIVE" => 'Y'] ] );
 
             while( $fields = $res->fetch() ){
-                $this->issetProps[$fields['CODE']] = [
+                $this->props[$fields['CODE']] = [
                     "ID" => $fields['ID'],
                     "CODE" => $fields['CODE'],
                     "NAME" => $fields['NAME'],
                     "PROPERTY_TYPE" => $fields['PROPERTY_TYPE'],
                     "MULTIPLE" => $fields['MULTIPLE'],
                 ];
+            }
+
+            $property_enums = \CIBlockPropertyEnum::GetList([], Array("IBLOCK_ID" => $catalogId));
+
+            while($enum_fields = $property_enums->GetNext()){
+                if($this->checkRef($enum_fields['XML_ID'])) {
+                    $this->propsEnum[$enum_fields['XML_ID']] = $enum_fields;
+                }
             }
         } catch(\Error $error){
             //
@@ -47,21 +56,32 @@ class Property extends Helper
 
                 $code = $this->getPropertyCode($item['NAME']);
                 $item["CODE"] = $code;
+                $item["XML_ID"] = $item["EXTERNAL_ID"] = $item['UID'];
+                unset($item['UID']);
+
                 $props[$code] = $item;
             }
+            //pr($props);die();
             $this->prepareProperties = $props;
         }
     }
 
     public function update(){
 
-        $ibp = new \CIBlockProperty;
-
         foreach( $this->prepareProperties as $key => $value ){
+
             if( !$this->checkProp($key) ){
+
                 $arFields = $this->getDefaultArFields( $value );
 
-                $ibp->Add( $arFields );
+                $result = \Bitrix\Iblock\PropertyTable::add( $arFields );
+
+                if( $result->isSuccess() ){
+
+                    if( $arFields["PROPERTY_TYPE"] == 'L' ){
+                        $this->updateEnum($arFields["XML_ID"], $result->getId());
+                    }
+                }
             }
             else{
                 //свойство есть, возможно стоит его обновить
@@ -80,7 +100,7 @@ class Property extends Helper
 //            return true;
 //        }
 //        return false;
-        if(isset($this->issetProps[$code])){
+        if(isset($this->props[$code])){
             return true;
         }
         return false;
@@ -92,12 +112,34 @@ class Property extends Helper
             "ACTIVE" => "Y",
             "SORT" => "500",
             "CODE" => $options['CODE'],
+            "XML_ID" => $options['XML_ID'],
             "PROPERTY_TYPE" => $options['PROPERTY_TYPE'],
-            //"USER_TYPE" => "directory",
             "IBLOCK_ID" => $this->catalogId,//номер вашего инфоблока
             //"LIST_TYPE" => "L",
             "MULTIPLE" => $options['MULTIPLE'] == "Y" ? "Y" : "N",
-            //"USER_TYPE_SETTINGS" => array("size"=>"1", "width"=>"0", "group"=>"N", "multiple"=>"N", "TABLE_NAME"=>"b_producers")
         ];
+    }
+
+    protected function fillPropertyList(){
+
+    }
+
+    public function updateEnum($xml_id, $propId){
+
+        $arEnum = $this->treeBuilder->getEnum($xml_id);
+
+        if( count($arEnum)){
+            $ibpenum = new \CIBlockPropertyEnum;
+
+            foreach ($arEnum as $enum){
+                if( !isset($this->propsEnum[$enum[$this->arParams['ID']]]) ){
+                    $enumId = $ibpenum->Add([
+                        'PROPERTY_ID' => $propId,
+                        'VALUE' => $enum[$this->arParams['NAME']],
+                        "XML_ID" => $enum[$this->arParams['ID']]
+                    ]);
+                }
+            }
+        }
     }
 }

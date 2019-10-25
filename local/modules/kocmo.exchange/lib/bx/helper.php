@@ -52,6 +52,8 @@ abstract class Helper
             }
             $this->treeBuilder = $treeBuilder;
 
+        } catch(\Bitrix\Main\LoaderException $e) {
+
         } catch(\Error $e) {
             $error[] = $e;
         }

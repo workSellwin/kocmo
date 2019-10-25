@@ -27,15 +27,14 @@ class Property extends Product
     public function fillInOutputArr(){
 
         $this->send($this->arParams['PROP_POINT_OF_ENTRY']);
-
         $properties = [];
-        //echo '<pre>', print_r($this->outputArr, true), '</pre>';
+
         foreach( $this->outputArr as $item ){
 
             if( $item[$this->languageConstants['IS_PROP']] == $this->languageConstants['YES'] ){
 
                 $prop = [
-                    //'UID' => $item[$this->languageConstants['UID']],
+                    'UID' => $item[$this->languageConstants['UID']],
                     'NAME' => $item[$this->languageConstants['NAME']]
                 ];
 
@@ -62,5 +61,19 @@ class Property extends Product
             }
         }
         $this->outputArr = $properties;
+    }
+
+    public function getEnum($xml_id){
+
+        $client = new \GuzzleHttp\Client();
+        $response = $client->request('GET', $this->arParams['REFERENCE_URL'] . $xml_id);
+
+        if ($response->getStatusCode() == 200) {
+
+            $outputArr = json_decode($response->getBody(), true);
+        } else {
+            throw new \Error("error: status: " . $response->getStatusCode());
+        }
+        return $outputArr;
     }
 }

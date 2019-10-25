@@ -23,10 +23,12 @@ require_once($_SERVER["DOCUMENT_ROOT"]."/bitrix/modules/main/include/prolog_befo
 define('CATALOG_ID', 6);
 define('PRODUCT_PART', 500);
 
+use Bitrix\Main\Context;
 use Kocmo\Exchange;
 use Kocmo\Exchange\Bx;
 
-$uri = $_SERVER['SCRIPT_URI'];
+$request = Bitrix\Main\Context::getCurrent()->getRequest();
+$uri = $request->getRequestedPage();
 
 if( empty($_GET['step']) ){
     $step = 0;
@@ -58,37 +60,37 @@ elseif($step == 10){
         exit;
     }
 }
-//elseif($step == 20){
-//    $bx = new Bx\Product(CATALOG_ID);
-//    $result = $bx->addProductsInDb();
-//
-//    if( $result === true){
-//        header('Location: ' . $uri . '?step=30');
-//        exit;
-//    }
-//    elseif(is_string($result)){
-//        header('Location: ' . $uri . '?step=20&item=' . $result . '&count=' . PRODUCT_PART);
-//        exit;
-//    }
-//    else{
-//        die("On $step - error");
-//    }
-//}
-elseif($step == 30){
+elseif($step == 20){
     $bx = new Bx\Product(CATALOG_ID);
-    $result = $bx->addProductsFromDb();
-    if( $result === true ){
-        header('Location: ' . $uri . '?step=40');
+    $result = $bx->addProductsInDb();
+
+    if( $result === true || true){
+        header('Location: ' . $uri . '?step=30');
         exit;
     }
     elseif(is_string($result)){
-        header('Location: ' . $uri . '?step=30&item=' . $result . "&count=500");
+        header('Location: ' . $uri . '?step=20&item=' . $result . '&count=' . PRODUCT_PART);
         exit;
     }
     else{
         die("On $step - error");
     }
 }
+//elseif($step == 30){
+//    $bx = new Bx\Product(CATALOG_ID);
+//    $result = $bx->addProductsFromDb();
+//    if( $result === true || true){
+//        header('Location: ' . $uri . '?step=40');
+//        exit;
+//    }
+//    elseif(is_string($result)){
+//        header('Location: ' . $uri . '?step=30&item=' . $result . "&count=500");
+//        exit;
+//    }
+//    else{
+//        die("On $step - error");
+//    }
+//}
 //elseif($step == 40){
 //    $bx = new Bx\Image(CATALOG_ID);
 //

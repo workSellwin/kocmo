@@ -13,6 +13,7 @@ class Product extends Helper
 {
     private $productMatchXmlId = [];
     protected $arProperty = [];
+    protected $defaultLimit = 1000;
     //private $sectionMatchXmlId = [];
     //private $exportEnd = false;
 
@@ -74,7 +75,7 @@ class Product extends Helper
 
             $id = $this->addProduct($row, $oElement);
 
-            if( $id > 0 && $this->checkRef($row['DETAIL_PICTURE'])) {
+            if( $id > 0 && $this->checkRef($detailPic)) {
 
                 try {
 
@@ -173,7 +174,7 @@ class Product extends Helper
 
     public function getTempDataGen(){
 
-        $iterator = \Kocmo\Exchange\DataTable::getList(['limit'=>1000]);
+        $iterator = \Kocmo\Exchange\DataTable::getList(['limit' => 1000]);
         $sectionsMatch = $this->getAllSectionsXmlId();
 
         while($row = $iterator->fetch() ){
