@@ -3,17 +3,16 @@ namespace Kocmo\Exchange\Tree;
 
 abstract class Builder
 {
-
     protected $arParams = [];
-    protected $tempJsonPath = false;
+    protected $strReqParams = false;
     protected $tree = [];
     protected $outputArr = [];
-    protected $allowedGetParams = [
-        'count', 'item'
-    ];
+    protected $allowedGetParams = [];
+    protected $defaultGetParams = [];
 
     protected $referenceBooks = [];
     protected $startOffset = 0;
+
 
     function __construct()
     {
@@ -22,9 +21,33 @@ abstract class Builder
 
     protected function setParams(){
 
-        $arParam = require $GLOBALS['kocmo.exchange.config-path'];
-        $dir = end( explode('/', __DIR__) );
-        $this->arParams = $arParam[$dir];
+        if(!empty($GLOBALS['kocmo.exchange.config-path'])) {
+
+            $arParam = require $GLOBALS['kocmo.exchange.config-path'];
+            $dir = end(explode('/', __DIR__));
+            $this->arParams = $arParam[$dir];
+        }
+
+        if(count($_GET)) {
+            $get = $_GET;
+
+            if( count($this->defaultGetParams) ){
+                foreach( $this->defaultGetParams as $key => $dp){
+                    if( empty($get[$key]) ){
+                        $get[$key] = $dp;
+                    }
+                }
+            }
+            $getParamsStr = "";
+
+            foreach ($get as $key => $param) {
+                if (in_array($key, $this->allowedGetParams)) {
+                    $getParamsStr .= $key . '=' . $param . '&';
+                }
+            }
+
+            $this->strReqParams = $getParamsStr;
+        }
     }
 
     abstract public function fillInOutputArr();
@@ -76,6 +99,16 @@ abstract class Builder
             return false;
         } else {
             return false;
+        }
+    }
+
+    protected function getReqParams(){
+
+        if(empty($this->strReqParams)){
+            return "";
+        }
+        else{
+            return $this->strReqParams;
         }
     }
 }

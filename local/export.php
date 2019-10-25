@@ -64,33 +64,39 @@ elseif($step == 20){
     $bx = new Bx\Product(CATALOG_ID);
     $result = $bx->addProductsInDb();
 
+//    if(count($bx->getErrors())){
+//        pr($bx->getErrors());
+//        die();
+//    }
+
     if( $result === true || true){
         header('Location: ' . $uri . '?step=30');
         exit;
     }
     elseif(is_string($result)){
-        header('Location: ' . $uri . '?step=20&item=' . $result . '&count=' . PRODUCT_PART);
+        sleep(1);
+        header('Location: ' . $uri . '?step=20&item=' . $result);
         exit;
     }
     else{
         die("On $step - error");
     }
 }
-//elseif($step == 30){
-//    $bx = new Bx\Product(CATALOG_ID);
-//    $result = $bx->addProductsFromDb();
-//    if( $result === true || true){
-//        header('Location: ' . $uri . '?step=40');
-//        exit;
-//    }
-//    elseif(is_string($result)){
-//        header('Location: ' . $uri . '?step=30&item=' . $result . "&count=500");
-//        exit;
-//    }
-//    else{
-//        die("On $step - error");
-//    }
-//}
+elseif($step == 30){
+    $bx = new Bx\Product(CATALOG_ID);
+    $result = $bx->addProductsFromDb();
+    if( $result === true || true){
+        header('Location: ' . $uri . '?step=40');
+        exit;
+    }
+    elseif(is_string($result)){
+        header('Location: ' . $uri . '?step=30&item=' . $result . "&count=500");
+        exit;
+    }
+    else{
+        die("On $step - error");
+    }
+}
 //elseif($step == 40){
 //    $bx = new Bx\Image(CATALOG_ID);
 //

@@ -6,57 +6,42 @@ namespace Kocmo\Exchange\Tree;
 
 class Product extends Builder
 {
-    protected $conformity = [];
     protected $conformityName = [];
     protected $arProperty = [];
+    protected $allowedGetParams = ['count', 'item'];
+    protected $defaultGetParams = ['count' => 500];
 
     function __construct()
     {
         parent::__construct();
     }
 
-    public function fillInOutputArr(){
+    public function fillInOutputArr(){//?
 
-        $getParamsStr = "";
-
-        foreach ($_GET as $key => $param) {
-            if (in_array($key, $this->allowedGetParams)) {
-                $getParamsStr .= $key . '=' . $param . '&';
-            }
-        }
-
-        $this->send($this->arParams['PROD_POINT_OF_ENTRY'] . '?' . $getParamsStr);
+        $getParamsStr = '?' . $this->getReqParams();
+        $this->send($this->arParams['PROD_POINT_OF_ENTRY'] . $getParamsStr);
     }
 
-    public function send2()
+    public function getProductsFromReq()
     {
-        $propsArr = $this->send4();
+        $arProps = $this->getPropsFromReq();
 
-        foreach($propsArr as $prop){
-            //$uid = $prop['UID'];
-            //unset($prop['UID']);
+        foreach($arProps as $prop){
+
             $guiMatch = $this->getStrFromGuid($prop['UID']);
             $this->arProperty[$guiMatch] = $prop;
         }
-        //pr($this->arProperty);die();
 
-        $getParamsStr = "?";
-
-        foreach( $_GET as $key => $param){
-            if( in_array($key, $this->allowedGetParams) ){
-                $getParamsStr .= $key . '=' . $param . '&';
-            }
-        }
-
+        $getParamsStr =  '?' . $this->getReqParams();
         $client = new \GuzzleHttp\Client();
         $response = $client->request('GET', $this->arParams['PROD_POINT_OF_ENTRY'] . $getParamsStr);
-        $arrForDb = [];
+        $arForDb = [];
 
         if ($response->getStatusCode() == 200) {
 
-            $outArr = json_decode($response->getBody(), true);
+            $arProducts = json_decode($response->getBody(), true);
 
-            foreach( $outArr as $key => $item ){
+            foreach( $arProducts as $key => $item ){
 
                 $prepareItem = [];
 
@@ -76,8 +61,8 @@ class Product extends Builder
 
                         $tempProps = [];
 
-                        foreach ($v as $k1 => $v1){
-                            $tempProps[ $this->arProperty[$k1][$this->arParams['NAME']] ] = $v1;
+                        foreach ($v as $propGui => $propVal){
+                            $tempProps[ $this->arProperty[$propGui][$this->arParams['NAME']] ] = $propVal;
                         }
                         $prepareItem[ $g_uid ] = $tempProps;
                     }
@@ -86,19 +71,19 @@ class Product extends Builder
                     }
                 }
 
-                $arrForDb[$prepareItem['UID']]['JSON'] = json_encode($prepareItem);
-                $arrForDb[$prepareItem['UID']]["IMG_GUI"] = $prepareItem[$this->arParams['PIC_FILE']];
-                $outArr[$key] = null;
+                $arForDb[$prepareItem['UID']]['JSON'] = json_encode($prepareItem);
+                $arForDb[$prepareItem['UID']]["IMG_GUI"] = $prepareItem[$this->arParams['PIC_FILE']];
+                $arProducts[$key] = null;
             }
 
         } else {
             throw new \Error("error: status: " . $response->getStatusCode());
         }
 
-       return count($arrForDb) ? $arrForDb : false;
+       return count($arForDb) ? $arForDb : false;
     }
 
-    public function send4()
+    public function getPropsFromReq()
     {
         $client = new \GuzzleHttp\Client();
 
@@ -106,74 +91,16 @@ class Product extends Builder
 
         if ($response->getStatusCode() == 200) {
 
-            $outputArr = json_decode($response->getBody(), true);
+            $arProps = json_decode($response->getBody(), true);
         } else {
             throw new \Error("error: status: " . $response->getStatusCode());
         }
-        return $outputArr;
+        return $arProps;
     }
 
     protected function getRefVal( $propGui, $valGui ){
         return "";
     }
-
-    public function send3(){
-        $client = new \GuzzleHttp\Client();
-        $response = $client->request('GET', 'http://kocmo1c.sellwin.by/Kosmo_Sergey/hs/Kocmo/GetCatalog');
-        $arrForDb = [];
-
-        if ($response->getStatusCode() == 200) {
-
-            $outArr = json_decode($response->getBody(), true);
-            //$firstIter = true;
-
-            foreach( $outArr as $key => $item ){
-
-                //if($firstIter) {
-                    $prepareItem = [];
-
-                    foreach ($item as $k => $v) {
-
-                        $arItem = $this->getConformity($k, $v);
-
-//                        if (!empty($arItem['VALUE']) && !isset($this->conformityName[$arItem['VALUE']]) ) {
-//                            $this->conformityName[$arItem['VALUE']] = $k;
-//                        }
-                    }
-                    //$firstIter = false;
-                //}
-
-                $arrForDb[$item['UID']]['JSON'] = json_encode($item);
-                $arrForDb[$item['UID']]["IMG_GUI"] = $item[ $this->conformity[$this->arParams['PIC_FILE']] ];
-                $outArr[$key] = null;
-            }
-        } else {
-            throw new \Error("error: status: " . $response->getStatusCode());
-        }
-    }
-
-    private function getConformity($k, $v){
-
-        if( isset($this->conformity[$k]) && !empty($this->conformity[$k][$v]) ) {
-            return $this->conformity[$k][$v];
-        }
-        else{
-            $client = new \GuzzleHttp\Client();
-            $response = $client->request('GET', '/' . $k);
-            if ($response->getStatusCode() == 200) {
-                $arOut = json_decode($response->getBody(), true);
-                if(count($arOut)){
-                    $this->conformity[$k] = $arOut;
-                    if( !empty($this->conformity[$k][$v]) ) {
-                        return $this->conformity[$k][$v];
-                    }
-                }
-            }
-        }
-
-        return false;
-    }
-
 
     public function getProductParentsXmlId(){
 

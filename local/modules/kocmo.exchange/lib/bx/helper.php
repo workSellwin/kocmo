@@ -10,22 +10,13 @@ namespace Kocmo\Exchange\Bx;
 
 abstract class Helper
 {
-//    const TIME_LIMIT = 50;
-//    const PARENT_ID = 'Родитель';
-//    const ID = "UID";
-//    const NAME = "Наименование";
-//    const CHILDREN = 'CHILDREN';
-//    const DEPTH_LEVEL = 'DEPTH_LEVEL';
-//    const FULL_NAME = "НаименованиеПолное";
-//    const PROPERTIES = "Свойства";
-//    const DESCRIPTION = 'Описание';
-
     protected $arParams = [];
     protected $treeBuilder = null;
-    protected $error = [];
+    protected $errors = [];
     protected $catalogId = false;
     protected $startTimestamp = false;
     protected $finishTimestamp = false;
+    protected $timeLimit = 60;
 
     /**
      * Helper constructor.
@@ -88,7 +79,7 @@ abstract class Helper
             return false;
         }
 
-        $res = CFile::GetList([], ["EXTERNAL_ID" => $externalId]);
+        $res = \CFile::GetList([], ["EXTERNAL_ID" => $externalId]);
 
         if( $fields = $res->fetch() ){
             return $fields;
@@ -99,9 +90,9 @@ abstract class Helper
     /**
      * @return array
      */
-    public function getError()
+    public function getErrors()
     {
-        return $this->error;
+        return $this->errors;
     }
 
     protected function getPropertyCode($outCode)
@@ -120,5 +111,19 @@ abstract class Helper
         }
 
         return \CUtil::translit($newStr, 'ru', ['change_case' => 'U']);
+    }
+
+    protected function checkTime(){
+
+        $time = time();
+        $t = $time - $this->startTimestamp;
+
+        if( $t > $this->timeLimit ){
+            $this->finishTimestamp = $time;
+            return true;
+        }
+        else{
+            return false;
+        }
     }
 }

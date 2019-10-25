@@ -6,30 +6,20 @@ namespace Kocmo\Exchange\Tree;
 
 class Section extends Builder
 {
-
-    protected $tempJsonFileName = '/upload/tempSection.json';
-
     function __construct()
     {
-
         parent::__construct();
     }
 
     public function fillInOutputArr()
     {
-            $getParamsStr = "";
 
-            foreach ($_GET as $key => $param) {
-                if (in_array($key, $this->allowedGetParams)) {
-                    $getParamsStr .= $key . '=' . $param . '&';
-                }
-            }
-
-        $this->send($this->arParams['SECT_POINT_OF_ENTRY'] . '?' . $getParamsStr);
+        $this->send($this->arParams['SECT_POINT_OF_ENTRY']);
 
         $tempArr = [];
 
         foreach ($this->outputArr as $key => $item) {
+
             if (is_array($item[$this->arParams['PARENT_ID']]) && count($item[$this->arParams['PARENT_ID']])) {
                 foreach ($item[$this->arParams['PARENT_ID']] as $parentId) {
                     $temp = $item;

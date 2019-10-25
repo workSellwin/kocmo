@@ -14,12 +14,9 @@ class Product extends Helper
     private $productMatchXmlId = [];
     protected $arProperty = [];
     protected $defaultLimit = 1000;
-    //private $sectionMatchXmlId = [];
-    //private $exportEnd = false;
 
     /**
      * BxProduct constructor.
-     * @param \Kocmo\Exchange\Tree\Builder $treeBuilder
      * @param $catalogId
      */
     public function __construct($catalogId)
@@ -27,33 +24,30 @@ class Product extends Helper
         $treeBuilder = new \Kocmo\Exchange\Tree\Product();
         parent::__construct($treeBuilder, $catalogId);
         unset($treeBuilder);
-//        $propsArr = $this->treeBuilder->send4();
-//
-//        foreach($propsArr as $prop){
-//            //$uid = $prop['UID'];
-//            //unset($prop['UID']);
-//            $guiMatch = $this->treeBuilder->getStrFromGuid($prop['UID']);
-//            $this->arProperty[$guiMatch] = $prop;
-//        }
-        //pr($this->arProperty);
     }
 
     public function addProductsInDb(){
 
-        $arrForDb = $this->treeBuilder->send2();
+        $this->startTimestamp = time();
+        $arForDb = $this->treeBuilder->getProductsFromReq();
         $lastUid = true;
 
-        if( is_array($arrForDb) && count($arrForDb) ) {
-            foreach ($this->prepareFieldsGen($arrForDb) as $item) {
+        if( is_array($arForDb) && count($arForDb) ) {
+            foreach ($this->prepareFieldsGen($arForDb) as $item) {
+
+                if($this->checkTime()){
+                    return $lastUid;
+                }
 
                 try{
                     $result = \Kocmo\Exchange\DataTable::add($item);
-//                    if(!$result->isSuccess()){
-//                        pr($result);
-//                    }
-                    $lastUid = $item["UID"];
+
+                    if($result->isSuccess()){
+                        $lastUid = $item["UID"];
+                    }
                 } catch ( \Bitrix\Main\DB\SqlQueryException $e ){
                     //например попытка добавить с не уникальным UID
+                    $this->errors[] = $e->getMessage();
                 }
             }
         }
@@ -144,37 +138,12 @@ class Product extends Helper
             $row = $arFields;
 
             $id = $this->addProduct($row, $oElement);
-
-//            if( $id > 0 && $this->checkRef($row['DETAIL_PICTURE'])) {
-//
-//                try {
-//
-//                    \Kocmo\Exchange\ProductImageTable::add(["IMG_GUI" => $row['DETAIL_PICTURE'], "PRODUCT_ID" => $id]);
-//                } catch (\Bitrix\Main\DB\SqlQueryException $e) {
-//                    //например попытка добавить с не уникальным IMG_GUI
-//                }
-//            }
         }
-
-//        foreach ($this->getTempDataGen() as $row){
-//
-//            $id = $this->addProduct($row, $oElement);
-//
-//            if( $id > 0 && $this->checkRef($row['DETAIL_PICTURE'])) {
-//
-//                try {
-//
-//                    \Kocmo\Exchange\ProductImageTable::add(["IMG_GUI" => $row['DETAIL_PICTURE'], "PRODUCT_ID" => $id]);
-//                } catch (\Bitrix\Main\DB\SqlQueryException $e) {
-//                    //например попытка добавить с не уникальным IMG_GUI
-//                }
-//            }
-//        }
     }
 
     public function getTempDataGen(){
 
-        $iterator = \Kocmo\Exchange\DataTable::getList(['limit' => 1000]);
+        $iterator = \Kocmo\Exchange\DataTable::getList(['limit' => $this->defaultLimit]);
         $sectionsMatch = $this->getAllSectionsXmlId();
 
         while($row = $iterator->fetch() ){
@@ -188,11 +157,15 @@ class Product extends Helper
 
                     $code = $this->getPropertyCode($key);
 
-//                    if ($this->checkRef($prop) || is_array($prop) ) {
-//                        $value = $this->getFromReferenceBook($key, $prop, $code);
-//                    } else {
+                    if ($this->checkRef($prop) ) {
+                        $value = $this->getFromReferenceBook($key, $prop, $code);
+                    }
+                    elseif(is_array($prop)) {
+
+                    }
+                    else {
                         $value = $prop;
-                    //}
+                    }
 
                     $props[$code] = $value;
                 }
