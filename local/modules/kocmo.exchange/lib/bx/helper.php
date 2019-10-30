@@ -95,7 +95,7 @@ abstract class Helper
         return $this->errors;
     }
 
-    protected function getPropertyCode($outCode)
+    protected function getCode($outCode)
     {
 
         $newStr = "";

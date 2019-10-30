@@ -50,7 +50,9 @@ abstract class Builder
         }
     }
 
-    abstract public function fillInOutputArr();
+    public function fillInOutputArr(){
+        $this->send($this->arParams['STORE_ENTRY']);
+    }
 
     /**
      * @return array|bool

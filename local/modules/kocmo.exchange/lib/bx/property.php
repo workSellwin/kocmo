@@ -53,7 +53,7 @@ class Property extends Helper
 
             foreach ($reqArr as $item){
 
-                $code = $this->getPropertyCode($item['NAME']);
+                $code = $this->getCode($item['NAME']);
                 $item["CODE"] = $code;
                 $item["XML_ID"] = $item["EXTERNAL_ID"] = $item['UID'];
                 unset($item['UID']);

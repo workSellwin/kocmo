@@ -107,7 +107,7 @@ class Product extends Helper
 
                 foreach ($row[$this->arParams['PROPERTIES']] as $key => $prop) {
 
-                    $code = $this->getPropertyCode($key);
+                    $code = $this->getCode($key);
 
 //                    if ($this->checkRef($prop) || is_array($prop) ) {
 //                        $value = $this->getFromReferenceBook($key, $prop, $code);
@@ -159,7 +159,7 @@ class Product extends Helper
 
                 foreach ($row[$this->arParams['PROPERTIES']] as $key => $prop) {
 
-                    $code = $this->getPropertyCode($key);
+                    $code = $this->getCode($key);
 
                     if ($this->checkRef($prop) && isset($this->arEnumMatch[$prop]) ) {
                         $value = $this->arEnumMatch[$prop];//$this->getFromReferenceBook($key, $prop, $code);
