@@ -17,20 +17,20 @@ class Store extends Helper
 
         $stores = $this->getStore();
         $arReq = $this->treeBuilder->getRequestArr();
-pr($stores);
-pr($arReq);
+
         foreach ($arReq as $store) {
             if (!isset($stores[$store [$this->arParams['ID']]])) {
 
                 try {
-                    \Bitrix\Catalog\StoreTable::add([
-                        "TITLE" => $store [$this->arParams['NAME']],
+                    $w = \Bitrix\Catalog\StoreTable::add([
+                        "TITLE" => $store[$this->arParams['NAME']],
                         "CODE" => $this->getCode($store [$this->arParams['NAME']]),
-                        "XML_ID" => $store [$this->arParams['ID']],
-                        "ADDRESS" => $store [$this->arParams['ADDRESS']],
+                        "XML_ID" => $store[$this->arParams['ID']],
+                        "ADDRESS" => $store[$this->arParams['ADDRESS']],
                     ]);
+                    //pr($w->getErrors());
                 } catch (\Exception $e) {
-
+                    pr($e->getMessage());
                 }
             }
         }

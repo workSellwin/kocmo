@@ -9,10 +9,7 @@ class Typeprice extends Builder
     function __construct()
     {
         parent::__construct();
+        $this->entry = $this->arParams['TYPE_PRICE_ENTRY'];
         $this->fillInOutputArr();
-    }
-
-    public function fillInOutputArr(){
-        $this->send($this->arParams['TYPE_PRICE']);
     }
 }

@@ -9,7 +9,7 @@ abstract class Builder
     protected $outputArr = [];
     protected $allowedGetParams = [];
     protected $defaultGetParams = [];
-
+    protected $entry = false;
     protected $referenceBooks = [];
     protected $startOffset = 0;
 
@@ -51,7 +51,10 @@ abstract class Builder
     }
 
     public function fillInOutputArr(){
-        $this->send($this->arParams['STORE_ENTRY']);
+        if( !is_string($this->entry) ){
+            return false;
+        }
+        $this->send($this->entry);
     }
 
     /**
