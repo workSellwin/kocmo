@@ -12,6 +12,7 @@ class Rest extends Helper
 
     function __construct($catalogId)
     {
+        \Bitrix\Main\Loader::includeModule('catalog');
         $treeBuilder = new \Kocmo\Exchange\Tree\Rest();
         parent::__construct($treeBuilder, $catalogId);
     }
@@ -27,6 +28,8 @@ class Rest extends Helper
         foreach ($this->products as $id => $xml_id) {
 
             if( isset($arReq[$xml_id]) ){
+
+                $arTotalAmount = [];
 
                 foreach($arReq[$xml_id] as $storeXmlId => $amount ){
 
@@ -49,6 +52,14 @@ class Rest extends Helper
                             ]);
                         }
 
+                        if($result->isSuccess()) {
+
+                            if (isset($arTotalAmount[$id])) {
+                                $arTotalAmount[$id] += $amount;
+                            } else {
+                                $arTotalAmount[$id] = $amount;
+                            }
+                        }
                     } catch(\Bitrix\Main\DB\SqlQueryException $e){
                         //уже есть
                     } catch(\Exception $e){
@@ -56,25 +67,13 @@ class Rest extends Helper
                     }
 
                 }
+
+                foreach($arTotalAmount as $productId => $totalAmount){
+                    $this->updateAvailable($productId, $totalAmount);
+                }
             }
 
         }
-//        foreach ($arReq as $store) {
-//            if (!isset($stores[$store [$this->arParams['ID']]])) {
-//
-//                try {
-//                    $w = \Bitrix\Catalog\StoreTable::add([
-//                        "TITLE" => $store[$this->arParams['NAME']],
-//                        "CODE" => $this->getCode($store [$this->arParams['NAME']]),
-//                        "XML_ID" => $store[$this->arParams['ID']],
-//                        "ADDRESS" => $store[$this->arParams['ADDRESS']],
-//                    ]);
-//                    //pr($w->getErrors());
-//                } catch (\Exception $e) {
-//                    pr($e->getMessage());
-//                }
-//            }
-//        }
     }
 
     private function getStore(){
@@ -118,5 +117,11 @@ class Rest extends Helper
             //
         }
         return $storeProducts;
+    }
+
+    private function updateAvailable($id, $quantity){
+
+        $obProduct = new \CCatalogProduct();
+        return $obProduct->Update($id, ['QUANTITY' => $quantity]);
     }
 }

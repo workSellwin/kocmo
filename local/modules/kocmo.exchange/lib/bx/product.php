@@ -17,8 +17,9 @@ class Product extends Helper
     protected $defaultLimit = 1000;
 
     /**
-     * BxProduct constructor.
+     * Product constructor.
      * @param $catalogId
+     * @throws \Bitrix\Main\LoaderException
      */
     public function __construct($catalogId)
     {
@@ -31,6 +32,7 @@ class Product extends Helper
 
         $this->startTimestamp = time();
         $arForDb = $this->treeBuilder->getProductsFromReq();
+
         $lastUid = true;
 
         if( is_array($arForDb) && count($arForDb) ) {
@@ -51,11 +53,12 @@ class Product extends Helper
                     $this->errors[] = $e->getMessage();
                 }
             }
+            return $lastUid;
         }
         else{
             return $lastUid;
         }
-        return $lastUid;
+        return false;
     }
 
     public function addProductsFromDb()
@@ -162,7 +165,7 @@ class Product extends Helper
                     $code = $this->getCode($key);
 
                     if ($this->checkRef($prop) && isset($this->arEnumMatch[$prop]) ) {
-                        $value = $this->arEnumMatch[$prop];//$this->getFromReferenceBook($key, $prop, $code);
+                        $value = $this->arEnumMatch[$prop];
                     }
                     elseif(is_array($prop)) {
 
@@ -185,7 +188,8 @@ class Product extends Helper
             $arFields = array(
                 "ACTIVE" => "Y",
                 "IBLOCK_ID" => $this->catalogId,
-                "IBLOCK_SECTION_ID" => $sectionsMatch[$row[$this->arParams['PARENT_ID']]],
+                //"IBLOCK_SECTION_ID" => $sectionsMatch[$row[$this->arParams['PARENT_ID']][0]],
+                "IBLOCK_SECTION" => $sectionsMatch[$row[$this->arParams['PARENT_ID']]],
                 "XML_ID" => $row[$this->arParams['ID']],
                 "NAME" => $row[$this->arParams['FULL_NAME']],
                 "CODE" => \CUtil::translit($row[$this->arParams['NAME']], 'ru') . time(),

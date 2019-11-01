@@ -10,10 +10,22 @@ class Product extends Builder
     protected $arProperty = [];
     protected $allowedGetParams = ['count', 'item'];
     protected $defaultGetParams = ['count' => 500];
+    protected $pointOfEntry = false;
 
     function __construct()
     {
         parent::__construct();
+        $this->setPointOfEntry($this->arParams['PROD_POINT_OF_ENTRY']);
+    }
+
+    public function setPointOfEntry($url){
+
+        if(empty($url) || !is_string($url)){
+            return false;
+        }
+        $this->pointOfEntry = $url;
+
+        return true;
     }
 
     public function fillInOutputArr(){//?
@@ -24,6 +36,10 @@ class Product extends Builder
 
     public function getProductsFromReq()
     {
+        if(empty($this->pointOfEntry)){
+            return false;
+        }
+
         $arProps = $this->getPropsFromReq();
 
         foreach($arProps as $prop){
@@ -34,7 +50,7 @@ class Product extends Builder
 
         $getParamsStr =  '?' . $this->getReqParams();
         $client = new \GuzzleHttp\Client();
-        $response = $client->request('GET', $this->arParams['PROD_POINT_OF_ENTRY'] . $getParamsStr);
+        $response = $client->request('GET', $this->pointOfEntry . $getParamsStr);
         $arForDb = [];
 
         if ($response->getStatusCode() == 200) {
@@ -49,6 +65,9 @@ class Product extends Builder
 
                     if($k == $this->arParams['ID']){
                         $g_uid = $this->arParams['ID'];
+                    }
+                    elseif($k == $this->arParams['PARENT']){
+                        $g_uid = $this->arParams['PARENT'];
                     }
                     elseif($k == $this->arParams['PROPERTIES']){
                         $g_uid = $this->arParams['PROPERTIES'];
