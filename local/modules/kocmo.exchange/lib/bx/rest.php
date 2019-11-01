@@ -9,22 +9,31 @@ class Rest extends Helper
 
     protected $stores = [];
     protected $products = [];
+    protected $storeXmlId = false;
 
-    function __construct($catalogId)
+    function __construct($catalogId, $storeXmlId)
     {
         \Bitrix\Main\Loader::includeModule('catalog');
-        $treeBuilder = new \Kocmo\Exchange\Tree\Rest();
+        $this->stores = $this->getStores();
+
+        if( !empty($storeXmlId) && $this->checkRef($storeXmlId) && in_array($storeXmlId, $this->stores) ){
+            $this->storeXmlId = $storeXmlId;
+        }
+
+        $treeBuilder = new \Kocmo\Exchange\Tree\Rest($storeXmlId);//'5ea18761-a792-11e9-a246-00505601048d'
         parent::__construct($treeBuilder, $catalogId);
     }
 
     public function update()
     {
         $arReq = $this->treeBuilder->getRequestArr();//product xml_id => store xml_id => count
-        $this->stores = $this->getStore();
         $arUid = array_keys($arReq);
         $this->products = $this->getProductId($arUid);
         $rests = $this->getRest();
-
+//pr($this->products);
+//pr($this->stores);
+//pr($arReq);
+//die();
         foreach ($this->products as $id => $xml_id) {
 
             if( isset($arReq[$xml_id]) ){
@@ -72,16 +81,22 @@ class Rest extends Helper
                     $this->updateAvailable($productId, $totalAmount);
                 }
             }
-
         }
+        return ;
     }
 
-    private function getStore(){
+    private function getStores($xml_id = false){
 
         $stores = [];
 
         try {
-            $stores = \Bitrix\Catalog\StoreTable::getlist([])->fetchAll();
+            $param = [];
+
+            if( !empty($xml_id) ){
+                $param["filter"] = ["XML_ID" => $xml_id];
+                $param["limit"] = 1;
+            }
+            $stores = \Bitrix\Catalog\StoreTable::getlist($param)->fetchAll();
             $stores = array_column($stores, "XML_ID", "ID");
         } catch (\Exception $e){
             //
@@ -110,8 +125,9 @@ class Rest extends Helper
 
             while($row = $iterator->fetch()){
                 $productXmlId = $this->products[ $row['PRODUCT_ID'] ];
-                $storeXmlId = $this->stores[$row['STORE_ID']];
-                $storeProducts[$productXmlId][$storeXmlId] = $row['ID'];
+                //$storeXmlId = $this->stores[$row['STORE_ID']];
+                //$storeProducts[$productXmlId][$storeXmlId] = $row['ID'];
+                $storeProducts[$productXmlId][$this->storeXmlId] = $row['ID'];
             }
         } catch (\Exception $e){
             //

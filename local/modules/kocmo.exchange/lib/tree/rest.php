@@ -6,10 +6,14 @@ namespace Kocmo\Exchange\Tree;
 
 class Rest extends Builder
 {
-    function __construct()
+    function __construct($storeXmlId)
     {
+        if(!$this->checkRef($storeXmlId)){
+            throw new \Error("store id is empty or incorrect");
+        }
+
         parent::__construct();
-        $this->entry = $this->arParams['REST_ENTRY'];
+        $this->entry = $this->arParams['REST_ENTRY'] . '?id=' . $storeXmlId;
         $this->fillInOutputArr();
 
         $arTemp = [];
