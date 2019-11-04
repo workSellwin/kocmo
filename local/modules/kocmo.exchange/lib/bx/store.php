@@ -34,6 +34,7 @@ class Store extends Helper
                 }
             }
         }
+        return true;
     }
 
     private function getStore(){

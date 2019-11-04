@@ -82,24 +82,54 @@ elseif($step == 20){
         die("On $step - error");
     }
 }
-elseif($step == 30){
+elseif($step == 30) {//offers
+    header('Location: ' . $uri . '?step=40');
+    exit;
+}
+elseif($step == 40){
 
     $bx = new Bx\Product(CATALOG_ID);
     $result = $bx->addProductsFromDb();
 
     if( $result === true || true){
-        header('Location: ' . $uri . '?step=40');
+        header('Location: ' . $uri . '?step=50');
         exit;
     }
     elseif(is_string($result)){
-        header('Location: ' . $uri . '?step=30&item=' . $result . "&count=500");
+        header('Location: ' . $uri . '?step=40&item=' . $result . "&count=500");
         exit;
     }
     else{
         die("On $step - error");
     }
 }
-//elseif($step == 40){
+elseif($step == 50) {//store
+    $bx = new Bx\Store(CATALOG_ID);
+    if( $bx->update() ) {
+        header('Location: ' . $uri . '?step=60');
+        exit;
+    }
+}
+elseif($step == 60) {//rest
+    $bx = new Bx\Rest(CATALOG_ID);
+    if( $bx->update() ) {
+        header('Location: ' . $uri . '?step=60');
+        exit;
+    }
+    else{
+        header('Location: ' . $uri . '?step=70');
+        exit;
+    }
+}
+elseif($step == 70) {//price type
+    header('Location: ' . $uri . '?step=80');
+    exit;
+}
+elseif($step == 80) {//price
+    header('Location: ' . $uri . '?step=90');
+    exit;
+}
+//elseif($step == 100){
 //    $bx = new Bx\Image(CATALOG_ID);
 //
 //    if( $bx->updateDetailPictures() ){

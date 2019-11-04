@@ -8,32 +8,71 @@ class Rest extends Helper
 {
 
     protected $stores = [];
+    protected $curStore = false;
     protected $products = [];
     protected $storeXmlId = false;
 
-    function __construct($catalogId, $storeXmlId)
+    function __construct($catalogId)
     {
         \Bitrix\Main\Loader::includeModule('catalog');
         $this->stores = $this->getStores();
+        $storeXmlId = $this->getCurStore();
 
         if( !empty($storeXmlId) && $this->checkRef($storeXmlId) && in_array($storeXmlId, $this->stores) ){
             $this->storeXmlId = $storeXmlId;
+
+            $treeBuilder = new \Kocmo\Exchange\Tree\Rest($storeXmlId);
+            parent::__construct($treeBuilder, $catalogId);
+        }
+        else{
+            //throw new \Exception("store not found!");
         }
 
-        $treeBuilder = new \Kocmo\Exchange\Tree\Rest($storeXmlId);//'5ea18761-a792-11e9-a246-00505601048d'
-        parent::__construct($treeBuilder, $catalogId);
+    }
+
+    private function getCurStore(){
+
+        $curXmlId = false;
+
+        if( isset($this->stores) && count($this->stores)){
+
+            $last = false;
+
+            if( !isset($_SESSION['LAST_STORE_ID']) ){
+                reset($this->stores);
+                $curXmlId = current($this->stores);
+                $_SESSION['LAST_STORE_ID'] = key($this->stores);
+            }
+            else {
+
+                foreach ($this->stores as $id => $xml) {
+
+                    if ($last) {
+                        $_SESSION['LAST_STORE_ID'] = $id;
+                        $curXmlId = $xml;
+                        break;
+                    }
+                    if ($id == $_SESSION['LAST_STORE_ID']) {
+                        $last = true;
+                    }
+                }
+            }
+        }
+        return $curXmlId;
     }
 
     public function update()
     {
+        if($this->storeXmlId === false){
+            static::resetCurStore();
+            return false;
+        }
+
         $arReq = $this->treeBuilder->getRequestArr();//product xml_id => store xml_id => count
         $arUid = array_keys($arReq);
         $this->products = $this->getProductId($arUid);
         $rests = $this->getRest();
-//pr($this->products);
-//pr($this->stores);
-//pr($arReq);
-//die();
+
         foreach ($this->products as $id => $xml_id) {
 
             if( isset($arReq[$xml_id]) ){
@@ -82,7 +121,7 @@ class Rest extends Helper
                 }
             }
         }
-        return ;
+        return true;
     }
 
     private function getStores($xml_id = false){
@@ -139,5 +178,9 @@ class Rest extends Helper
 
         $obProduct = new \CCatalogProduct();
         return $obProduct->Update($id, ['QUANTITY' => $quantity]);
+    }
+
+    static public function resetCurStore(){
+        unset($_SESSION['LAST_STORE_ID']);
     }
 }
