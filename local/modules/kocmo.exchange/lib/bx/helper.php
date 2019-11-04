@@ -20,6 +20,7 @@ abstract class Helper
     protected $startTimestamp = false;
     protected $finishTimestamp = false;
     protected $timeLimit = 60;
+    protected $status = 'waiting';
 
     /**
      * Helper constructor.
@@ -29,6 +30,8 @@ abstract class Helper
      */
     public function __construct(\Kocmo\Exchange\Tree\Builder $treeBuilder)
     {
+
+        $this->status = 'run';
         try{
             $this->setParams();
 
@@ -52,6 +55,8 @@ abstract class Helper
             $error[] = $e;
         }
     }
+
+    abstract public function update();
 
     protected function setParams(){
 
@@ -133,5 +138,9 @@ abstract class Helper
         else{
             return false;
         }
+    }
+
+    function getStatus(){
+        return $this->status;
     }
 }

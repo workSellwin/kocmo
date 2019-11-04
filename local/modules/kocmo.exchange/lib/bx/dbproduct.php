@@ -11,9 +11,7 @@ use \Bitrix\Catalog;
 
 class Dbproduct extends Helper
 {
-    private $productMatchXmlId = [];
-    protected $arProperty = [];
-    protected $arEnumMatch = [];
+
     protected $defaultLimit = 1000;
 
     /**
@@ -32,7 +30,7 @@ class Dbproduct extends Helper
         $this->startTimestamp = time();
         $arForDb = $this->treeBuilder->getProductsFromReq();
 
-        $lastUid = true;
+        $lastUid = false;
 
         if( is_array($arForDb) && count($arForDb) ) {
 
@@ -53,6 +51,9 @@ class Dbproduct extends Helper
                     $this->errors[] = $e->getMessage();
                 }
             }
+        }
+        if($lastUid === false){
+            $this->status = 'end';
         }
         return $lastUid;
     }

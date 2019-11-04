@@ -16,17 +16,15 @@ class Image extends Helper
 
     /**
      * Image constructor.
-     * @param \Kocmo\Exchange\Tree\Builder $treeBuilder
-     * @param $catalogId
      * @throws \Bitrix\Main\LoaderException
      */
-    function __construct($catalogId)
+    function __construct()
     {
         $treeBuilder = new \Kocmo\Exchange\Tree\Image();
         parent::__construct($treeBuilder);
     }
 
-    public function updateDetailPictures(){
+    public function update(){
 
         $iterator = \Kocmo\Exchange\ProductImageTable::getList([]);
         $oElement = new \CIBlockElement();

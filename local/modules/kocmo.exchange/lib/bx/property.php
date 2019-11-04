@@ -21,7 +21,7 @@ class Property extends Helper
             $res = \Bitrix\Iblock\PropertyTable::getList( ['filter' => ["IBLOCK_ID"=> $this->arParams['IBLOCK_CATALOG_ID'], "ACTIVE" => 'Y'] ] );
 
             while( $fields = $res->fetch() ){
-                $this->props[$fields['CODE']] = [
+                $this->props[$fields['XML_ID']] = [
                     "ID" => $fields['ID'],
                     "CODE" => $fields['CODE'],
                     "NAME" => $fields['NAME'],
@@ -30,7 +30,7 @@ class Property extends Helper
                 ];
             }
 
-            $property_enums = \CIBlockPropertyEnum::GetList([], Array("IBLOCK_ID" => $catalogId));
+            $property_enums = \CIBlockPropertyEnum::GetList([], Array("IBLOCK_ID" => $this->arParams['IBLOCK_CATALOG_ID']));
 
             while($enum_fields = $property_enums->GetNext()){
                 if($this->checkRef($enum_fields['XML_ID'])) {
@@ -58,9 +58,9 @@ class Property extends Helper
                 $item["XML_ID"] = $item["EXTERNAL_ID"] = $item['UID'];
                 unset($item['UID']);
 
-                $props[$code] = $item;
+                $props[$item['XML_ID']] = $item;
             }
-            //pr($props);die();
+
             $this->prepareProperties = $props;
         }
     }
@@ -70,7 +70,6 @@ class Property extends Helper
         foreach( $this->prepareProperties as $key => $value ){
 
             if( !$this->checkProp($key) ){
-
                 try {
                     $arFields = $this->getDefaultArFields($value);
                     $result = \Bitrix\Iblock\PropertyTable::add($arFields);
@@ -86,23 +85,28 @@ class Property extends Helper
                 }
             }
             else{
-                //свойство есть, возможно стоит его обновить
+                $arFields = $this->getDefaultArFields($value);
+
+                $propId = $this->props[$arFields['XML_ID']]['ID'];
+                if( intval($propId) > 0) {
+                    unset($arFields['NAME']);
+                    $result = \Bitrix\Iblock\PropertyTable::update(intval($propId), $arFields);
+
+                    if ($result->isSuccess()) {
+
+                        if ($arFields["PROPERTY_TYPE"] == 'L') {
+                            $this->addEnum($arFields["XML_ID"], $result->getId());
+                        }
+                    }
+                }
             }
         }
        return true;
     }
 
-    protected function checkProp($code){
-//old core
-//        if( !is_string($code)){
-//            return false;
-//        }
-//        $res = \CIBlockProperty::GetList([], ["IBLOCK_ID"=>$this->catalogId, "CODE" => $code]);
-//        if( $fields = $res->fetch() ){
-//            return true;
-//        }
-//        return false;
-        if(isset($this->props[$code])){
+    protected function checkProp($xmlId){
+
+        if(isset($this->props[$xmlId])){
             return true;
         }
         return false;
