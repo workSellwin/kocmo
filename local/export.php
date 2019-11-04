@@ -41,8 +41,8 @@ elseif($step == 10){
     }
 }
 elseif($step == 20){
-    $bx = new Bx\Product();
-    $result = $bx->addProductsInDb();
+    $bx = new Bx\Dbproduct();
+    $result = $bx->update();
 
 //    if(count($bx->getErrors())){
 //        pr($bx->getErrors());
@@ -50,6 +50,7 @@ elseif($step == 20){
 //    }
 
     if( $result === true || true){
+        die('end');
         header('Location: ' . $uri . '?step=30');
         exit;
     }
