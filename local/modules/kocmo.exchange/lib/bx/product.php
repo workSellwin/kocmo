@@ -27,42 +27,20 @@ class Product extends Helper
         unset($treeBuilder);
     }
 
-    public function addProductsInDb(){
-
-        $this->startTimestamp = time();
-        $arForDb = $this->treeBuilder->getProductsFromReq();
-
-        $lastUid = true;
-
-        if( is_array($arForDb) && count($arForDb) ) {
-
-            foreach ($this->prepareFieldsGen($arForDb) as $item) {
-
-                if($this->checkTime()){
-                    return $lastUid;
-                }
-
-                try{
-                    $result = \Kocmo\Exchange\DataTable::add($item);
-
-                    if($result->isSuccess()){
-                        $lastUid = $item["UID"];
-                    }
-                } catch ( \Bitrix\Main\DB\SqlQueryException $e ){
-                    //например попытка добавить с не уникальным UID
-                    $this->errors[] = $e->getMessage();
-                }
-            }
-        }
-        return $lastUid;
-    }
-
-    public function addProductsFromDb()
+    public function update()
     {
+        $this->startTimestamp = time();
         $oElement = new \CIBlockElement();
         $this->setMatchXmlId();
+        $end = true;
 
         foreach ($this->productsGenerator() as $row){
+
+            $end = false;
+
+            if($this->checkTime()){
+                return $end;
+            }
 
             $rowId = $row['ROW_ID'];
             $detailPic = $row['DETAIL_PICTURE'];
@@ -85,72 +63,19 @@ class Product extends Helper
                 }
             }
         }
-//        $connection = \Bitrix\Main\Application::getConnection();
-//        $connection->truncateTable(\Kocmo\Exchange\DataTable::getTableName());
 
-        return true;
-    }
-
-    public function addProductFromDb($xmlId){
-
-        if( !is_string($xmlId) ){
-            return false;
+        if($end){
+            $connection = \Bitrix\Main\Application::getConnection();
+            $connection->truncateTable(\Kocmo\Exchange\DataTable::getTableName());
         }
-        $iterator = \Kocmo\Exchange\DataTable::getList(['filter' => ['UID' => $xmlId]]);
-        $oElement = new \CIBlockElement();
-        $this->setMatchXmlId();
-        $sectionsMatch = $this->getAllSectionsXmlId();
-
-        if( $row = $iterator->fetch() ){
-
-            $row = json_decode($row['JSON'], true);
-
-            $props = [];
-
-            if (count($row[$this->arParams['PROPERTIES']])) {
-
-                foreach ($row[$this->arParams['PROPERTIES']] as $key => $prop) {
-
-                    $code = $this->getCode($key);
-
-//                    if ($this->checkRef($prop) || is_array($prop) ) {
-//                        $value = $this->getFromReferenceBook($key, $prop, $code);
-//                    } else {
-                    $value = $prop;
-                    //}
-
-                    $props[$code] = $value;
-                }
-            }
-
-            $oImage = new Image($this->catalogId);
-            $arPic = $oImage->getPhoto( $row[$this->arParams['PIC_FILE']] );
-
-            if( empty($arPic)){
-                $arPic = "";
-            }
-
-            $arFields = array(
-                "ACTIVE" => "Y",
-                "IBLOCK_ID" => $this->catalogId,
-                "IBLOCK_SECTION_ID" => $sectionsMatch[$row[$this->arParams['PARENT_ID']][0]],
-                "XML_ID" => $row[$this->arParams['ID']],
-                "NAME" => $row[$this->arParams['FULL_NAME']],
-                "CODE" => \CUtil::translit($row[$this->arParams['NAME']], 'ru') . time(),
-                "DETAIL_TEXT" => $row[$this->arParams['DESCRIPTION']],
-                "DETAIL_PICTURE" => $arPic,
-                "PROPERTY_VALUES" => $props
-            );
-            $row = $arFields;
-            try {
-                $id = $this->addProduct($row, $oElement);
-            } catch(\Exception $e){
-                $this->errors[] = $e;
-            }
-        }
+        return $end;
     }
 
     public function productsGenerator(){
+
+        if(\Kocmo\Exchange\DataTable::getCount() == 0){
+            return false;
+        }
 
         $iterator = \Kocmo\Exchange\DataTable::getList(['limit' => $this->defaultLimit]);
 
@@ -233,17 +158,6 @@ class Product extends Helper
         return $sections;
     }
 
-    private function prepareFieldsGen(&$prodReqArr){
-
-        foreach( $prodReqArr as $key => $item ){
-            yield [
-                "UID" => $key,
-                "JSON" => $item["JSON"],
-                //"IMG_GUI" => $item["IMG_GUI"]
-            ];
-        }
-    }
-
     /**
      * @param array $arFields
      * @param bool|\CIBlockElement $oElement
@@ -313,17 +227,6 @@ class Product extends Helper
         while($fields = $res->fetch()) {
             $this->productMatchXmlId[$fields["XML_ID"]] = $fields["ID"];
         }
-    }
-
-    protected function getFromReferenceBook($key, $value, $code)
-    {
-        if(is_array($value)){
-            $arrProp = $this->getEnumIdArr($value, $code);
-        }
-        else{
-            $arrProp = Array("VALUE" => $this->getEnumId($value, $key, $code));
-        }
-        return $arrProp;
     }
 
     protected function getEnumId($xml_id, $key, $code)

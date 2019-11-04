@@ -50,7 +50,6 @@ elseif($step == 20){
 //    }
 
     if( $result === true || true){
-        die('end');
         header('Location: ' . $uri . '?step=30');
         exit;
     }
@@ -58,9 +57,6 @@ elseif($step == 20){
         sleep(1);
         header('Location: ' . $uri . '?step=20&item=' . $result);
         exit;
-    }
-    else{
-        die("On $step - error");
     }
 }
 elseif($step == 30) {//offers
@@ -81,19 +77,20 @@ elseif($step == 30) {//offers
 elseif($step == 40){
 
     $bx = new Bx\Product();
-    $result = $bx->addProductsFromDb();
+    $result = $bx->update();
 
-    if( $result === true || true){
-        die('end');
+    if( $result === true){
         header('Location: ' . $uri . '?step=50');
         exit;
     }
-    elseif(is_string($result)){
-        header('Location: ' . $uri . '?step=40&item=' . $result . "&count=500");
+    else{
+        sleep(1);
+        header('Location: ' . $uri . '?step=40');
         exit;
     }
 }
 elseif($step == 50) {//store
+    die('end');
     $bx = new Bx\Store();
     if( $bx->update() ) {
         header('Location: ' . $uri . '?step=60');

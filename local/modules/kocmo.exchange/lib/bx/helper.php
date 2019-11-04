@@ -118,6 +118,11 @@ abstract class Helper
 
     protected function checkTime(){
 
+        if(!isset($this->startTimestamp)){
+            $this->startTimestamp = time();
+            return false;
+        }
+
         $time = time();
         $t = $time - $this->startTimestamp;
 

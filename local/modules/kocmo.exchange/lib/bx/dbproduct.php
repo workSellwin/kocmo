@@ -67,4 +67,9 @@ class Dbproduct extends Helper
             ];
         }
     }
+
+    static public function truncateTable(){
+        $connection = \Bitrix\Main\Application::getConnection();
+        $connection->truncateTable(\Kocmo\Exchange\DataTable::getTableName());
+    }
 }
