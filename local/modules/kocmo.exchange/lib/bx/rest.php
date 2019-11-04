@@ -12,7 +12,7 @@ class Rest extends Helper
     protected $products = [];
     protected $storeXmlId = false;
 
-    function __construct($catalogId)
+    function __construct()
     {
         \Bitrix\Main\Loader::includeModule('catalog');
         $this->stores = $this->getStores();
@@ -22,7 +22,7 @@ class Rest extends Helper
             $this->storeXmlId = $storeXmlId;
 
             $treeBuilder = new \Kocmo\Exchange\Tree\Rest($storeXmlId);
-            parent::__construct($treeBuilder, $catalogId);
+            parent::__construct($treeBuilder);
         }
         else{
             //throw new \Exception("store not found!");

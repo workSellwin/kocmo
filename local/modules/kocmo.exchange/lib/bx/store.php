@@ -6,10 +6,10 @@ namespace Kocmo\Exchange\Bx;
 
 class Store extends Helper
 {
-    function __construct($catalogId)
+    function __construct()
     {
         $treeBuilder = new \Kocmo\Exchange\Tree\Store();
-        parent::__construct($treeBuilder, $catalogId);
+        parent::__construct($treeBuilder);
     }
 
     public function update()

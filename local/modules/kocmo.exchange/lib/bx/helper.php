@@ -24,7 +24,7 @@ abstract class Helper
      * @param $catalogId
      * @throws \Bitrix\Main\LoaderException
      */
-    public function __construct(\Kocmo\Exchange\Tree\Builder $treeBuilder, $catalogId)
+    public function __construct(\Kocmo\Exchange\Tree\Builder $treeBuilder)
     {
         try{
             $this->setParams();
@@ -32,11 +32,11 @@ abstract class Helper
             \Bitrix\Main\Loader::includeModule('iblock');
             \Bitrix\Main\Loader::includeModule('catalog');
 
-            if (intval($catalogId) > 0) {
-                $this->catalogId = intval($catalogId);
+            if (intval($this->arParams['IBLOCK_CATALOG_ID']) > 0) {
+                $this->catalogId = intval($this->arParams['IBLOCK_CATALOG_ID']);
 
                 if (\CCatalog::GetByID($this->catalogId) === false) {
-                    throw new \Error("infoblock with code $catalogId does not exist or is not a trade catalog");
+                    throw new \Error("infoblock with code $this->catalogId does not exist or is not a trade catalog");
                 }
             } else {
                 throw new \Error('catalog id empty!');

@@ -9,10 +9,10 @@ class Price extends Helper
 {
     protected $currency = 'BYN';
 
-    function __construct($catalogId)
+    function __construct()
     {
         $treeBuilder = new \Kocmo\Exchange\Tree\Price();
-        parent::__construct($treeBuilder, $catalogId);
+        parent::__construct($treeBuilder);
     }
 
     public function update(){

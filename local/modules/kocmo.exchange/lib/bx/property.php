@@ -9,16 +9,16 @@ class Property extends Helper
     protected $props = [];
     protected $propsEnum = [];
 
-    public function __construct($catalogId)
+    public function __construct()
     {
         try{
             \Bitrix\Main\Loader::includeModule('iblock');
 
             $treeBuilder = new \Kocmo\Exchange\Tree\Property();
-            parent::__construct($treeBuilder, $catalogId);
+            parent::__construct($treeBuilder);
             $this->prepareProperties();
 
-            $res = \Bitrix\Iblock\PropertyTable::getList( ['filter' => ["IBLOCK_ID"=> $catalogId, "ACTIVE" => 'Y'] ] );
+            $res = \Bitrix\Iblock\PropertyTable::getList( ['filter' => ["IBLOCK_ID"=> $this->arParams['IBLOCK_CATALOG_ID'], "ACTIVE" => 'Y'] ] );
 
             while( $fields = $res->fetch() ){
                 $this->props[$fields['CODE']] = [

@@ -20,10 +20,10 @@ class Price extends Builder
                 unset($price['UID']);
 
                 if( isset($arTemp[$uid]) ){
-                    $arTemp[$uid][$price['ТипЦены']] = $price['Цена'];
+                    $arTemp[$uid][$price[ $this->arParams['TYPE_PRICE'] ]] = $price[ $this->arParams['PRICE'] ];
                 }
                 else{
-                    $arTemp[$uid] = [$price['ТипЦены'] => $price['Цена']];
+                    $arTemp[$uid] = [$price[ $this->arParams['TYPE_PRICE'] ] => $price[ $this->arParams['PRICE'] ]];
                 }
             }
             $this->outputArr = $arTemp;

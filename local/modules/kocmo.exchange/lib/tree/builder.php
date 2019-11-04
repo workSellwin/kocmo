@@ -51,6 +51,7 @@ abstract class Builder
     }
 
     public function fillInOutputArr(){
+
         if( !is_string($this->entry) ){
             return false;
         }

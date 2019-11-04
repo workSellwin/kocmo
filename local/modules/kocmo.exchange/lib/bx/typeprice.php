@@ -6,10 +6,10 @@ namespace Kocmo\Exchange\Bx;
 
 class Typeprice extends Helper
 {
-    function __construct($catalogId)
+    function __construct()
     {
         $treeBuilder = new \Kocmo\Exchange\Tree\Typeprice();
-        parent::__construct($treeBuilder, $catalogId);
+        parent::__construct($treeBuilder);
     }
 
     public function update(){

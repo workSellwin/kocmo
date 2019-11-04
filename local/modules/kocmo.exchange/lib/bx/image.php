@@ -23,7 +23,7 @@ class Image extends Helper
     function __construct($catalogId)
     {
         $treeBuilder = new \Kocmo\Exchange\Tree\Image();
-        parent::__construct($treeBuilder, $catalogId);
+        parent::__construct($treeBuilder);
     }
 
     public function updateDetailPictures(){

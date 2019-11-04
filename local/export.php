@@ -1,23 +1,5 @@
 <?php
 //https://documenter.getpostman.com/view/155604/SVtZwmvs?version=latest
-/*
- * Схема свойств
- * http://kocmo1c.sellwin.by/Kosmo_Sergey/hs/Kocmo/GetScheme/22e8d9ce-ed52-47ca-a524-e32b586aab0a
- *
- * Группы / Разделы
- * http://kocmo1c.sellwin.by/Kosmo_Sergey/hs/Kocmo/GetSections
- *
- *  Каталог Товаров
- * http://kocmo1c.sellwin.by/Kosmo_Sergey/hs/Kocmo/GetCatalog
- *
- * Предложения
- *http://kocmo1c.sellwin.by/Kosmo_Sergey/hs/Kocmo/GetOffers
- *
- * Справочники
- * http://kocmo1c.sellwin.by/Kosmo_Sergey/hs/Kocmo/GetReference/42d10805-9ccb-11e8-a215-00505601048d
- *
- *
- */
 require_once($_SERVER["DOCUMENT_ROOT"]."/bitrix/modules/main/include/prolog_before.php");
 \Bitrix\Main\Loader::includeModule('kocmo.exchange');
 define('CATALOG_ID', 6);
@@ -83,8 +65,22 @@ elseif($step == 20){
     }
 }
 elseif($step == 30) {//offers
-    header('Location: ' . $uri . '?step=40');
-    exit;
+
+    $bx = new Bx\Offer(CATALOG_ID);
+    $result = $bx->addProductsInDb();
+
+    if( $result === true || true){
+        header('Location: ' . $uri . '?step=40');
+        exit;
+    }
+    elseif(is_string($result)){
+        sleep(1);
+        header('Location: ' . $uri . '?step=30&item=' . $result);
+        exit;
+    }
+    else{
+        die("On $step - error");
+    }
 }
 elseif($step == 40){
 
@@ -122,14 +118,20 @@ elseif($step == 60) {//rest
     }
 }
 elseif($step == 70) {//price type
-    header('Location: ' . $uri . '?step=80');
-    exit;
+    $bx = new Bx\Typeprice(CATALOG_ID);
+    if( $bx->update() ) {
+        header('Location: ' . $uri . '?step=80');
+        exit;
+    }
 }
 elseif($step == 80) {//price
-    header('Location: ' . $uri . '?step=90');
-    exit;
+    $bx = new Bx\Price(CATALOG_ID);
+    if( $bx->update() ) {
+        header('Location: ' . $uri . '?step=90');
+        exit;
+    }
 }
-//elseif($step == 100){
+//elseif($step == 90){
 //    $bx = new Bx\Image(CATALOG_ID);
 //
 //    if( $bx->updateDetailPictures() ){

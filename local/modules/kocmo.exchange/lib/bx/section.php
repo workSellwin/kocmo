@@ -21,11 +21,11 @@ class Section extends Helper
      * BxSection constructor.
      * @param $catalogId
      */
-    public function __construct($catalogId)
+    public function __construct()
     {
         /** @var \Kocmo\Exchange\Tree\Section $this->treeBuilder*/
         $treeBuilder = new \Kocmo\Exchange\Tree\Section();
-        parent::__construct($treeBuilder, $catalogId);
+        parent::__construct($treeBuilder);
     }
 
     public function update()

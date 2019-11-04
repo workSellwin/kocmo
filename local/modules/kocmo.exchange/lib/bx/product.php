@@ -21,10 +21,10 @@ class Product extends Helper
      * @param $catalogId
      * @throws \Bitrix\Main\LoaderException
      */
-    public function __construct($catalogId)
+    public function __construct()
     {
         $treeBuilder = new \Kocmo\Exchange\Tree\Product();
-        parent::__construct($treeBuilder, $catalogId);
+        parent::__construct($treeBuilder);
         unset($treeBuilder);
     }
 
