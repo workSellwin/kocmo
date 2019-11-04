@@ -8,9 +8,12 @@
 
 namespace Kocmo\Exchange\Bx;
 
+use Kocmo\Exchange\Tree\Builder;
+
 abstract class Helper
 {
     protected $arParams = [];
+    /* @var $treeBuilder \Kocmo\Exchange\Tree\Builder */
     protected $treeBuilder = null;
     protected $errors = [];
     protected $catalogId = false;

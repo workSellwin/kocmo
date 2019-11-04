@@ -9,7 +9,7 @@
 namespace Kocmo\Exchange\Bx;
 use \Bitrix\Catalog;
 
-class Product extends Helper
+class Dbproduct extends Helper
 {
     private $productMatchXmlId = [];
     protected $arProperty = [];

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding" defaultCharsetForPropertiesFiles="UTF-8">
+    <file url="file://$PROJECT_DIR$/local/modules/kocmo.exchange/lang/ru/install/index.php" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/local/modules/kocmo.exchange/lang/ru/install/step1.php" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/local/modules/kocmo.exchange/lang/ru/install/unstep1.php" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/local/modules/kocmo.exchange/lang/ru/lib/utils.php" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/local/modules/kocmo.exchange/lang/ru/options.php" charset="UTF-8" />
+    <file url="PROJECT" charset="UTF-8" />
+  </component>
+</project>
