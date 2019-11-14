@@ -28,6 +28,17 @@ class Product extends Builder
         return true;
     }
 
+
+    protected function setReqParam(){
+
+        if( !$this->checkRef($_GET['item']) && !empty($_SESSION[$this->arParams['PRODUCT_LAST_UID']])
+            && $this->checkRef($_SESSION[$this->arParams['PRODUCT_LAST_UID']]) ){
+
+            $this->strReqParams = 'item=' . $_SESSION[$this->arParams['PRODUCT_LAST_UID']] . '&';
+        }
+
+    }
+
     public function fillInOutputArr(){//?
 
         $getParamsStr = '?' . $this->getReqParams();

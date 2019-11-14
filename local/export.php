@@ -3,8 +3,9 @@
 require_once($_SERVER["DOCUMENT_ROOT"]."/bitrix/modules/main/include/prolog_before.php");
 \Bitrix\Main\Loader::includeModule('kocmo.exchange');
 
-use Bitrix\Main\Context;
-use Kocmo\Exchange\StaticFactory;
+use Bitrix\Main\Context,
+    Kocmo\Exchange,
+    Kocmo\Exchange\StaticFactory;
 
 $request = Context::getCurrent()->getRequest();
 $uri = $request->getRequestedPage();
@@ -16,11 +17,11 @@ else{
     $step = $_GET['step'];
 }
 
-$bx = Kocmo\Exchange\StaticFactory::factory($step);
+$bx = StaticFactory::factory($step);
 $bx->update();
-
+if($step > 0) die();
 if ($bx->getStatus() == 'end') {
-    $step = Kocmo\Exchange\StaticFactory::nextStep($step);
+    $step = StaticFactory::nextStep($step);
     header('Location: ' . $uri . '?step=' . $step);
     exit;
 }
@@ -28,6 +29,20 @@ elseif($bx->getStatus() == 'run'){
     header('Location: ' . $uri . '?step=' . $step);
     exit;
 }
+/*
+ * ​kocmo bx админка
+ *
+ * ​host060220193.of.by
+ * kocmo
+ * qwaSZX12!@
+ *
+ * ​​kocmo bx ftp
+ * ftp.host060220193.of.by
+ * lui@host060220193.of.by
+ * qazWSX1
+ *
+ *
+ */
 
 //if($step == 0){
 //    $bx = new Exchange\Bx\Section();

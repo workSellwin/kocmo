@@ -30,21 +30,24 @@ class Dbproduct extends Helper
         $this->startTimestamp = time();
         $arForDb = $this->treeBuilder->getProductsFromReq();
 
-        $lastUid = false;
+        $last = true;
 
         if( is_array($arForDb) && count($arForDb) ) {
+
+            $last = false;
 
             foreach ($this->prepareFieldsGen($arForDb) as $item) {
 
                 if($this->checkTime()){
-                    return $lastUid;
+                    return $last;
                 }
 
                 try{
                     $result = \Kocmo\Exchange\DataTable::add($item);
 
                     if($result->isSuccess()){
-                        $lastUid = $item["UID"];
+                        $_SESSION[$this->arParams['PRODUCT_LAST_UID']] = $item["UID"];
+                        //$last = $item["UID"];
                     }
                 } catch ( \Bitrix\Main\DB\SqlQueryException $e ){
                     //например попытка добавить с не уникальным UID
@@ -52,10 +55,10 @@ class Dbproduct extends Helper
                 }
             }
         }
-        if($lastUid === false){
+        if($last === true){
             $this->status = 'end';
         }
-        return $lastUid;
+        return $last;
     }
 
     private function prepareFieldsGen(&$prodReqArr){

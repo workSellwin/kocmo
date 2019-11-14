@@ -7,6 +7,19 @@ use Kocmo\Exchange\Bx;
 final class StaticFactory
 {
 
+    private $stages = [
+        '0' => 'section',
+        '10' => 'property',
+        '20' => 'db_product',
+        '30' => 'offer',
+        '40' => 'product',
+        '50' => 'store',
+        '60' => 'rest',
+        '70' => 'type_price',
+        '80' => 'price',
+        '90' => 'image',
+    ];
+
     static function factory($stage = '0'){
 
         switch($stage){

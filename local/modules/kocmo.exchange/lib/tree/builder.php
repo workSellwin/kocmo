@@ -27,13 +27,37 @@ abstract class Builder
             $dir = end(explode('/', __DIR__));
             $this->arParams = $arParam[$dir];
         }
+        $this->setReqParam();
+//        if(count($_GET)) {
+//            $get = $_GET;
+//
+//            if( count($this->defaultGetParams) ){
+//                foreach( $this->defaultGetParams as $key => $dp){
+//                    if( empty($get[$key]) ){
+//                        $get[$key] = $dp;
+//                    }
+//                }
+//            }
+//            $getParamsStr = "";
+//
+//            foreach ($get as $key => $param) {
+//                if (in_array($key, $this->allowedGetParams)) {
+//                    $getParamsStr .= $key . '=' . $param . '&';
+//                }
+//            }
+//
+//            $this->strReqParams = $getParamsStr;
+//        }
+    }
 
-        if(count($_GET)) {
+    protected function setReqParam(){
+
+        if (count($_GET)) {
             $get = $_GET;
 
-            if( count($this->defaultGetParams) ){
-                foreach( $this->defaultGetParams as $key => $dp){
-                    if( empty($get[$key]) ){
+            if (count($this->defaultGetParams)) {
+                foreach ($this->defaultGetParams as $key => $dp) {
+                    if (empty($get[$key])) {
                         $get[$key] = $dp;
                     }
                 }
@@ -92,8 +116,11 @@ abstract class Builder
         return "g_" . str_replace("-", "_", $guid);
     }
 
-    protected function checkRef($val)
+    protected function checkRef($val = false)
     {
+        if( empty($val) ){
+            return false;
+        }
 
         if (is_string($val) && strlen($val) === 36 && $val != '00000000-0000-0000-0000-000000000000') {
             $arr = explode('-', $val);

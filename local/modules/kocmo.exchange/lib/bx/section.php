@@ -62,6 +62,9 @@ class Section extends Helper
                     $this->addSection($section, $cIBlockSection);
                 }
             }
+
+            $this->status = 'end';
+
             return true;
         } else {
             throw new \Error("tree not found");

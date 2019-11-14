@@ -18,6 +18,7 @@ return [
         'TYPE_PRICE' => 'ТипЦены',
         'PRICE' => 'Цена',
         'OFFERS_POINT_OF_ENTRY' => 'http://kocmo1c.sellwin.by/Kosmo_Sergey/hs/Kocmo/GetOffers',
+        'PRODUCT_LAST_UID' => 'PRODUCT_LAST_UID'
     ],
     "tree" => [
         'PRODUCT_LIMIT' => 500,
@@ -46,5 +47,6 @@ return [
         'PRICE_ENTRY' => 'http://kocmo1c.sellwin.by/Kosmo_Sergey/hs/Kocmo/GetPrice',
         'STORE_ENTRY' => 'http://kocmo1c.sellwin.by/Kosmo_Sergey/hs/Kocmo/GetReference/42d1082d-9ccb-11e8-a215-00505601048d',
         'REST_ENTRY' => 'http://kocmo1c.sellwin.by/Kosmo_Sergey/hs/Kocmo/GetStock',
+        'PRODUCT_LAST_UID' => 'PRODUCT_LAST_UID'
     ],
 ];
