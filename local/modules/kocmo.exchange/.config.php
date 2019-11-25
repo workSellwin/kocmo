@@ -1,7 +1,7 @@
 <?php
 return [
     "bx" => [
-        'IBLOCK_CATALOG_ID' => 6,
+        'IBLOCK_CATALOG_ID' => 2,
         'IBLOCK_OFFERS_ID' => 7,
         'TIME_LIMIT' => 50,
         'PARENT_ID' => 'Родитель',

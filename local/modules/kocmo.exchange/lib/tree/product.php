@@ -11,9 +11,15 @@ class Product extends Builder
     protected $allowedGetParams = ['count', 'item'];
     protected $defaultGetParams = ['count' => 500];
     protected $pointOfEntry = false;
+    protected $reqParam = [];
 
-    function __construct()
+    function __construct($params = [])
     {
+        if( count($params) ){
+            foreach($params as $key => $param)  {
+                $this->reqParam[$key] = $param;
+            }
+        }
         parent::__construct();
         $this->setPointOfEntry($this->arParams['PROD_POINT_OF_ENTRY']);
     }
@@ -31,10 +37,19 @@ class Product extends Builder
 
     protected function setReqParam(){
 
-        if( !$this->checkRef($_GET['item']) && !empty($_SESSION[$this->arParams['PRODUCT_LAST_UID']])
-            && $this->checkRef($_SESSION[$this->arParams['PRODUCT_LAST_UID']]) ){
+        if( $this->checkRef( $this->reqParam['UID'] ) ){
+            $itemXmlId = $this->reqParam['UID'];
+        }
+        elseif( $this->checkRef($_SESSION[$this->arParams['PRODUCT_LAST_UID']]) ){
+            $itemXmlId = $_SESSION[$this->arParams['PRODUCT_LAST_UID']];
+        }
 
-            $this->strReqParams = 'item=' . $_SESSION[$this->arParams['PRODUCT_LAST_UID']] . '&';
+        $limit = $this->reqParam['PRODUCT_LIMIT'] ? $this->reqParam['PRODUCT_LIMIT'] : $this->arParams['PRODUCT_LIMIT'];
+        if( /*!$this->checkRef($_GET['item']) && !empty($_SESSION[$this->arParams['PRODUCT_LAST_UID']])
+            && $this->checkRef($_SESSION[$this->arParams['PRODUCT_LAST_UID']]) */
+            !empty($itemXmlId)
+        ){
+            $this->strReqParams = 'item=' . $itemXmlId . '&count=' . $limit;
         }
 
     }
@@ -52,7 +67,6 @@ class Product extends Builder
         }
 
         $arProps = $this->getPropsFromReq();
-
         foreach($arProps as $prop){
 
             $guiMatch = $this->getStrFromGuid($prop['UID']);
@@ -60,6 +74,7 @@ class Product extends Builder
         }
 
         $getParamsStr =  '?' . $this->getReqParams();
+
         $client = new \GuzzleHttp\Client();
         $response = $client->request('GET', $this->pointOfEntry . $getParamsStr);
         $arForDb = [];

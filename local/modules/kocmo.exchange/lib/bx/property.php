@@ -101,7 +101,8 @@ class Property extends Helper
                 }
             }
         }
-       return true;
+        $this->status = 'end';
+        return true;
     }
 
     protected function checkProp($xmlId){

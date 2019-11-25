@@ -74,6 +74,15 @@ $mainTab = [
     "TITLE" => Loc::getMessage("MODULE_OPTIONS")
 ];
 $aTabs[] = $mainTab;
+
+$updateTab = [
+    "DIV" => "upd",
+    "TAB" => Loc::getMessage("UPDATE_TAB"),
+    "ICON" => "fileman_settings",
+    "TITLE" => Loc::getMessage("UPDATE_OPTIONS")
+];
+$aTabs[] = $updateTab;
+
 $tabControl = new CAdmintabControl("tabControl", $aTabs);
 $tabControl->Begin();
 
@@ -95,7 +104,43 @@ $tabControl->Begin();
                            value="<?= Option::get($moduleName, $prefix . $name) ?>"></td>
             </tr>
         <? endforeach; ?>
+        <? $tabControl->BeginNextTab(); ?>
+        <tr>
+            <td valign="top">id товара</td>
+            <td><input type="number" name="product-id" value="" size="40"></td>
+            <td><input type="button" name="update-product" value="Обновить"></td>
+        </tr>
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
 
+                let updateBtn = document.querySelector('input[name="update-product"]');
+
+                updateBtn.addEventListener('click', event => {
+
+                    let id = document.querySelector('input[name="product-id"]').value;
+
+                    if(id) {
+
+                        let xhr = new XMLHttpRequest();
+
+                        let PARAMS = {
+                            'ID': id
+                        };
+                        PARAMS = JSON.stringify(PARAMS);
+                        xhr.open('get', '/ajax/?ACTION=UpdateProduct&METHOD=update&PARAMS=' + PARAMS);
+
+                        xhr.onload = function (data) {
+                            let respTxt = data.currentTarget.responseText;
+                            console.log(respTxt);
+                        };
+
+                        xhr.setRequestHeader('Content-Type', 'application/json; charset=utf-8');
+                        xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+                        xhr.send();
+                    }
+                })
+            })
+        </script>
         <? $tabControl->End(); ?>
         <? $tabControl->Buttons([]); ?>
     </form>

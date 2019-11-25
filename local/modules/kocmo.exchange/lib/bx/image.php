@@ -5,13 +5,11 @@ namespace Kocmo\Exchange\Bx;
 
 
 /**
- * Class BxImage
- * @package Asdrubael\Utils
+ * Class Image
+ * @package Kocmo\Exchange\Bx
  */
 class Image extends Helper
 {
-    //const DETAIL_PICTURE = 'ФайлКартинки';
-
     protected $treeBuilder = null;
 
     /**
@@ -26,17 +24,35 @@ class Image extends Helper
 
     public function update(){
 
-        $iterator = \Kocmo\Exchange\ProductImageTable::getList([]);
+        $this->startTimestamp = time();
+        $this->status = 'run';
+
+        $iterator = \Kocmo\Exchange\ProductImageTable::getList([
+            //"limit" => 100,
+        ]);
         $oElement = new \CIBlockElement();
 
         while($row = $iterator->fetch() ) {
+
+            if($this->checkTime()){
+                return false;
+            }
+
             $arPic = $this->getPhoto($row['IMG_GUI']);
-            //pr($arPic);
+
             if( is_array($arPic) ){
-                $oElement->Update($row['PRODUCT_ID'], ["DETAIL_PICTURE" => $arPic]);
+                if( $oElement->Update($row['PRODUCT_ID'], ["DETAIL_PICTURE" => $arPic]) ){
+                    \Kocmo\Exchange\ProductImageTable::delete($row['ID']);
+                }
+                else{
+
+                }
             }
         }
 
+        //if(6){
+            $this->status = 'end';
+        //}
         $connection = \Bitrix\Main\Application::getConnection();
         $connection->truncateTable(\Kocmo\Exchange\ProductImageTable::getTableName());
 
@@ -51,11 +67,11 @@ class Image extends Helper
         if (!empty($ImgArr[$expansion])) {
 
             $fileData = base64_decode($ImgArr[$expansion]);
+
             $fileName = $_SERVER['DOCUMENT_ROOT'] . '/upload/temp-photo.' . $expansion;
             file_put_contents($fileName, $fileData);
 
             $file = \CFile::MakeFileArray($fileName);
-
             $file['MODULE_ID'] = 'kocmo.exchange';
             //$file['description'] = $gui;
 

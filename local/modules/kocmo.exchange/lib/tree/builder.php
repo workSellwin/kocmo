@@ -28,26 +28,6 @@ abstract class Builder
             $this->arParams = $arParam[$dir];
         }
         $this->setReqParam();
-//        if(count($_GET)) {
-//            $get = $_GET;
-//
-//            if( count($this->defaultGetParams) ){
-//                foreach( $this->defaultGetParams as $key => $dp){
-//                    if( empty($get[$key]) ){
-//                        $get[$key] = $dp;
-//                    }
-//                }
-//            }
-//            $getParamsStr = "";
-//
-//            foreach ($get as $key => $param) {
-//                if (in_array($key, $this->allowedGetParams)) {
-//                    $getParamsStr .= $key . '=' . $param . '&';
-//                }
-//            }
-//
-//            $this->strReqParams = $getParamsStr;
-//        }
     }
 
     protected function setReqParam(){

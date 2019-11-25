@@ -71,6 +71,79 @@ class Product extends Helper
         return $end;
     }
 
+    public function updateOne($arProduct){
+
+        $this->setMatchXmlId();
+        $sectionsMatch = $this->getAllSectionsXmlId();
+        $this->setEnumMatch();
+
+        $row = json_decode($arProduct['JSON'], true);
+
+        $props = [];
+
+        if (count($row[$this->arParams['PROPERTIES']])) {
+
+            foreach ($row[$this->arParams['PROPERTIES']] as $key => $prop) {
+
+                $code = $this->getCode($key);
+
+                if ($this->checkRef($prop) && isset($this->arEnumMatch[$prop]) ) {
+                    $value = $this->arEnumMatch[$prop];
+                }
+                elseif(is_array($prop)) {
+
+                    $value = [];
+
+                    foreach($prop as $v){
+
+                        if(isset($this->arEnumMatch[$v])){
+                            $value[] = $this->arEnumMatch[$v];
+                        }
+                    }
+                }
+                else {
+                    $value = $prop;
+                }
+
+                $props[$code] = $value;
+            }
+        }
+
+        $arrIblockSectionId = [];
+
+        if( is_array($row[$this->arParams['PARENT_ID']])){
+            foreach($row[$this->arParams['PARENT_ID']] as $sectionXmlId){
+                $arrIblockSectionId[] = $sectionsMatch[$sectionXmlId];
+            }
+        }
+
+        $arFields = array(
+            "ACTIVE" => "Y",
+            "IBLOCK_ID" => $this->catalogId,
+            "IBLOCK_SECTION" => $arrIblockSectionId,
+            "XML_ID" => $row[$this->arParams['ID']],
+            "NAME" => $row[$this->arParams['FULL_NAME']],
+            "CODE" => \CUtil::translit($row[$this->arParams['NAME']], 'ru') . time(),
+            "DETAIL_TEXT" => $row[$this->arParams['DESCRIPTION']],
+            "PROPERTY_VALUES" => $props
+        );
+
+        if( !empty($row[$this->arParams['PIC_FILE']])){
+            $objImg = new Image();
+            $arPic = $objImg->getPhoto( $row[$this->arParams['PIC_FILE']] );
+            $arFields["DETAIL_PICTURE"] = $arPic;
+        }
+        $id = 0;
+
+        try {
+            $id = $this->addProduct($arFields);
+        } catch(\Exception $e){
+            $this->errors[] = $e;
+        }
+
+        return $id;
+    }
+
     public function productsGenerator(){
 
         if(\Kocmo\Exchange\DataTable::getCount() == 0){
@@ -116,12 +189,20 @@ class Product extends Helper
                 }
             }
 
+            $arrIblockSectionId = [];
+
+            if( is_array($row[$this->arParams['PARENT_ID']])){
+                foreach($row[$this->arParams['PARENT_ID']] as $sectionXmlId){
+                    $arrIblockSectionId[] = $sectionsMatch[$sectionXmlId];
+                }
+            }
+
             $arFields = array(
                 "ROW_ID" => $rowId,
                 "ACTIVE" => "Y",
                 "IBLOCK_ID" => $this->catalogId,
                 //"IBLOCK_SECTION_ID" => $sectionsMatch[$row[$this->arParams['PARENT_ID']][0]],
-                "IBLOCK_SECTION" => $sectionsMatch[$row[$this->arParams['PARENT_ID']]],
+                "IBLOCK_SECTION" => $arrIblockSectionId,
                 "XML_ID" => $row[$this->arParams['ID']],
                 "NAME" => $row[$this->arParams['FULL_NAME']],
                 "CODE" => \CUtil::translit($row[$this->arParams['NAME']], 'ru') . time(),
@@ -173,7 +254,8 @@ class Product extends Helper
 
         $prod = $this->getProductFromIblock($arFields["XML_ID"]);
         $id = 0;
-
+//        echo '<pre>', print_r($prod, true), '</pre>';
+//        echo '<pre>', print_r($arFields, true), '</pre>';
         if ($prod === false) {
 
             $id = $oElement->Add($arFields);
@@ -192,7 +274,7 @@ class Product extends Helper
         } else {
             if( $oElement->Update($prod, $arFields) ){
                 $id = $prod;
-
+                //echo '<pre>', print_r($prod, true), '</pre>';
                 if( intval($rowId) > 0){
                     $deleteResult = \Kocmo\Exchange\DataTable::delete($rowId);
                 }

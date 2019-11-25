@@ -1,7 +1,9 @@
 <?
 $MESS["CLEAR_OPTIONS"] = "Очистить все свойства?";
 $MESS["MAIN_OPTIONS"] = "Настройки";
+$MESS["UPDATE_TAB"] = "Обновить товар";
 $MESS["MODULE_OPTIONS"] = "Настройки параметров модуля";
+$MESS["UPDATE_OPTIONS"] = "Обновить товар";
 
 $MESS["HREF_GET_SECTIONS"] = "Ссылка на сервис, для получения разделов";
 $MESS["HREF_GET_PRODUCTS"] = "Ссылка на сервис, для получения товаров";

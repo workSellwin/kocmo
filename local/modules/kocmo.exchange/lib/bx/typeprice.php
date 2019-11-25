@@ -24,6 +24,7 @@ class Typeprice extends Helper
                     \Bitrix\Catalog\GroupTable::add([
                         "NAME" => $this->getCode($tp [$this->arParams['NAME'] ]),
                         "XML_ID" => $tp [$this->arParams['ID'] ],
+                        "SORT" => 123,
                     ]);
                 }
                 catch(\Exception $e){

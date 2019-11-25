@@ -18,7 +18,10 @@ class Price extends Helper
     public function update(){
 
         $arReq = $this->treeBuilder->getRequestArr();
-        $typePrice = \Bitrix\Catalog\GroupTable::getlist(['select' => ['ID', 'XML_ID']])->fetchAll();
+        $typePrice = \Bitrix\Catalog\GroupTable::getlist([
+            //'filter' => ['SORT' => 123],
+            'select' => ['ID', 'XML_ID']
+        ])->fetchAll();
         $typePrice = array_column($typePrice, NULL, "XML_ID");
 
         $res = \CIBlockElement::GetList([], ["XML_ID" => array_keys($arReq)], false, false, ['ID', 'XML_ID']);

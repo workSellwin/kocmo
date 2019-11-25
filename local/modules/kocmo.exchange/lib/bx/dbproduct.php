@@ -44,7 +44,6 @@ class Dbproduct extends Helper
 
                 try{
                     $result = \Kocmo\Exchange\DataTable::add($item);
-
                     if($result->isSuccess()){
                         $_SESSION[$this->arParams['PRODUCT_LAST_UID']] = $item["UID"];
                         //$last = $item["UID"];

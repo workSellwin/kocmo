@@ -59,6 +59,13 @@ final class StaticFactory
     }
 
     static function nextStep($step){
+
+        if($step == 30){
+            return $step + 20;
+        }
+        elseif($step == 90){
+
+        }
         return $step + 10;
     }
 }

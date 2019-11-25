@@ -65,10 +65,15 @@ class Rest extends Helper
     {
         if($this->storeXmlId === false){
             static::resetCurStore();
+            $this->status = 'end';
             return false;
         }
 
         $arReq = $this->treeBuilder->getRequestArr();//product xml_id => store xml_id => count
+
+//        pr($_SESSION['LAST_STORE_ID']);
+//        pr($arReq);
+//        die();
         $arUid = array_keys($arReq);
         $this->products = $this->getProductId($arUid);
         $rests = $this->getRest();
@@ -121,6 +126,7 @@ class Rest extends Helper
                 }
             }
         }
+        $this->status = 'run';
         return true;
     }
 
@@ -129,11 +135,11 @@ class Rest extends Helper
         $stores = [];
 
         try {
-            $param = [];
+            $param["filter"] = ['ACTIVE' => 'Y'];
 
             if( !empty($xml_id) ){
                 $param["filter"] = ["XML_ID" => $xml_id];
-                $param["limit"] = 1;
+                $param["filter"]["limit"] = 1;
             }
             $stores = \Bitrix\Catalog\StoreTable::getlist($param)->fetchAll();
             $stores = array_column($stores, "XML_ID", "ID");
