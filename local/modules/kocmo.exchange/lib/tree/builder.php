@@ -1,8 +1,11 @@
 <?php
 namespace Kocmo\Exchange\Tree;
+use Kocmo\Exchange;
 
 abstract class Builder
 {
+    /* @var $utils \Kocmo\Exchange\Utils */
+    protected $utils = null;
     protected $arParams = [];
     protected $strReqParams = false;
     protected $tree = [];
@@ -20,6 +23,8 @@ abstract class Builder
     }
 
     protected function setParams(){
+
+        $this->utils = new Exchange\Utils();
 
         if(!empty($GLOBALS['kocmo.exchange.config-path'])) {
 
@@ -72,7 +77,6 @@ abstract class Builder
 
     protected function send($uri)
     {
-
         $success = false;
         $client = new \GuzzleHttp\Client();
 
@@ -88,32 +92,32 @@ abstract class Builder
         return $success;
     }
 
-    public function getGuid( $str ){
-        return str_replace(["g_", "_"], ["", "-"], $str);
-    }
-
-    public function getStrFromGuid( $guid ){
-        return "g_" . str_replace("-", "_", $guid);
-    }
-
-    protected function checkRef($val = false)
-    {
-        if( empty($val) ){
-            return false;
-        }
-
-        if (is_string($val) && strlen($val) === 36 && $val != '00000000-0000-0000-0000-000000000000') {
-            $arr = explode('-', $val);
-
-            if (strlen($arr[0]) === 8 && strlen($arr[1]) === 4 && strlen($arr[2]) === 4
-                && strlen($arr[3]) === 4 && strlen($arr[4]) === 12) {
-                return true;
-            }
-            return false;
-        } else {
-            return false;
-        }
-    }
+//    public function getGuid( $str ){
+//        return str_replace(["g_", "_"], ["", "-"], $str);
+//    }
+//
+//    public function getStrFromGuid( $guid ){
+//        return "g_" . str_replace("-", "_", $guid);
+//    }
+//
+//    protected function checkRef($val = false)
+//    {
+//        if( empty($val) ){
+//            return false;
+//        }
+//
+//        if (is_string($val) && strlen($val) === 36 && $val != '00000000-0000-0000-0000-000000000000') {
+//            $arr = explode('-', $val);
+//
+//            if (strlen($arr[0]) === 8 && strlen($arr[1]) === 4 && strlen($arr[2]) === 4
+//                && strlen($arr[3]) === 4 && strlen($arr[4]) === 12) {
+//                return true;
+//            }
+//            return false;
+//        } else {
+//            return false;
+//        }
+//    }
 
     protected function getReqParams(){
 

@@ -2,6 +2,7 @@
 
 
 namespace Kocmo\Exchange\Bx;
+use \Bitrix\Catalog;
 
 
 class Store extends Helper
@@ -12,19 +13,19 @@ class Store extends Helper
         parent::__construct($treeBuilder);
     }
 
-    public function update()
-    {
+    public function update() : bool{
 
         $stores = $this->getStore();
         $arReq = $this->treeBuilder->getRequestArr();
 
         foreach ($arReq as $store) {
+
             if (!isset($stores[$store [$this->arParams['ID']]])) {
 
                 try {
-                    $w = \Bitrix\Catalog\StoreTable::add([
+                    $w = Catalog\StoreTable::add([
                         "TITLE" => $store[$this->arParams['NAME']],
-                        "CODE" => $this->getCode($store [$this->arParams['NAME']]),
+                        "CODE" => $this->utils->getCode($store [$this->arParams['NAME']]),
                         "XML_ID" => $store[$this->arParams['ID']],
                         "ADDRESS" => $store[$this->arParams['ADDRESS']],
                     ]);
@@ -34,12 +35,13 @@ class Store extends Helper
                 }
             }
         }
+        $this->status = 'end';
         return true;
     }
 
     private function getStore(){
 
-        $stores = \Bitrix\Catalog\StoreTable::getlist([])->fetchAll();
+        $stores = Catalog\StoreTable::getlist([])->fetchAll();
         $stores = array_column($stores, NULL, "XML_ID");
         return $stores;
     }

@@ -1,0 +1,66 @@
+//= templates/head.html
+//= templates/top-banner.html
+//= templates/header.html
+
+<main class="main">
+    <!-- шаблон заголовка нестандартный -->
+    <div class="page-title-wrap page-title-wrap--search">
+        <div class="container">
+            //= templates/breadcrumbs.html
+
+            <h1 class="page-title">Результаты поиска</h1>
+
+            <div class="search-result-info">По вашему запросу: <span>шампуни корея</span> найдено <b>5 товаров</b></div>
+        </div>
+    </div>
+
+    <div class="category-subcategory">
+        <div class="container">
+            <ul class="category-subcategory__inner">
+                <li class="category-subcategory__item">
+                    <span class="category-subcategory__lnk">Основы для макияжа</span>
+                </li>
+                <li class="category-subcategory__item">
+                    <a href="#" class="category-subcategory__lnk"><span>Тональные средства</span></a>
+                </li>
+                <li class="category-subcategory__item">
+                    <a href="#" class="category-subcategory__lnk"><span>Румяна и корректирующие средства</span></a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="products">
+        <div class="container">
+            <div class="preloader-wrap">
+                <div class="products__container">
+                    //= templates/products-four.html
+
+                    //= templates/products-four.html
+                </div>
+
+                <div class="preloader" style="display: none;">
+                    <svg width="64" height="64">
+                        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-preloader"></use>
+                    </svg>
+                </div>
+            </div>
+
+            <div class="button-more-wrap">
+                <!-- MainJs.productsMore -->
+                <div class="button-more__btn js_products__btn">
+                    Показать больше
+                    <svg width="9" height="16">
+                        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-arrow-down"></use>
+                    </svg>
+                </div>
+            </div>
+
+            //= templates/pagination.html
+        </div>
+    </div>
+</main>
+
+//= templates/footer.html
+</body>
+</html>

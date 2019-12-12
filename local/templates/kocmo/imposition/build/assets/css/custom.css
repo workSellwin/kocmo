@@ -1,0 +1,83 @@
+/* LUIWADJOGS */
+.nav-dropdown__title {
+    cursor: pointer;
+    line-height: 1.5rem;
+}
+.header__top-nav-item:hover a {
+    text-decoration: underline;
+}
+.about-us__footer .about-us__footer-lnk:hover ,
+.news__item-more:hover,
+.basket-footer__back:hover {
+    color: #8C249F;
+}
+.about-us__footer .about-us__footer-lnk:hover svg,
+.news__item-more:hover svg,
+.basket-footer__back:hover svg{
+    fill: #D01C60;
+}
+.footer-nav__title{
+    cursor: pointer;
+}
+.category-filter__item-inner
+{
+     min-width: 350px;
+}
+.category-filter__item-inner--scroll
+{
+    min-width: 320px;
+}
+
+.header-logo-mobile {
+    position: fixed;
+    top: 10px;
+}
+.breadcrumbs{
+    white-space: inherit;
+    line-height: 1.5rem;
+}
+
+.product__view .products-item__wishlist--active {
+    background: none;
+}
+.product__view .products-item__wishlist--active:hover {
+    background: #8C249F;
+}
+.product__view .products-item__wishlist--active:hover svg{
+    fill: #fff;
+}
+.product__view .products-item__wishlist--active  {
+    background: url(../images/heart.png) no-repeat 24px 15px;
+}
+
+.product__view .products-item__wishlist--active  {
+    fill: none;
+}
+
+.basket-price__details{
+    justify-content: center;
+}
+
+.logout{
+    font-size: 14px;
+    line-height: 135%;
+    color: #343434;
+}
+.header-basket-wrap {
+    position: relative;
+    padding-right: 10px;
+}
+
+.personality-state__item:last-of-type {
+    padding-right: 10px;
+    margin-right: 10px;
+}
+
+@media (max-width: 1240px) {
+    .products .products-item {
+        width: 33.3333%;
+    }
+}
+.profile-name{
+    color: #8C249F;
+}

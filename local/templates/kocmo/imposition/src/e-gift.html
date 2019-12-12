@@ -1,0 +1,253 @@
+//= templates/head.html
+//= templates/top-banner.html
+//= templates/header.html
+
+<main class="main">
+    <div class="page-title-wrap">
+        <div class="container">
+            //= templates/breadcrumbs.html
+
+            <h1 class="page-title">E-GIFT</h1>
+        </div>
+    </div>
+
+    <!-- desktop - 1920x250px, mobile - 126x480 -->
+    <div class="e-gift-banner js_category-banner"
+         data-mobile-background="assets/images/temp/category-mobile-banner.jpg"
+         data-desktop-background="assets/images/temp/e-gift-banner.png"></div>
+
+    <div class="top-promo container">
+        <h2>Лучшее решение <b>- подарочный сертификат <span>КОСМО</span>!</b></h2>
+
+        <p>Surprise.by — это сервис подарочных сертификатов и «лавка» впечатлений в одном флаконе. Мы взяли на себя роль
+            компетентного и дружелюбного гида в поиске подарков. Наша задача — сопровождать каждого клиента на всех
+            этапах:
+            от выбора подходящего сертификата до его оплаты и доставки.</p>
+
+        <p>Вы можете выбрать в нашем каталоге полезные и приятные подарки для близких, друзей, коллег и партнеров и
+            «приложить» их к любому поводу — будь-то день рождения, годовщина или просто в качестве изящного
+            комплимента.
+            Для этого мы находимся в постоянном поиске интересных услуг и мониторим классные новинки, тщательно
+            подбираем
+            надежных партнеров и отсеиваем недобросовестных. Все это — для вас!</p>
+    </div>
+
+    <div class="e-gift">
+        <form action="" method="post" class="e-gift__form container">
+            <div class="e-gift__cert">
+                <div class="e-gift__cert-title">
+                    подарочный
+                    <span>сертификат</span>
+                </div>
+
+                <div class="double-separator e-gift__cert-separator"></div>
+
+                <div class="e-gift__cert-sum">на сумму <span class="js_slider-pointer-price">0</span> BYN</div>
+
+                <div class="form-field">
+                    <input name="" value="" class="form-field__input" type="text"
+                           placeholder="Введите имя">
+                </div>
+
+                <div class="form-field">
+                    <textarea name="" placeholder="Введите текст поздравления"></textarea>
+                </div>
+            </div>
+
+            <div class="e-gift__cert-choice">
+                <div class="e-gift__slider-wrapper">
+                    <div class="e-gift__slider-title-wrap">
+                        <div class="e-gift__slider-title">Выберите дизайн сертификата:</div>
+
+                        <div class="e-gift__slider-control">
+                            <div class="e-gift__slider-prev js_e-gift__slider-prev">
+                                <svg width="31" height="9">
+                                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-slider-left"></use>
+                                </svg>
+                            </div>
+                            <div class="e-gift__slider-counter js_e-gift__slider-counter" style="opacity: 0">
+                                <div class="e-gift__slider-counter-current js_slider-counter-current">0</div>
+                                &nbsp;/&nbsp;
+                                <div class="e-gift__slider-counter-all js_slider-counter-all">0</div>
+                            </div>
+                            <div class="e-gift__slider-next js_e-gift__slider-next">
+                                <svg width="31" height="9">
+                                    <use xmlns:xlink="http://www.w3.org/1999/xlink"
+                                         xlink:href="#svg-slider-right"></use>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="e-gift__slider-container swiper-container js_e-gift__slider-container">
+                        <div class="e-gift__slider-wrap swiper-wrapper">
+                            <label class="e-gift__slider-item swiper-slide radio js_radio">
+                                <!-- 340x221 -->
+                                <img src="assets/images/temp/e-gift-1.png" alt="">
+                                <input type="radio" name="e_gift_design" checked value="">
+                            </label>
+                            <label class="e-gift__slider-item swiper-slide radio js_radio">
+                                <img src="assets/images/temp/e-gift-2.png" alt="">
+                                <input type="radio" name="e_gift_design"  value="">
+                            </label>
+                            <label class="e-gift__slider-item swiper-slide radio js_radio">
+                                <img src="assets/images/temp/e-gift-3.png" alt="">
+                                <input type="radio" name="e_gift_design"  value="">
+                            </label>
+                            <label class="e-gift__slider-item swiper-slide radio js_radio">
+                                <img src="assets/images/temp/e-gift-4.png" alt="">
+                                <input type="radio" name="e_gift_design"  value="">
+                            </label>
+                            <label class="e-gift__slider-item swiper-slide radio js_radio">
+                                <img src="assets/images/temp/e-gift-1.png" alt="">
+                                <input type="radio" name="e_gift_design"  value="">
+                            </label>
+                            <label class="e-gift__slider-item swiper-slide radio js_radio">
+                                <img src="assets/images/temp/e-gift-2.png" alt="">
+                                <input type="radio" name="e_gift_design"  value="">
+                            </label>
+                            <label class="e-gift__slider-item swiper-slide radio js_radio">
+                                <img src="assets/images/temp/e-gift-3.png" alt="">
+                                <input type="radio" name="e_gift_design"  value="">
+                            </label>
+                            <label class="e-gift__slider-item swiper-slide radio js_radio">
+                                <img src="assets/images/temp/e-gift-4.png" alt="">
+                                <input type="radio" name="e_gift_design"  value="">
+                            </label>
+                            <label class="e-gift__slider-item swiper-slide radio js_radio">
+                                <img src="assets/images/temp/e-gift-1.png" alt="">
+                                <input type="radio" name="e_gift_design"  value="">
+                            </label>
+                            <label class="e-gift__slider-item swiper-slide radio js_radio">
+                                <img src="assets/images/temp/e-gift-2.png" alt="">
+                                <input type="radio" name="e_gift_design"  value="">
+                            </label>
+                        </div>
+
+                        <div class="swiper-button-prev"></div>
+                        <div class="swiper-button-next"></div>
+                    </div>
+                </div>
+
+                <div class="e-gift__cert-choice-sum">
+                    <div class="e-gift__cert-choice-sum-title">Выберите сумму сертификата:</div>
+                    <div class="e-gift__cert-choice-sum-select slider-pointer">
+                        <div class="slider-pointer__line">
+                            <label class="slider-pointer__label js_radio">
+                                <input type="radio" class="js_slider-pointer-set-price" checked="checked" name="e_gift_cost" value="30">
+                                <span>30</span>
+                            </label>
+                            <label class="slider-pointer__label js_radio">
+                                <input type="radio" class="js_slider-pointer-set-price" name="e_gift_cost" value="50">
+                                <span>50</span>
+                            </label>
+                            <label class="slider-pointer__label js_radio">
+                                <input type="radio" class="js_slider-pointer-set-price" name="e_gift_cost" value="70">
+                                <span>70</span>
+                            </label>
+                            <label class="slider-pointer__label js_radio">
+                                <input type="radio" class="js_slider-pointer-set-price" name="e_gift_cost" value="100">
+                                <span>100</span>
+                            </label>
+                            <label class="slider-pointer__label js_radio">
+                                <input type="radio" class="js_slider-pointer-set-price" name="e_gift_cost" value="150">
+                                <span>150</span>
+                            </label>
+                        </div>
+
+                        <div class="slider-pointer__selected-cost">
+                            <span class="js_slider-pointer-price">0</span> BYN
+                        </div>
+                    </div>
+                </div>
+
+                <div class="e-gift__cert-shipment">
+                    <div class="e-gift__cert-shipment-title">Доставка E-Gift:</div>
+
+                    <div class="e-gift__cert-shipment-row">
+                        <div class="form-field__required-wrap e-gift__cert-shipment-item">
+                            <input type="email" required
+                                   name="form-register_email"
+                                   value=""
+                                   class="form-field__required-input js_field-required-input"
+                                   onfocus="this.removeAttribute('readonly')"
+                                   readonly
+                                   id="form-register-mail">
+                            <label class="form-field__required-label" for="form-register-mail">Адрес электронной почты<span class="required">*</span></label>
+                        </div>
+
+                        <div class="e-gift__cert-shipment-info e-gift__cert-shipment-item">На этот Email будет отправлен сертификат</div>
+                    </div>
+
+                    <div class="e-gift__cert-shipment-row">
+                        <div class="form-field e-gift__cert-shipment-item e-gift__cert-shipment-item--date">
+                            <input name="form-register_date"
+                                   value=""
+                                   class="form-field__input"
+                                   type="text"
+                                   onclick="BX.calendar({node: this, field: this, bTime: false});"
+                                   placeholder="Когда доставить сертификат">
+                        </div>
+
+                        <div class="e-gift__cert-shipment-info e-gift__cert-shipment-item">Если дата и время не указаны, сертификат
+                            будет отправлен сразу после оплаты</div>
+                    </div>
+
+                    <div class="e-gift__cert-shipment-row">
+                        <div class="form-field e-gift__cert-shipment-item">
+                            <input name="" value="" class="form-field__input" type="text"
+                                   placeholder="Введите имя отправителя">
+                        </div>
+
+                        <div class="e-gift__cert-shipment-info e-gift__cert-shipment-item">От этого имени будет отправлен сертификат.
+                            Если Вы хотите отправить анонимный
+                            подарок оставьте это поле пустым</div>
+                    </div>
+
+                    <div class="e-gift__cert-shipment-row e-gift__cert-shipment-footer">
+                        <button type="submit" class="form-submit btn e-gift__cert-shipment-item">
+                            Купить e gift
+
+                            <svg width="25" height="9">
+                                <use xmlns:xlink="http://www.w3.org/1999/xlink"
+                                     xlink:href="#svg-arrow-right"></use>
+                            </svg>
+                        </button>
+
+                        <div class="e-gift__cert-shipment-info e-gift-cert__shipment-info--submit e-gift__cert-shipment-item">
+                            <p>Оплата сертификата только банковской картой</p>
+                            <p>Сертификат может быть использован в любом
+                                магазине КОСМО и при покупке в интернет
+                                магазине</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div class="promo">
+        <div class="container">
+            <h2 class="promo__title">Товары <span><b>КОСМО</b></span></h2>
+
+            <p><b>Красота - это результат работы над собой.</b> И здесь без применения декоративной и лечебной косметики
+                не
+                обойтись. Лучший выбор в РБ в этом сегменте предоставляет магазин косметики и парфюмерии КОСМО. И
+                приятно
+                то, что выбрать нужное средство для лица или для тела можно, не тратя время на поиски необходимого по
+                разным
+                торговым.</p>
+
+            <p><b>КОСМО</b> - это возможность купить косметику в Минске и других городах Беларуси с гарантией качества.
+                И
+                времени
+                потратите минимум - за секунду вы на сайте найдете искомое средство, и рядом будет информация о его
+                наличии
+                в магазинах сети.</p>
+        </div>
+    </div>
+</main>
+
+//= templates/footer.html
+</body>
+</html>

@@ -1,0 +1,406 @@
+//= templates/head.html
+//= templates/top-banner.html
+//= templates/header.html
+
+<main class="main">
+    <div class="page-title-wrap">
+        <div class="container">
+            //= templates/breadcrumbs.html
+
+            <h1 class="page-title">МАГАЗИНЫ</h1>
+        </div>
+    </div>
+
+    <div class="container inner-with-aside">
+        //= templates/aside.html
+
+        <div class="main-content">
+            <div class="shops">
+                <div class="shops__header">
+                    <div class="shops__header-select">
+                        <div class="form-field">
+                            <select name="cities" class="js_custom-select js_set-position">
+                                <option value="all" data-lat="53.62891183780857" data-lng="27.539946343749957"
+                                        data-zoom="6">Все
+                                    магазины
+                                </option>
+                                <option value="1" data-lat="53.902297" data-lng="27.561919"
+                                        data-zoom="10">г. Минск
+                                </option>
+                                <option value="2" data-lat="52.091087" data-lng="23.691610"
+                                        data-zoom="10">г. Брест
+                                </option>
+                                <option value="3" data-lat="53.894548" data-lng="30.330654"
+                                        data-zoom="10">г. Могилев
+                                </option>
+                                <option value="4" data-lat="52.416208" data-lng="30.959259"
+                                        data-zoom="10">г. Гомель
+                                </option>
+                                <option value="5" data-lat="55.169094" data-lng="30.223025"
+                                        data-zoom="10">г. Витебск
+                                </option>
+                                <option value="6" data-lat="52.7876" data-lng="27.5415"
+                                        data-zoom="10">г. Солигорск
+                                </option>
+                                <option value="7" data-lat="53.70161" data-lng="23.83406"
+                                        data-zoom="10">г. Гродно
+                                </option>
+                                <option value="8" data-lat="55.4879000" data-lng="28.7856000"
+                                        data-zoom="10">г. Полоцк
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="shops__map-wrap">
+                <div id="map" class="shops__map"></div>
+
+                <div class="shops__map-controls">
+                    <div class="shops__map-controls-zoom">
+                        <div class="shops__map-controls-zoom-in shops__map-controls-zoom-item js_map-zoom-in"></div>
+                        <div class="shops__map-controls-zoom-out shops__map-controls-zoom-item js_map-zoom-out"></div>
+                    </div>
+
+                    <div class="shops__map-controls-loc js_map-zoom-loc">
+                        <svg width="10" height="10">
+                            <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-map-loc"></use>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+
+            <div class="shops__info preloader-wrap">
+                <div class="shops__info-inner">
+                    <div class="shops__item">
+                        <div class="shops__item-img">
+                            <img src="assets/images/temp/shop-1.jpg" alt="">
+                        </div>
+
+                        <div class="shops__item-content-wrap">
+                            <div class="shops__item-content">
+                                <div class="shops__item-title">ТЦ Дана Молл</div>
+                                <span class="shops__item-address js_set-position" data-lat="53.933618"
+                                      data-lng="27.652116"
+                                      data-zoom="16">г. Минск ул. Мстиславца 176, 5 этаж возле гипермаркета Green</span>
+                            </div>
+
+                            <div class="shops__item-schedule">
+                                <div class="shops__item-schedule-title">Время работы:</div>
+                                <div class="shops__item-schedule-hours">пн - вс, 10:00 - 22:00</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="shops__item">
+                        <div class="shops__item-img">
+                            <img src="assets/images/temp/shop-2.jpg" alt="">
+                        </div>
+
+                        <div class="shops__item-content-wrap">
+                            <div class="shops__item-content">
+                                <div class="shops__item-title">ТЦ ТИТАН</div>
+                                <span class="shops__item-address js_set-position" data-lat="53.933618"
+                                      data-lng="27.652116"
+                                      data-zoom="16">г. Минск ул. Железнодорожников 76, 2 этаж</span>
+                            </div>
+
+                            <div class="shops__item-schedule">
+                                <div class="shops__item-schedule-title">Время работы:</div>
+                                <div class="shops__item-schedule-hours">пн - вс, 10:00 - 22:00</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="shops__item">
+                        <div class="shops__item-img">
+                            <img src="assets/images/temp/shop-1.jpg" alt="">
+                        </div>
+
+                        <div class="shops__item-content-wrap">
+                            <div class="shops__item-content">
+                                <div class="shops__item-title">ТЦ Дана Молл</div>
+                                <span class="shops__item-address js_set-position" data-lat="53.933618"
+                                      data-lng="27.652116"
+                                      data-zoom="16">г. Минск ул. Мстиславца 176, 5 этаж возле гипермаркета Green</span>
+                            </div>
+
+                            <div class="shops__item-schedule">
+                                <div class="shops__item-schedule-title">Время работы:</div>
+                                <div class="shops__item-schedule-hours">пн - вс, 10:00 - 22:00</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="shops__item">
+                        <div class="shops__item-img">
+                            <img src="assets/images/temp/shop-2.jpg" alt="">
+                        </div>
+
+                        <div class="shops__item-content-wrap">
+                            <div class="shops__item-content">
+                                <div class="shops__item-title">ТЦ ТИТАН</div>
+                                <span class="shops__item-address js_set-position" data-lat="53.933618"
+                                      data-lng="27.652116"
+                                      data-zoom="16">г. Минск ул. Железнодорожников 76, 2 этаж</span>
+                            </div>
+
+                            <div class="shops__item-schedule">
+                                <div class="shops__item-schedule-title">Время работы:</div>
+                                <div class="shops__item-schedule-hours">пн - вс, 10:00 - 22:00</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="preloader" style="display: none;">
+                    <svg width="64" height="64">
+                        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-preloader"></use>
+                    </svg>
+                </div>
+            </div>
+
+            //= templates/pagination.html
+        </div>
+    </div>
+    </div>
+</main>
+
+//= templates/footer.html
+
+<!-- yandex map -->
+<script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU" type="text/javascript"></script>
+<script>
+    ymaps.ready(function () {
+        var myMap = window.map = new ymaps.Map('map', {
+                center: [53.62891183780857, 27.539946343749957],
+                zoom: 6,
+                behaviors: ['default', 'scrollZoom'],
+                controls: []
+            }),
+            /**
+             * Создадим кластеризатор, вызвав функцию-конструктор.
+             * Список всех опций доступен в документации.
+             * @see http://api.yandex.ru/maps/doc/jsapi/2.x/ref/reference/Clusterer.xml#constructor-summary
+             */
+            clusterer = new ymaps.Clusterer({
+                /**
+                 * Через кластеризатор можно указать только стили кластеров,
+                 * стили для меток нужно назначать каждой метке отдельно.
+                 * @see http://api.yandex.ru/maps/doc/jsapi/2.x/ref/reference/option.presetStorage.xml
+                 */
+                preset: 'twirl#invertedVioletClusterIcons',
+                /**
+                 * Ставим true, если хотим кластеризовать только точки с одинаковыми координатами.
+                 */
+                groupByCoordinates: false,
+                /**
+                 * Опции кластеров указываем в кластеризаторе с префиксом "cluster".
+                 * @see http://api.yandex.ru/maps/doc/jsapi/2.x/ref/reference/Cluster.xml
+                 */
+                clusterDisableClickZoom: true,
+
+                // Зададим массив, описывающий иконки кластеров разного размера.
+                clusterIcons: [{
+                    href: 'assets/images/map-loc.png',
+                    size: [48, 66],
+                    offset: [-24, -33]
+                }]
+            }),
+            /**
+             * Функция возвращает объект-данных для метки.
+             * Поле данных clusterCaption будет отображено в списке геообъектов в балуне кластера.
+             * Поле balloonContentBody - источник данных для контента балуна.
+             * Оба поля поддерживают HTML-разметку.
+             * Список полей данных, которые используют стандартные макеты содержимого иконки метки
+             * и балуна геообъектов, можно посмотреть в документации.
+             * @see http://api.yandex.ru/maps/doc/jsapi/2.x/ref/reference/GeoObject.xml
+             */
+            getPointData = function (shopInfo) {
+                return {
+                    balloonContentBody: '<div class="shops__balloon">' + shopInfo.schedule + '</div>',
+                    clusterCaption: '<div class="shops__caption">' + shopInfo.name + '</div>',
+                    balloonContentHeader: '<div class="shops__caption">' + shopInfo.name + '</div>',
+                    // balloonContent: '<div class="shops__balloon">' + shopInfo.schedule + '</div>'
+                };
+            },
+            /**
+             * Функция возвращает объект-опций для метки.
+             * Все опции, которые поддерживают геообъекты можно посмотреть в документации.
+             * @see http://api.yandex.ru/maps/doc/jsapi/2.x/ref/reference/GeoObject.xml balloonIconImageHref: 'assets/images/map-loc.png'
+             */
+            getPointOptions = function (obj) {
+                return {
+                    // Необходимо указать данный тип макета.
+                    iconLayout: 'default#image',
+                    // Своё изображение иконки метки.
+                    iconImageHref: 'assets/images/map-loc.png',
+                    // Размеры метки.
+                    iconImageSize: [48, 66],
+                    // Смещение левого верхнего угла иконки относительно
+                    // её "ножки" (точки привязки).
+                    iconImageOffset: [-24, -33]
+                };
+            },
+
+            pointsObj = [
+                {
+                    position: [53.933618, 27.652116],
+                    zoom: 16,
+                    name: "ТЦ \"Дана Молл\"",
+                    schedule: "пн-вс, 10.00-22.00"
+                },
+                {
+                    position: [53.9085033, 27.432121],
+                    zoom: 16,
+                    name: "ТРЦ \"Green City\"",
+                    schedule: "пн-вс: 10.00-22.00"
+                },
+                {
+                    position: [53.890076, 27.554827],
+                    zoom: 16,
+                    name: "ТЦ \"Галилео\"",
+                    schedule: "пн-вс: 10.00-22.00"
+                },
+                {
+                    position: [53.908778, 27.46994],
+                    zoom: 16,
+                    name: "ТЦ \"Скала\"",
+                    schedule: "пн-вс: 10.00-22.00"
+                },
+                {
+                    position: [53.926523, 27.517836],
+                    zoom: 16,
+                    name: "ТЦ \"Замок\"",
+                    schedule: "пн-вс: 10.00-22.00"
+                }
+            ],
+
+            geoObjects = [];
+
+
+        //отключение зума
+        myMap.behaviors.disable('scrollZoom');
+
+        /**
+         * Данные передаются вторым параметром в конструктор метки, опции третьим.
+         * @see http://api.yandex.ru/maps/doc/jsapi/2.x/ref/reference/Placemark.xml#constructor-summary
+         */
+        for (var i = 0, len = pointsObj.length; i < len; i++) {
+            geoObjects[i] = new ymaps.Placemark(pointsObj[i].position, getPointData(pointsObj[i]), getPointOptions());
+            /**
+             * Так же их можно добавлять/менять динамически после создания меток.
+             * geoObjects[i].properties.set(getPointData(i));
+             * geoObjects[i].options.set(getPointOptions());
+             */
+        }
+
+        /**
+         * Так же можно менять опции кластеризатора.
+         */
+        clusterer.options.set({
+            gridSize: 80,
+            clusterDisableClickZoom: true
+        });
+
+        /**
+         * В кластеризатор можно добавить javascript-массив меток (не геоколлекцию) или одну метку.
+         * @see http://api.yandex.ru/maps/doc/jsapi/2.x/ref/reference/Clusterer.xml#add
+         */
+        clusterer.add(geoObjects);
+
+        /**
+         * Поскольку кластеры добавляются асинхронно,
+         * дождемся их добавления, чтобы выставить карте область, которую они занимают.
+         * Используем метод once чтобы сделать это один раз.
+         */
+        clusterer.events.once('objectsaddtomap', function () {
+            myMap.setBounds(clusterer.getBounds());
+        });
+
+        /**
+         * Кластеризатор, расширяет коллекцию, что позволяет использовать один обработчик
+         * для обработки событий всех геообъектов.
+         * Выведем текущий геообъект, на который навели курсор, поверх остальных.
+         */
+        clusterer.events
+        // Можно слушать сразу несколько событий, указывая их имена в массиве.
+            .add(['mouseenter', 'mouseleave'], function (e) {
+                var target = e.get('target'), // Геообъект - источник события.
+                    eType = e.get('type'), // Тип события.
+                    zIndex = Number(eType === 'mouseenter') * 1000; // 1000 или 0 в зависимости от типа события.
+
+                target.options.set('zIndex', zIndex);
+            });
+
+        /**
+         * После добавления массива геообъектов в кластеризатор,
+         * работать с геообъектами можно, имея ссылку на этот массив.
+         */
+        clusterer.events.add('objectsaddtomap', function () {
+            for (var i = 0, len = geoObjects.length; i < len; i++) {
+                var geoObject = geoObjects[i],
+                    /**
+                     * Информацию о текущем состоянии геообъекта, добавленного в кластеризатор,
+                     * а также ссылку на кластер, в который добавлен геообъект, можно получить с помощью метода getObjectState.
+                     * @see http://api.yandex.ru/maps/doc/jsapi/2.x/ref/reference/Clusterer.xml#getObjectState
+                     */
+                    geoObjectState = clusterer.getObjectState(geoObject),
+                    // признак, указывающий, находится ли объект в видимой области карты
+                    isShown = geoObjectState.isShown,
+                    // признак, указывающий, попал ли объект в состав кластера
+                    isClustered = geoObjectState.isClustered,
+                    // ссылка на кластер, в который добавлен объект
+                    cluster = geoObjectState.cluster;
+
+                if (window.console) {
+                    console.log('Геообъект: %s, находится в видимой области карты: %s, в составе кластера: %s', i, isShown, isClustered);
+                }
+            }
+        });
+
+        myMap.geoObjects.add(clusterer);
+
+        $(document).on('click change', '.js_set-position', function (e) {
+            var isSelect = e.target.tagName === 'SELECT',
+                $el = isSelect ? $("option:selected", this) : $(this),
+                position = [$el.data('lat'), $el.data('lng')],
+                zoom = parseInt($el.data('zoom')) || 10,
+                scrollTop = $('#map').offset().top - $('.header').height();
+
+            if (!isSelect) {
+                $('body, html').animate({scrollTop: scrollTop}, 500);
+            }
+
+            myMap.setZoom(zoom);
+            myMap.setCenter(position);
+        });
+
+        $('.js_map-zoom-loc').on('click', function () {
+            ymaps.geolocation.get({
+                provider: 'yandex',
+                mapStateAutoApply: true,
+                autoReverseGeocode: false
+            }).then(function (result) {
+                // Красным цветом пометим положение, вычисленное через ip.
+
+                result.geoObjects.get(0).properties.set({});
+
+                myMap.geoObjects.add(result.geoObjects);
+            });
+        });
+
+        $('.js_map-zoom-in').on('click', function () {
+            myMap.setZoom(myMap.getZoom() + 1);
+        });
+
+        $('.js_map-zoom-out').on('click', function () {
+            myMap.setZoom(myMap.getZoom() - 1);
+        });
+    });
+</script>
+<!-- /yandex map -->
+
+</body>
+</html>

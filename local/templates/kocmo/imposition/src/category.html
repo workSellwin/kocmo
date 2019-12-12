@@ -5,14 +5,7 @@
 <main class="main">
     <div class="page-title-wrap">
         <div class="container">
-            <div class="breadcrumbs-wrapper">
-                <div class="breadcrumbs js_breadcrumbs">
-                    <a href="#" class="breadcrumbs__lnk">главная</a>
-                    <a href="#" class="breadcrumbs__lnk">все для макияжа</a>
-                    <a href="#" class="breadcrumbs__lnk">дополнительные</a>
-                    <span class="breadcrumbs__lnk">макияж для лица</span>
-                </div>
-            </div>
+            //= templates/breadcrumbs.html
 
             <h1 class="page-title">МАКИЯЖ ДЛЯ ЛИЦА</h1>
         </div>
@@ -45,9 +38,9 @@
          data-mobile-background="assets/images/temp/category-mobile-banner.jpg"
          data-desktop-background="assets/images/temp/category-banner.jpg"></div>
 
-    <form style="display: none;" action="test-ajax.html" method="post" class="category-filter">
+    <form action="test-ajax.html" method="post" class="category-filter js_category-filter">
         <div class="container category-filter__container">
-            <span class="category-filter__title">Фильтр</span>
+            <span class="category-filter__title">Фильтр:</span>
             <div class="category-filter__inner">
                 <div class="category-filter__order-place">
                     <label class="checkbox js_checkbox">
@@ -58,136 +51,88 @@
                     </label>
                 </div>
 
-                <div class="category-filter__item">
-                    <div class="category-filter__item-title">
-                        Бренд
+                <div class="category-filter__inner-wrap">
+                    <div class="category-filter__item">
+                        <div class="category-filter__item-title js_filter-accordion">
+                            Бренд
+                        </div>
+                        <div class="category-filter__item-inner">
+                            <div class="category-filter__item-inner--scroll  js_filter-scroll">
+                                <label class="checkbox js_checkbox">
+                                    <input type="checkbox" name="brand_askone">Askone
+                                </label>
+                                <label class="checkbox js_checkbox">
+                                    <input type="checkbox" name="brand_Able">Able
+                                </label>
+                                <label class="checkbox js_checkbox">
+                                    <input type="checkbox" name="brand_Banjour">Banjour
+                                </label>
+                                <label class="checkbox js_checkbox">
+                                    <input type="checkbox" name="brand_Bandsbotlle">Bandsbotlle
+                                </label>
+                                <label class="checkbox js_checkbox">
+                                    <input type="checkbox" name="brand_Crone">Crone
+                                </label>
+                                <label class="checkbox js_checkbox">
+                                    <input type="checkbox" name="brand_Crosstale">Crosstale
+                                </label>
+                                <label class="checkbox js_checkbox">
+                                    <input type="checkbox" name="brand_Askone2">Askone 2
+                                </label>
+                                <label class="checkbox js_checkbox">
+                                    <input type="checkbox" name="brand_Able2">Able 2
+                                </label>
+                                <label class="checkbox js_checkbox">
+                                    <input type="checkbox" name="brand_Banjour2">Banjour 2
+                                </label>
+                                <label class="checkbox js_checkbox">
+                                    <input type="checkbox" name="brand_Bandsbotlle2">Bandsbotlle 2
+                                </label>
+                                <label class="checkbox js_checkbox">
+                                    <input type="checkbox" name="brand_Crone2">Crone 2
+                                </label>
+                                <label class="checkbox js_checkbox">
+                                    <input type="checkbox" name="brand_Crosstale2">Crosstale 2
+                                </label>
+                            </div>
+                        </div>
                     </div>
-                    <div class="category-filter__item-inner">
-                        <label class="checkbox js_checkbox">
-                            <input type="checkbox" name="brand_askone">Askone
-                        </label>
-                        <label class="checkbox js_checkbox">
-                            <input type="checkbox" name="brand_askone">Able
-                        </label>
-                        <label class="checkbox js_checkbox">
-                            <input type="checkbox" name="brand_askone">Banjour
-                        </label>
-                        <label class="checkbox js_checkbox">
-                            <input type="checkbox" name="brand_askone">Bandsbotlle
-                        </label>
-                        <label class="checkbox js_checkbox">
-                            <input type="checkbox" name="brand_askone">Crone
-                        </label>
-                        <label class="checkbox js_checkbox">
-                            <input type="checkbox" name="brand_askone">Crosstale
-                        </label>
-                        <label class="checkbox js_checkbox">
-                            <input type="checkbox" name="brand_askone2">Askone 2
-                        </label>
-                        <label class="checkbox js_checkbox">
-                            <input type="checkbox" name="brand_askone2">Able 2
-                        </label>
-                        <label class="checkbox js_checkbox">
-                            <input type="checkbox" name="brand_askone2">Banjour 2
-                        </label>
-                        <label class="checkbox js_checkbox">
-                            <input type="checkbox" name="brand_askone2">Bandsbotlle 2
-                        </label>
-                        <label class="checkbox js_checkbox">
-                            <input type="checkbox" name="brand_askone2">Crone 2
-                        </label>
-                        <label class="checkbox js_checkbox">
-                            <input type="checkbox" name="brand_askone2">Crosstale 2
-                        </label>
-                    </div>
-                </div>
 
-                <div class="category-filter__item">
-                    <div class="category-filter__item-title">
-                        Стоимость
+                    <div class="category-filter__item">
+                        <div class="category-filter__item-title js_filter-accordion">
+                            Стоимость
+                        </div>
+                        <div class="category-filter__item-inner category-filter__item-inner--cost">
+                            От <input type="text" name="from_price" placeholder="10 р" value="" class="field-bordered">
+                            <span class="category-filter__divider"></span>
+                            До <input type="text" name="to_price" placeholder="100 р" value="" class="field-bordered">
+                        </div>
                     </div>
-                    <div class="category-filter__item-inner category-filter__item-inner--cost">
-                        От <input type="text" name="from_price" placeholder="10 р" value="" class="field-bordered">
-                        <span>&dash;</span>
-                        До <input type="text" name="to_price" placeholder="100 р" value="" class="field-bordered">
-                    </div>
-                </div>
 
-                <div class="category-filter__item">
-                    <div class="category-filter__item-title">
-                        Статус
-                    </div>
-                    <div class="category-filter__item-inner">
-                        <label class="checkbox js_checkbox">
-                            <input type="checkbox" name="state_1">Акция
-                        </label>
-                        <label class="checkbox js_checkbox">
-                            <input type="checkbox" name="state_2">Новинка
-                        </label>
-                        <label class="checkbox js_checkbox">
-                            <input type="checkbox" name="state_3">Только в Космо
-                        </label>
-                        <label class="checkbox js_checkbox">
-                            <input type="checkbox" name="state_4">Хит продаж
-                        </label>
-                    </div>
-                </div>
-
-                <div class="category-filter__item">
-                    <div class="category-filter__item-title">
-                        Тип кожи
-                    </div>
-                    <div class="category-filter__item-inner">
-                        <label class="checkbox js_checkbox">
-                            <input type="checkbox" name="skin_type_1">для всех типов кожи
-                        </label>
-                        <label class="checkbox js_checkbox">
-                            <input type="checkbox" name="skin_type_2">нормальная
-                        </label>
-                        <label class="checkbox js_checkbox">
-                            <input type="checkbox" name="skin_type_3">сухая
-                        </label>
-                        <label class="checkbox js_checkbox">
-                            <input type="checkbox" name="skin_type_4">жирная
-                        </label>
-                        <label class="checkbox js_checkbox">
-                            <input type="checkbox" name="skin_type_1">комбинированная
-                        </label>
-                        <label class="checkbox js_checkbox">
-                            <input type="checkbox" name="skin_type_2">акне/угри/камедоны
-                        </label>
-                        <label class="checkbox js_checkbox">
-                            <input type="checkbox" name="skin_type_3">с куперозом
-                        </label>
-                        <label class="checkbox js_checkbox">
-                            <input type="checkbox" name="skin_type_4">возрастная
-                        </label>
-                    </div>
-                </div>
-
-                <div class="category-filter__item">
-                    <div class="category-filter__item-title">
-                        SPF фактор
-                    </div>
-                    <div class="category-filter__item-inner">
-                        <label class="checkbox js_checkbox">
-                            <input type="checkbox" name="spf_less_15">SPF до 15
-                        </label>
-                        <label class="checkbox js_checkbox">
-                            <input type="checkbox" name="spf_from_15_to_30">SPF от 15 до 30
-                        </label>
-                        <label class="checkbox js_checkbox">
-                            <input type="checkbox" name="spf_from_30_to_50">SPF от 30 до 50
-                        </label>
-                        <label class="checkbox js_checkbox">
-                            <input type="checkbox" name="spf_more_50">SPF от 50 выше
-                        </label>
+                    <div class="category-filter__item">
+                        <div class="category-filter__item-title js_filter-accordion">
+                            Статус
+                        </div>
+                        <div class="category-filter__item-inner">
+                            <label class="checkbox js_checkbox">
+                                <input type="checkbox" name="state_1">Акция
+                            </label>
+                            <label class="checkbox js_checkbox">
+                                <input type="checkbox" name="state_2">Новинка
+                            </label>
+                            <label class="checkbox js_checkbox">
+                                <input type="checkbox" name="state_3">Только в Космо
+                            </label>
+                            <label class="checkbox js_checkbox">
+                                <input type="checkbox" name="state_4">Хит продаж
+                            </label>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="category-filter__sort">
+            <div class="category-filter__sort custom-select-wrap">
                 <span class="category-filter__sort-title">Сортировать по:</span>
-                <select name="filter_sort" class="js_custom-select">
+                <select name="filter_sort" class="js_custom-filter-select">
                     <option value="sort_default" selected>умолчанию</option>
                     <option value="sort_increase">A-Z</option>
                     <option value="sort_decrease">Z-A</option>
@@ -195,12 +140,19 @@
             </div>
         </div>
     </form>
-    <div class="category-filter-active-fields"></div>
+
+    <div class="category-filter-active-fields-wrap">
+        <div class="container js_category-filter-active-fields"></div>
+    </div>
 
     <div class="products">
         <div class="container">
             <div class="preloader-wrap">
                 <div class="products__container">
+                    //= templates/products-four.html
+
+                    //= templates/products-four.html
+
                     //= templates/products-four.html
 
                     //= templates/products-four.html
@@ -224,6 +176,48 @@
             </div>
 
             //= templates/pagination.html
+        </div>
+    </div>
+
+    <hr>
+
+    <div class="promo">
+        <div class="container">
+            <h2 class="promo__title">Товары <span>КОСМО</span></h2>
+
+            <p><b>Красота - это результат работы над собой.</b> И здесь без применения декоративной и лечебной косметики
+                не
+                обойтись. Лучший выбор в РБ в этом сегменте предоставляет магазин косметики и парфюмерии КОСМО. И
+                приятно
+                то, что выбрать нужное средство для лица или для тела можно, не тратя время на поиски необходимого по
+                разным
+                торговым.</p>
+
+            <p><b>КОСМО</b> - это возможность купить косметику в Минске и других городах Беларуси с гарантией качества.
+                И
+                времени
+                потратите минимум - за секунду вы на сайте найдете искомое средство, и рядом будет информация о его
+                наличии
+                в магазинах сети.</p>
+
+            <p><b>Красота - это результат работы над собой.</b> И здесь без применения декоративной и лечебной косметики
+                не
+                обойтись. Лучший выбор в РБ в этом сегменте предоставляет магазин косметики и парфюмерии КОСМО. И
+                приятно
+                то, что выбрать нужное средство для лица или для тела можно, не тратя время на поиски необходимого по
+                разным
+                торговым.</p>
+
+            <p><b>КОСМО</b> - это возможность купить косметику в Минске и других городах Беларуси с гарантией качества.
+                И
+                времени
+                потратите минимум - за секунду вы на сайте найдете искомое средство, и рядом будет информация о его
+                наличии
+                в магазинах сети. И здесь без применения декоративной и лечебной косметики не обойтись. Лучший выбор в
+                РБ в
+                этом сегменте предоставляет магазин косметики и парфюмерии КОСМО. И приятно то, что выбрать нужное
+                средство
+                для лица или для тела можно, не тратя время на поиски необходимого по разным торговым.</p>
         </div>
     </div>
 </main>

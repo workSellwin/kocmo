@@ -8,35 +8,43 @@
 
 namespace Kocmo\Exchange\Bx;
 
-use Kocmo\Exchange\Tree\Builder;
+use Bitrix\Main\Type\DateTime,
+    Kocmo\Exchange,
+    Kocmo\Exchange\Tree\Builder,
+    \Bitrix\Main\Loader,
+    \Bitrix\Main;
 
 abstract class Helper
 {
+//    private $module = 'kocmo.exchange';
     protected $arParams = [];
-    /* @var $treeBuilder \Kocmo\Exchange\Tree\Builder */
+    /* @var $treeBuilder Builder */
     protected $treeBuilder = null;
+    /* @var $utils Exchange\Utils */
+    protected $utils = null;
     protected $errors = [];
     protected $catalogId = false;
     protected $startTimestamp = false;
     protected $finishTimestamp = false;
     protected $timeLimit = 60;
     protected $status = 'waiting';
+    protected $timestamp = null;
 
     /**
      * Helper constructor.
-     * @param \Kocmo\Exchange\Tree\Builder $treeBuilder
-     * @param $catalogId
-     * @throws \Bitrix\Main\LoaderException
+     * @param Builder $treeBuilder
      */
-    public function __construct(\Kocmo\Exchange\Tree\Builder $treeBuilder)
+    public function __construct(Builder $treeBuilder)
     {
+        $this->timestamp = DateTime::createFromTimestamp(time());
 
         $this->status = 'run';
+
         try{
             $this->setParams();
 
-            \Bitrix\Main\Loader::includeModule('iblock');
-            \Bitrix\Main\Loader::includeModule('catalog');
+            Loader::includeModule('iblock');
+            Loader::includeModule('catalog');
 
             if (intval($this->arParams['IBLOCK_CATALOG_ID']) > 0) {
                 $this->catalogId = intval($this->arParams['IBLOCK_CATALOG_ID']);
@@ -49,36 +57,21 @@ abstract class Helper
             }
             $this->treeBuilder = $treeBuilder;
 
-        } catch(\Bitrix\Main\LoaderException $e) {
+        } catch(Main\LoaderException $e) {
 
         } catch(\Error $e) {
             $error[] = $e;
         }
     }
 
-    abstract public function update();
+    abstract public function update(): bool;
 
     protected function setParams(){
 
+        $this->utils = new Exchange\Utils();
         $arParam = require $GLOBALS['kocmo.exchange.config-path'];
         $dir = end( explode('/', __DIR__) );
         $this->arParams = $arParam[$dir];
-    }
-
-    protected function checkRef($val)
-    {
-
-        if (is_string($val) && strlen($val) === 36 && $val != '00000000-0000-0000-0000-000000000000') {
-            $arr = explode('-', $val);
-
-            if (strlen($arr[0]) === 8 && strlen($arr[1]) === 4 && strlen($arr[2]) === 4
-                && strlen($arr[3]) === 4 && strlen($arr[4]) === 12) {
-                return true;
-            }
-            return false;
-        } else {
-            return false;
-        }
     }
 
     protected function getFile($externalId){
@@ -103,26 +96,8 @@ abstract class Helper
         return $this->errors;
     }
 
-    protected function getCode($outCode)
-    {
-
-        $newStr = "";
-
-        for ($i = 0; $i < mb_strlen($outCode); $i++) {
-            $char = mb_substr($outCode, $i, 1);
-
-            if (strpos('АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ', $char) !== false && $i) {
-                $newStr .= '_' . $char;
-            } else {
-                $newStr .= $char;
-            }
-        }
-
-        return \CUtil::translit($newStr, 'ru', ['change_case' => 'U']);
-    }
-
     protected function checkTime(){
-
+        
         if(!isset($this->startTimestamp)){
             $this->startTimestamp = time();
             return false;

@@ -1,0 +1,60 @@
+//= templates/head.html
+//= templates/top-banner.html
+//= templates/header.html
+
+<main class="main">
+    <div class="page-title-wrap">
+        <div class="container">
+            //= templates/breadcrumbs.html
+
+            <h1 class="page-title">ЛИЧНЫЙ КАБИНЕТ</h1>
+        </div>
+    </div>
+
+    <div class="cabinet-tabs">
+        <div class="container">
+            <ul class="cabinet-tabs__inner">
+                <li class="cabinet-tabs__item">
+                    <a href="#" class="cabinet-tabs__lnk"><span>Мой профиль</span></a>
+                </li>
+                <li class="cabinet-tabs__item">
+                    <a href="#" class="cabinet-tabs__lnk"><span>МОИ ЗАКАЗЫ</span></a>
+                </li>
+                <li class="cabinet-tabs__item">
+                    <a href="#" class="cabinet-tabs__lnk"><span>ИЗБРАННОЕ</span></a>
+                </li>
+                <li class="cabinet-tabs__item">
+                    <span class="cabinet-tabs__lnk">МОЯ СКИДКА</span>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+
+    <div class="cabinet-sale container">
+        <div class="cabinet-sale__images">
+            <div class="cabinet-sale__images-info">
+                <div class="cabinet-sale__images-info-title">МОЯ СКИДКА</div>
+                <div class="cabinet-sale__images-info-counter">10%</div>
+                <div class="cabinet-sale__images-info-subtitle">хочу узнать как:</div>
+                <a href="#" class="btn cabinet-sale__images-info-btn">увеличить скидку</a>
+            </div>
+            <div class="cabinet-sale__images-card">
+                <img src="assets/images/cabinet-sale-card.png" alt="">
+            </div>
+        </div>
+        <div class="cabinet-sale__info">
+            <div class="cabinet-sale__remain">До скидки <span>11 %</span> мне осталось купить на:</div>
+            <div class="cabinet-sale__remain-cost">180 <span>руб</span></div>
+            <div class="cabinet-sale__remain-btns clearfix">
+                <a href="#" class="cabinet-sale__remain-btn btn btn--transparent">ПЕРЕЙТИ К ПОКУПКАМ</a>
+
+                <a href="#" class="cabinet-sale__remain-lnk">Условия получения скидки</a>
+            </div>
+        </div>
+    </div>
+</main>
+
+//= templates/footer.html
+</body>
+</html>

@@ -1,0 +1,241 @@
+.brands-form {
+  max-width: 647px;
+  margin: 36px auto 35px;
+
+  @media @desktopContainerMedia {
+    max-width: 489px;
+    margin-top: 33px;
+    margin-bottom: 32px;
+  }
+
+  @media @mobileMedia480 {
+    margin: 21px 10px 24px;
+  }
+
+  &__search {
+    height: 35px;
+    line-height: 35px;
+    padding: 0 13px;
+    display: block;
+    width: 100%;
+    .fsize(14);
+  }
+
+  &__submit {
+    display: none;
+  }
+}
+
+.brands-filter {
+  background: #F9F9F9;
+  border-top: 1px solid #DFE8E8;
+  border-bottom: 1px solid #DFE8E8;
+  padding: 16px 0 17px;
+
+  @media @desktopContainerMedia {
+    padding: 7px 0;
+  }
+
+  @media @tabletMedia {
+    background-color: transparent;
+    border: none;
+    padding: 0;
+  }
+
+  &__container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    @media @tabletMedia {
+      flex-direction: column;
+    }
+  }
+
+  &__list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    list-style: none;
+    align-items: center;
+
+    @media @tabletMedia {
+      background: #F9F9F9;
+      border-top: 1px solid #DFE8E8;
+      border-bottom: 1px solid #DFE8E8;
+      margin-left: -10px;
+      margin-right: -10px;
+      width: ~"calc(100% + 20px)";
+      margin-bottom: 23px;
+      padding-top: 5px;
+    }
+
+    @media @tabletMedia {
+      padding-top: 12px;
+      padding-bottom: 6px;
+    }
+  }
+
+  &__list-item {
+    margin-right: 6px;
+
+    @media @desktopContainerMedia {
+      margin-right: 0;
+    }
+
+    @media @tabletMedia {
+      margin-bottom: 4px;
+      margin-right: 3px;
+    }
+
+    &:last-of-type {
+      margin-right: 0;
+    }
+
+    &.active {
+      .brands-filter__lnk {
+        border-radius: 50%;
+        color: #fff;
+        background: @violet-color;
+
+        @media @desktopContainerMedia {
+          width: 29px;
+        }
+
+        @media @tabletMedia {
+          width: 23px;
+        }
+      }
+    }
+  }
+
+  &__lnk {
+    color: #313131;
+    .fsize(18);
+    text-transform: uppercase;
+    display: inline-block;
+    height: 29px;
+    width: 29px;
+    text-align: center;
+    line-height: 29px;
+
+    &:hover {
+      color: @violet-color;
+    }
+
+    @media @desktopContainerMedia {
+      .fsize(14);
+      width: 26px;
+    }
+
+    @media @tabletMedia {
+      height: 23px;
+      width: 21px;
+      line-height: 23px;
+    }
+  }
+
+  &__sorter {
+    display: flex;
+    align-items: center;
+    list-style: none;
+  }
+
+  &__sorter-item {
+    border-left: 1px solid #DFE8E8;
+    text-transform: uppercase;
+
+    &:last-of-type {
+      border-right: 1px solid #DFE8E8;
+    }
+  }
+
+  &__sorter-lnk {
+    padding: 0 28px;
+    height: 33px;
+    line-height: 33px;
+    display: inline-block;
+    .fsize(18);
+
+    @media @desktopContainerMedia {
+      .fsize(14);
+      padding: 0 15px;
+    }
+
+    &.active {
+      color: @violet-color;
+    }
+  }
+}
+
+.brands-inner {
+  @media @tabletMedia {
+    margin-bottom: -31px;
+  }
+
+  &__title {
+    color: @link-hover-color;
+    .fsize(70);
+    text-align: center;
+    margin-top: 46px;
+    margin-bottom: 31px;
+    font-weight: 400;
+
+    @media @desktopContainerMedia {
+      .fsize(50);
+      margin-top: 27px;
+      margin-bottom: 34px;
+    }
+
+    @media @tabletMedia {
+      display: none;
+    }
+  }
+
+  &__list {
+    list-style: none;
+    column-count: 4;
+    column-gap: 50px;
+    padding-bottom: 92px;
+
+    @media @desktopContainerMedia {
+      padding-bottom: 28px;
+    }
+
+    @media @tabletMedia {
+      column-count: 3;
+      column-gap: 20px;
+      margin-top: 29px;
+      padding-bottom: 0;
+    }
+
+    @media @mobileMedia640 {
+      column-count: 2;
+    }
+  }
+
+  &__list-item {
+    margin-bottom: 29px;
+    display: inline-block;
+    vertical-align: top;
+    width: 100%;
+
+    @media @tabletMedia {
+      margin-bottom: 31px;
+    }
+  }
+
+  &__lnk {
+    color: #3D3D3D;
+    text-transform: uppercase;
+    .fsize(18);
+
+    @media @desktopContainerMedia {
+      .fsize(16);
+    }
+
+    @media @tabletMedia {
+      .fsize(14);
+    }
+  }
+}

@@ -13,7 +13,7 @@
 
 $this->setFrameMode(true);
 $maxLIne = 10;
-if(!file_exists('StartSubColumn')){
+if (!file_exists('StartSubColumn')) {
     function StartSubColumn($maxLIne, $thisLine)
     {
         if ($thisLine % $maxLIne == 0) echo "<div class=\"nav-dropdown__sub-column\">";
@@ -35,14 +35,27 @@ if(!file_exists('StartSubColumn')){
 <div class="header__bottom">
     <div class="container header__bottom-inner">
         <ul class="nav">
+            <li class="nav__item"><a class="nav__lnk" href="/sales/">Акции</a></li>
+            <li class="nav__item"><a class="nav__lnk"
+                                     href="/catalog/?available_yes=y&filter_sort=sort_increase&set_filter=y&filter_catalog_prod_54_2553136946=Y">Новинки</a>
+            </li>
             <? foreach ($arResult as $arMenuL1) { ?>
                 <? $active = $arMenuL1['SELECTED'] ? 'active' : ''; ?>
                 <li class="nav__item <?= $active ?>">
-                    <a href="<?= $arMenuL1['LINK'] ?>" class="nav__lnk"><?= $arMenuL1['TEXT'] ?></a>
+                    <a href="<?= $arMenuL1['LINK'] ?>?available_yes=y" class="nav__lnk"><?= $arMenuL1['TEXT'] ?></a>
                     <? if ($arMenuL1['CHILD']) { ?>
                         <? $thisLine = 0; ?>
+                        <? $thisLine++; ?>
+                        <? foreach ($arMenuL1['CHILD'] as $arMenuL2) { ?>
+                            <? $thisLine++; ?>
+                            <? foreach ($arMenuL2['CHILD'] as $arMenuL3) { ?>
+                                <? $thisLine++; ?>
+                            <? } ?>
+                        <? } ?>
+                        <? $sub = ceil($thisLine/$maxLIne); ?>
+                        <? $thisLine = 0; ?>
                         <div class="nav-dropdown">
-                            <div class="nav-dropdown__sub">
+                            <div class="nav-dropdown__sub sub<?= $sub ?>">
                                 <? StartSubColumn($maxLIne, $thisLine);
                                 $thisLine++; ?>
                                 <? foreach ($arMenuL1['CHILD'] as $arMenuL2) { ?>
@@ -61,11 +74,11 @@ if(!file_exists('StartSubColumn')){
                                 <? } ?>
                                 <? EndFinishSubColumn($maxLIne, $thisLine); ?>
                             </div>
-                            <? if ($arMenuL1['INFO']['PICTURE']) { ?>
-                                <div class="nav-dropdown__img">
+                            <div class="nav-dropdown__img  sub-img<?= $sub ?>">
+                                <? if ($arMenuL1['INFO']['PICTURE']) { ?>
                                     <img src="<?= $arMenuL1['INFO']['PICTURE'] ?>" alt="<?= $arMenuL1['TEXT'] ?>">
-                                </div>
-                            <? } ?>
+                                <? } ?>
+                            </div>
                             <? if ($arMenuL1['INFO']['BRAND']) { ?>
                                 <div class="nav-dropdown__brands">
                                     <div class="nav-dropdown__title">Бренды <?= $arMenuL1['TEXT'] ?></div>
@@ -74,7 +87,7 @@ if(!file_exists('StartSubColumn')){
                                             <div class="nav-dropdown__brands-letter"><?= $l ?></div>
                                             <div class="nav-dropdown__brands-group">
                                                 <? foreach ($brands as $brand) { ?>
-                                                    <a href="#"
+                                                    <a href="<?= $brand['URL'] ?>"
                                                        class="nav-dropdown__brands-lnk"><?= $brand['NAME'] ?></a>
                                                 <? } ?>
                                             </div>
@@ -86,6 +99,7 @@ if(!file_exists('StartSubColumn')){
                     <? } ?>
                 </li>
             <? } ?>
+            <li class="nav__item"><a class="nav__lnk" href="/brands/">Бренды</a></li>
         </ul>
     </div>
 </div>

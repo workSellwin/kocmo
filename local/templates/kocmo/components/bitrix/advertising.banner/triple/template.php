@@ -12,7 +12,7 @@ if ($arResult['BANNERS']) {
                     $img = $arBanner['IMAGE_ID'];
                     $src = CFile::GetPath($img);
                     ?>
-                    <a href="<?=$arBanner['URL']?>" target="<?=$arBanner['URL_TARGET']?>" class="triple-banner__item bordered-inner <?=$arBanner['IMAGE_ALT']?>">
+                   <a href="<?=$arBanner['URL']?>" target="<?=$arBanner['URL_TARGET']?>" class="triple-banner__item bordered-inner <?=$arBanner['IMAGE_ALT']?>">
                         <img src="<?= $src ?>">
                     </a>
                     <?

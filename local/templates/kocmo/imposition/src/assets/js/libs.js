@@ -5,3 +5,5 @@
 //= libs/jquery.jscrollpane.min.js
 //= libs/swiper.min.js
 //= libs/select2.full.min.js
+//= libs/polyfills.js
+//= libs/jquery.inputmask.js

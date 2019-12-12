@@ -1,0 +1,239 @@
+//= templates/head.html
+//= templates/top-banner.html
+//= templates/header.html
+
+<main class="main">
+    <div class="form-wrap">
+        <div class="container">
+            <div class="tabs-wrap js_tabs-wrap">
+                <div class="tabs">
+                    <span data-id="login" class="tab tab--dotted js_tab active">ВХОД</span>
+                    <span data-id="register" class="tab tab--dotted js_tab">РЕГИСТРАЦИЯ</span>
+                </div>
+
+                <div class="panels">
+                    <div data-id="login" class="panel js_panel active">
+                        <form action="" method="post" class="form-login">
+                            <div class="form-field">
+                                <input name="form-login_phone"
+                                       value=""
+                                       class="form-field__input"
+                                       type="text"
+                                       onfocus="this.removeAttribute('readonly');"
+                                       readonly
+                                       placeholder="Введите ваш email или телефон">
+                                <div class="form-field__tooltip">
+                                    <svg width="20" height="20">
+                                        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-tooltip"></use>
+                                    </svg>
+                                    <div class="form-field__tooltip-helper">
+                                        Формат для ввода телефона<br>
+                                        +375 _ _ - _ _ _ - _ _ - _ _
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-field">
+                                <input name="form-login_password"
+                                       value=""
+                                       class="form-field__input"
+                                       type="password"
+                                       placeholder="Введите пароль">
+                            </div>
+                            <div class="form-login__subfields">
+                                <label class="checkbox js_checkbox">
+                                    <input type="checkbox" name="remember_me">Запомнить меня
+                                </label>
+
+                                <a href="#" class="form-login__forget-password link">Забыли пароль?</a>
+                            </div>
+
+                            <div class="form-submit-wrap">
+                                <button type="submit" class="form-submit btn">
+                                    Войти
+
+                                    <svg width="25" height="9">
+                                        <use xmlns:xlink="http://www.w3.org/1999/xlink"
+                                             xlink:href="#svg-arrow-right"></use>
+                                    </svg>
+                                </button>
+                            </div>
+                        </form>
+
+
+                        <div class="double-separator-reverse form-login__separator"></div>
+
+                        <div class="form-login__soc">
+                            <div class="form-login__soc-footer-lnks">
+                                Войти через:
+
+                                <div class="footer__soc">
+                                    <a href="#" class="form-login__soc-item footer__soc-item--tw"></a>
+                                    <a href="#" class="form-login__soc-item footer__soc-item--vk"></a>
+                                    <a href="#" class="form-login__soc-item footer__soc-item--fb"></a>
+                                    <a href="#" class="form-login__soc-item footer__soc-item--yt"></a>
+                                    <a href="#" class="form-login__soc-item footer__soc-item--ok"></a>
+                                </div>
+                            </div>
+
+                            <a href="#" class="form-login__soc-footer-lnk link">Как это работает?</a>
+                        </div>
+                    </div>
+
+                    <div data-id="register" class="panel js_panel">
+                        <form action="" method="post" class="form-register">
+                            <div class="two-columns-grid two-columns-grid--form-register">
+                                <div class="two-columns-grid__item">
+                                    <div class="form-field__required-wrap">
+                                        <input type="text" required
+                                               name="form-register_name"
+                                               value=""
+                                               class="form-field__required-input js_field-required-input"
+                                               id="form-register-name">
+                                        <label class="form-field__required-label" for="form-register-name">Введите имя
+                                            <span class="required">*</span></label>
+                                    </div>
+                                </div>
+
+                                <div class="two-columns-grid__item">
+                                    <div class="form-field__required-wrap">
+                                        <input type="text" required
+                                               name="form-register_lastname"
+                                               value=""
+                                               class="form-field__required-input js_field-required-input"
+                                               id="form-register-lastname">
+                                        <label class="form-field__required-label" for="form-register-lastname">Введите
+                                            вашу фамилию
+                                            <span class="required">*</span></label>
+                                    </div>
+                                </div>
+
+                                <div class="two-columns-grid__item">
+                                    <div class="form-field__required-wrap">
+                                        <input type="text" required
+                                               name="form-register_phone"
+                                               value=""
+                                               class="form-field__required-input js_field-required-input"
+                                               id="form-register-phone">
+                                        <label class="form-field__required-label" for="form-register-phone">Введите ваш
+                                            телефон
+                                            <span class="required">*</span></label>
+                                    </div>
+                                </div>
+
+                                <div class="two-columns-grid__item">
+                                    <div class="form-field__required-wrap">
+                                        <input type="email" required
+                                               name="form-register_email"
+                                               value=""
+                                               class="form-field__required-input js_field-required-input"
+                                               onfocus="this.removeAttribute('readonly')"
+                                               readonly
+                                               id="form-register-mail">
+                                        <label class="form-field__required-label" for="form-register-mail">Введите email
+                                            <span class="required">*</span></label>
+                                    </div>
+                                </div>
+
+                                <div class="two-columns-grid__item">
+                                    <div class="form-field__required-wrap">
+                                        <input type="password" required
+                                               value=""
+                                               name="form-register_password"
+                                               class="form-field__required-input js_field-required-input"
+                                               id="form-register-password">
+                                        <label class="form-field__required-label" for="form-register-password">Придумайте
+                                            пароль
+                                            <span class="required">*</span></label>
+                                    </div>
+                                </div>
+
+                                <div class="two-columns-grid__item">
+                                    <div class="form-field__required-wrap">
+                                        <input type="password" required
+                                               value=""
+                                               name="form-register_repeat-password"
+                                               class="form-field__required-input js_field-required-input"
+                                               id="form-register-repeat-password">
+                                        <label class="form-field__required-label" for="form-register-repeat-password">Повторите
+                                            пароль
+                                            <span class="required">*</span></label>
+                                    </div>
+                                </div>
+
+                                <div class="two-columns-grid__item">
+                                    <div class="form-field form-field--date">
+                                        <input name="form-register_date"
+                                               value=""
+                                               class="form-field__input"
+                                               type="text"
+                                               onclick="BX.calendar({node: this, field: this, bTime: false});"
+                                               placeholder="Дата рождения">
+
+                                        <svg width="16" height="15">
+                                            <use xmlns:xlink="http://www.w3.org/1999/xlink"
+                                                 xlink:href="#svg-calendar"></use>
+                                        </svg>
+                                    </div>
+                                </div>
+
+                                <div class="two-columns-grid__item">
+                                    <div class="form-register__checkbox-header">
+                                        Выберите ваш пол <span class="required">*</span>
+                                    </div>
+
+                                    <div class="form-register__checkbox-wrap">
+                                        <label class="radio js_radio">
+                                            <input type="radio" name="form-register_gender" required value="">
+                                            Женский
+                                        </label>
+
+                                        <label class="radio js_radio">
+                                            <input type="radio" name="form-register_gender" value="">
+                                            Мужской
+                                        </label>
+                                    </div>
+
+                                    <div class="form-register__checkbox-footer">
+                                        <label class="checkbox js_checkbox">
+                                            <input type="checkbox" required name="form-register_agreement">Я согласен на
+                                            сбор и обработку своих персональных
+                                            данных
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="two-columns-grid__item form-register__gifts">
+                                    <label class="checkbox js_checkbox">
+                                        <input type="checkbox" checked="checked" name="form-register_gifts">Я хочу
+                                        получать эксклюзивные скидки и подарки
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="form-submit-wrap">
+                                <button type="submit" class="form-submit btn">
+                                    ЗАРЕГИСТРИРОВАТЬСЯ
+
+                                    <svg width="25" height="9">
+                                        <use xmlns:xlink="http://www.w3.org/1999/xlink"
+                                             xlink:href="#svg-arrow-right"></use>
+                                    </svg>
+                                </button>
+                            </div>
+
+                            <div class="form-register__attention">
+                                Нажимая кнопку зарегистрироваться Вы соглашаетесь
+                                с условиями <a href="#" class="link">публичной оферты</a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+</main>
+
+//= templates/footer.html
+</body>
+</html>

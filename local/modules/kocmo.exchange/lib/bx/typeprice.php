@@ -2,6 +2,7 @@
 
 
 namespace Kocmo\Exchange\Bx;
+use \Bitrix\Catalog;
 
 
 class Typeprice extends Helper
@@ -12,19 +13,20 @@ class Typeprice extends Helper
         parent::__construct($treeBuilder);
     }
 
-    public function update(){
+    public function update() : bool {
 
         $typePrice = $this->getTypePrice();
         $arReq = $this->treeBuilder->getRequestArr();
 
         foreach($arReq as $key => $tp){
+
             if( !isset($typePrice[ $tp [$this->arParams['ID'] ] ]) ){
 
                 try {
-                    \Bitrix\Catalog\GroupTable::add([
-                        "NAME" => $this->getCode($tp [$this->arParams['NAME'] ]),
+                    Catalog\GroupTable::add([
+                        "NAME" => $this->utils->getCode($tp [$this->arParams['NAME'] ]),
                         "XML_ID" => $tp [$this->arParams['ID'] ],
-                        "SORT" => 123,
+                        //"SORT" => 123,
                     ]);
                 }
                 catch(\Exception $e){
@@ -32,11 +34,13 @@ class Typeprice extends Helper
                 }
             }
         }
+        $this->status = 'end';
+        return true;
     }
 
     private function getTypePrice(){
 
-        $priceType = \Bitrix\Catalog\GroupTable::getlist([])->fetchAll();
+        $priceType = Catalog\GroupTable::getlist([])->fetchAll();
         $priceType = array_column($priceType, NULL, "XML_ID");
         return $priceType;
     }

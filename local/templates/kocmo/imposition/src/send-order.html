@@ -1,0 +1,215 @@
+//= templates/head.html
+//= templates/top-banner.html
+//= templates/header.html
+
+<main class="main">
+    <div class="page-title-wrap">
+        <div class="container">
+            //= templates/breadcrumbs.html
+
+            <h1 class="page-title">оформление заказа</h1>
+        </div>
+    </div>
+
+    <div class="form-wrap">
+        <form action="" method="post">
+            <h2 class="form-title container">Персональные данные</h2>
+
+            <div class="send-order-fields container">
+                <div class="send-order-fields__row">
+                    <div class="send-order-fields__half">
+                        <div class="form-field">
+                            <input name="" value="" class="form-field__input" type="text"
+                                   placeholder="Введите ваше имя">
+                        </div>
+                    </div>
+
+                    <div class="send-order-fields__half">
+                        <div class="form-field">
+                            <input name="" value="" class="form-field__input" type="text"
+                                   placeholder="Введите вашу фамилию">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="send-order-fields__row">
+                    <div class="send-order-fields__half">
+                        <div class="form-field">
+                            <input name="" value="" class="form-field__input" type="email"
+                                   placeholder="Введите ваш email">
+                        </div>
+                    </div>
+
+                    <div class="send-order-fields__half">
+                        <div class="form-field">
+                            <input name="" value=""
+                                   class="form-field__input phone-mask js_phone-mask"
+                                   type="text"
+                                   placeholder="+375__-___-__-__" >
+                        </div>
+
+                        <label class="checkbox js_checkbox send-order-fields__checkbox">
+                            <input type="checkbox" name="">Перезвонить мне для подтверждения заказа
+                        </label>
+                    </div>
+                </div>
+
+                <div class="send-order-fields__row">
+                    <div class="send-order-fields__outer-half">
+                        <div class="send-order-fields__half">
+                            <div class="form-field">
+                                <select name="" class="js_custom-select">
+                                    <option value="default" selected>Город</option>
+                                    <option value="1">Город 1</option>
+                                    <option value="2">Город 2</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="send-order-fields__half">
+                            <div class="form-field">
+                                <select name="" class="js_custom-select">
+                                    <option value="default" selected>Улица</option>
+                                    <option value="1">Улица 1</option>
+                                    <option value="2">Улица 2</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="send-order-fields__outer-half">
+                        <div class="send-order-fields__third">
+                            <div class="form-field">
+                                <input name="" value="" class="form-field__input" type="text"
+                                       placeholder="Дом">
+                            </div>
+                        </div>
+                        <div class="send-order-fields__third">
+                            <div class="form-field">
+                                <input name="" value="" class="form-field__input" type="text"
+                                       placeholder="Корпус">
+                            </div>
+                        </div>
+                        <div class="send-order-fields__third">
+                            <div class="form-field">
+                                <input name="" value="" class="form-field__input" type="text"
+                                       placeholder="Квартира">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <hr>
+
+            <div class="send-order-details container">
+                <div class="send-order-details__item">
+                    <div class="send-order-details__title">Оплата:</div>
+
+                    <div class="send-order-details__check">
+                        Оплата курьеру
+                        <span>Оплата курьеру при доставке</span>
+                    </div>
+                </div>
+
+                <div class="send-order-details__item">
+                    <div class="send-order-details__title">Доставка:</div>
+
+                    <div class="send-order-details__check">
+                        Курьерская доставка
+                        <span>Минск, в пределах МКАД</span>
+                    </div>
+
+                    <div class="send-order-details__shipment">
+                        Ваш заказ доставят:
+
+                        <div class="send-order-details__shipment-inner">
+                            <div class="form-field">
+                                <select name="" class="js_custom-select">
+                                    <option value="default" selected>25 января</option>
+                                    <option value="1">26 января</option>
+                                    <option value="2">27 января</option>
+                                </select>
+                            </div>
+
+                            <div class="form-field">
+                                <select name="" class="js_custom-select">
+                                    <option value="default" selected>С 20:30 до 22:30</option>
+                                    <option value="1">С 20:30 до 22:30</option>
+                                    <option value="2">С 20:30 до 22:30</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <hr>
+
+            <div class="basket-price container">
+                <div class="basket-price__details">
+                    <div class="basket-price__item">
+                        <div class="basket-price__item-title">Сумма заказа:</div>
+                        <div class="basket-price__item-price">
+                            <span class="basket-price__item-sum">235,90</span>
+                            <span class="basket-price__item-currency"> руб</span>
+                        </div>
+                    </div>
+
+                    <div class="basket-price__item">
+                        <div class="basket-price__item-title">Ваша экономия:</div>
+                        <div class="basket-price__item-price">
+                            <span class="basket-price__item-sum">35,24</span>
+                            <span class="basket-price__item-currency"> руб</span>
+                        </div>
+                    </div>
+
+                    <div class="basket-price__item">
+                        <div class="basket-price__item-title">Оплачено сертификатом:</div>
+                        <div class="basket-price__item-price">
+                            <span class="basket-price__item-sum">25,00</span>
+                            <span class="basket-price__item-currency"> руб</span>
+                        </div>
+                    </div>
+
+                    <div class="basket-price__item">
+                        <div class="basket-price__item-title">Курьерская доставка:</div>
+                        <div class="basket-price__item-price">
+                            <span class="basket-price__item-sum">2,00</span>
+                            <span class="basket-price__item-currency"> руб</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="basket-price__divider"></div>
+
+                <div class="send-order-footer">
+                    <a href="#" class="basket-footer__back">
+                        <svg width="25" height="17">
+                            <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-pagination-left"></use>
+                        </svg>
+
+                        Вернуться в КОРЗИНУ
+                    </a>
+
+                    <div class="basket-price__total">
+                        Итого:
+                        <span class="basket-price__total-sum">235,90</span>
+                        <span class="basket-price__total-currency">руб</span>
+                    </div>
+
+                    <button type="submit" class="basket-footer__submit btn">
+                        ПОДТВЕРДИТЬ ЗАКАЗ
+
+                        <svg width="26" height="16">
+                            <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-arrow-right-bold"></use>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</main>
+
+//= templates/footer.html
+</body>
+</html>

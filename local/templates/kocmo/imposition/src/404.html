@@ -1,0 +1,38 @@
+//= templates/head.html
+//= templates/top-banner.html
+//= templates/header.html
+
+<main class="main">
+    <div class="page-title-wrap">
+        <div class="container">
+            //= templates/breadcrumbs.html
+
+            <h1 class="page-title">404</h1>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="not-found">
+            <div class="not-found__error-inner">
+                <div class="not-found__error-code">404</div>
+                <div class="not-found__error-description">ошибка</div>
+            </div>
+            <div class="not-found__subtext">
+                Страница не найдена или была удалена. Вы можете вернуться на <a href="/">главную</a> или продолжить
+                покупки в
+                <a href="category.html">каталоге</a>.
+            </div>
+
+            <div class="double-separator-reverse not-found__double-separator"></div>
+
+            <div class="not-found__btns-wrap">
+                <a href="/" class="not-found__btn btn">перейти на главную</a>
+                <a href="category.html" class="not-found__btn btn">перейти в каталог</a>
+            </div>
+        </div>
+    </div>
+</main>
+
+//= templates/footer.html
+</body>
+</html>

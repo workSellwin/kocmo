@@ -21,7 +21,7 @@ use \Bitrix\Main\Localization\Loc;
  */
 
 $this->setFrameMode(true);
-$this->addExternalCss('/bitrix/css/main/bootstrap.css');
+//$this->addExternalCss('/bitrix/css/main/bootstrap.css');
 
 if (!empty($arResult['NAV_RESULT']))
 {

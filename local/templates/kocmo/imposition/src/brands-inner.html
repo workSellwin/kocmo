@@ -1,0 +1,199 @@
+//= templates/head.html
+//= templates/top-banner.html
+//= templates/header.html
+
+<main class="main">
+    <div class="page-title-wrap">
+        <div class="container">
+            //= templates/breadcrumbs.html
+
+            <h1 class="page-title">ELIZAVECCA</h1>
+        </div>
+    </div>
+
+    <div class="category-subcategory">
+        <div class="container">
+            <ul class="category-subcategory__inner">
+                <li class="category-subcategory__item">
+                    <span class="category-subcategory__lnk">Для лица</span>
+                </li>
+                <li class="category-subcategory__item">
+                    <a href="#" class="category-subcategory__lnk"><span>Для глаз</span></a>
+                </li>
+                <li class="category-subcategory__item">
+                    <a href="#" class="category-subcategory__lnk"><span>Для губ</span></a>
+                </li>
+                <li class="category-subcategory__item">
+                    <a href="#" class="category-subcategory__lnk"><span>Для тела</span></a>
+                </li>
+                <li class="category-subcategory__item">
+                    <a href="#" class="category-subcategory__lnk"><span>Для ногтей</span></a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="brands-inner-info container">
+        <div class="brands-inner-info__logo">
+            <img src="assets/images/temp/brands-inner-logo.png" alt="">
+        </div>
+        <div class="brands-inner-info__description">
+            <p><b>Elizavecca - корейский бренд.</b> Многие девушки стараются подобрать линейку корейской косметики
+                одного
+                бренда, чтобы обеспечить полноценный уход за кожей. Кореянки не так консервативны в этом плане: они
+                часто меняют баночки и тюбики, стараясь не упустить ни одной новинки на рынке. Однако есть святое
+                правило — если девушке все-таки удастся найти крем или какой-либо другой продукт.</p>
+
+            <p>Elizavecca – молодой южнокорейский бренд, который, тем не менее, уже отлично себя зарекомендовал в
+                косметической индустрии во всех странах Азии, а теперь и у нас. Чем же он так хорош? Производители
+                Elizavecca разработали концептуально новый подход к производству и выбору ингредиентов для своей
+                продукции! Линия на основе низкомолекулярного свиного коллагена произвела настоящий бум на корейском</p>
+        </div>
+        <div class="brands-inner-info__more js_brands-inner-info__more">читать далее</div>
+    </div>
+
+    <form action="test-ajax.html" method="post" class="category-filter js_category-filter">
+        <div class="container category-filter__container">
+            <span class="category-filter__title">Фильтр:</span>
+            <div class="category-filter__inner">
+                <div class="category-filter__order-place">
+                    <label class="checkbox js_checkbox">
+                        <input type="checkbox" name="shop">В интернет-магазине
+                    </label>
+                    <label class="checkbox js_checkbox">
+                        <input type="checkbox" name="order">Под заказ
+                    </label>
+                </div>
+
+                <div class="category-filter__inner-wrap">
+                    <div class="category-filter__item">
+                        <div class="category-filter__item-title js_filter-accordion">
+                            Бренд
+                        </div>
+                        <div class="category-filter__item-inner">
+                            <div class="category-filter__item-inner--scroll  js_filter-scroll">
+                                <label class="checkbox js_checkbox">
+                                    <input type="checkbox" name="brand_askone">Askone
+                                </label>
+                                <label class="checkbox js_checkbox">
+                                    <input type="checkbox" name="brand_Able">Able
+                                </label>
+                                <label class="checkbox js_checkbox">
+                                    <input type="checkbox" name="brand_Banjour">Banjour
+                                </label>
+                                <label class="checkbox js_checkbox">
+                                    <input type="checkbox" name="brand_Bandsbotlle">Bandsbotlle
+                                </label>
+                                <label class="checkbox js_checkbox">
+                                    <input type="checkbox" name="brand_Crone">Crone
+                                </label>
+                                <label class="checkbox js_checkbox">
+                                    <input type="checkbox" name="brand_Crosstale">Crosstale
+                                </label>
+                                <label class="checkbox js_checkbox">
+                                    <input type="checkbox" name="brand_Askone2">Askone 2
+                                </label>
+                                <label class="checkbox js_checkbox">
+                                    <input type="checkbox" name="brand_Able2">Able 2
+                                </label>
+                                <label class="checkbox js_checkbox">
+                                    <input type="checkbox" name="brand_Banjour2">Banjour 2
+                                </label>
+                                <label class="checkbox js_checkbox">
+                                    <input type="checkbox" name="brand_Bandsbotlle2">Bandsbotlle 2
+                                </label>
+                                <label class="checkbox js_checkbox">
+                                    <input type="checkbox" name="brand_Crone2">Crone 2
+                                </label>
+                                <label class="checkbox js_checkbox">
+                                    <input type="checkbox" name="brand_Crosstale2">Crosstale 2
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="category-filter__item">
+                        <div class="category-filter__item-title js_filter-accordion">
+                            Стоимость
+                        </div>
+                        <div class="category-filter__item-inner category-filter__item-inner--cost">
+                            От <input type="text" name="from_price" placeholder="10 р" value="" class="field-bordered">
+                            <span class="category-filter__divider"></span>
+                            До <input type="text" name="to_price" placeholder="100 р" value="" class="field-bordered">
+                        </div>
+                    </div>
+
+                    <div class="category-filter__item">
+                        <div class="category-filter__item-title js_filter-accordion">
+                            Статус
+                        </div>
+                        <div class="category-filter__item-inner">
+                            <label class="checkbox js_checkbox">
+                                <input type="checkbox" name="state_1">Акция
+                            </label>
+                            <label class="checkbox js_checkbox">
+                                <input type="checkbox" name="state_2">Новинка
+                            </label>
+                            <label class="checkbox js_checkbox">
+                                <input type="checkbox" name="state_3">Только в Космо
+                            </label>
+                            <label class="checkbox js_checkbox">
+                                <input type="checkbox" name="state_4">Хит продаж
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="category-filter__sort custom-select-wrap">
+                <span class="category-filter__sort-title">Сортировать по:</span>
+                <select name="filter_sort" class="js_custom-filter-select">
+                    <option value="sort_default" selected>умолчанию</option>
+                    <option value="sort_increase">A-Z</option>
+                    <option value="sort_decrease">Z-A</option>
+                </select>
+            </div>
+        </div>
+    </form>
+
+    <div class="category-filter-active-fields-wrap">
+        <div class="container js_category-filter-active-fields"></div>
+    </div>
+
+    <div class="products">
+        <div class="container">
+            <div class="preloader-wrap">
+                <div class="products__container">
+                    //= templates/products-four.html
+
+                    //= templates/products-four.html
+
+                    //= templates/products-four.html
+
+                    //= templates/products-four.html
+                </div>
+
+                <div class="preloader" style="display: none;">
+                    <svg width="64" height="64">
+                        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-preloader"></use>
+                    </svg>
+                </div>
+            </div>
+
+            <div class="button-more-wrap">
+                <!-- MainJs.productsMore -->
+                <div class="button-more__btn js_products__btn">
+                    Показать больше
+                    <svg width="9" height="16">
+                        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-arrow-down"></use>
+                    </svg>
+                </div>
+            </div>
+
+            //= templates/pagination.html
+        </div>
+    </div>
+</main>
+
+//= templates/footer.html
+</body>
+</html>

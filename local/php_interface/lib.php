@@ -7,7 +7,7 @@ foreach (scandir($dir) as $d) {
         while ($filename = readdir($catalogD)) {
             $file = $dirD . $filename;
             if (is_file($file)) {
-                 require_once($file);
+                 include_once ($file);
             }
         }
     }

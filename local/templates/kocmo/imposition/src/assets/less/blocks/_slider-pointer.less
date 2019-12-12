@@ -1,0 +1,148 @@
+.slider-pointer {
+  display: flex;
+
+  @media @mobileMedia640 {
+    flex-direction: column;
+  }
+
+  &__line {
+    flex: none;
+    width: ~"calc(100% - 120px - 38px)";
+    display: flex;
+    justify-content: space-between;
+    height: 5px;
+    background: #E4E4E4;
+    border-radius: 5px;
+    margin-top: 17px;
+    margin-bottom: 40px;
+
+    @media @desktopContainerMedia {
+      height: 4px;
+      width: ~"calc(100% - 108px - 11px)";
+    }
+
+    @media @mobileMedia640 {
+      width: 100%;
+      height: 3px;
+      justify-content: space-around;
+      margin-top: 19px;
+      margin-bottom: 52px;
+    }
+
+    &::before, &::after {
+      content: "";
+
+      @media @mobileMedia640 {
+        display: none;
+      }
+    }
+  }
+
+  &__selected-cost {
+    height: 41px;
+    line-height: 39px;
+    flex: none;
+    width: 108px;
+    border: 1px solid #D4D8D8;
+    border-radius: 2px;
+    text-align: center;
+    padding: 0 10px;
+    color: @violet-color;
+    font-weight: 500;
+    margin-left: 38px;
+
+    @media @desktopContainerMedia {
+      margin-left: 11px;
+    }
+
+    @media @mobileMedia640 {
+      margin-left: auto;
+      margin-right: auto;
+      background: #fff;
+    }
+  }
+
+  &__label {
+    display: inline-block;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background: #E4E4E4;
+    color: #3D3D3D;
+    .fsize(18);
+    position: relative;
+    margin-top: -5px;
+    cursor: pointer;
+
+    @media @desktopContainerMedia {
+      width: 12px;
+      height: 12px;
+      margin-top: -4px;
+      .fsize(14);
+    }
+
+    @media @mobileMedia640 {
+      width: 10px;
+      height: 10px;
+      .fsize(12);
+      margin-top: -3px;
+    }
+
+    &::before {
+      position: absolute;
+      content: "";
+      width: 15px;
+      top: -3px;
+      left: -3px;
+      height: 15px;
+      border: 3px solid transparent;
+      border-radius: 50%;
+
+      @media @desktopContainerMedia {
+        top: -2px;
+        left: -2px;
+        border-width: 2px;
+        width: 12px;
+        height: 12px;
+      }
+
+      @media @mobileMedia640 {
+        border: none;
+        top: 0;
+        left: 0;
+        width: 10px;
+        height: 10px;
+      }
+    }
+
+    &.active {
+      &::before {
+        border-color: @violet-color;
+        background: #fff;
+
+        @media @mobileMedia640 {
+          background: @violet-color;
+        }
+      }
+    }
+
+    input {
+      display: none;
+    }
+
+    span {
+      position: absolute;
+      top: 29px;
+      transform: translateX(-50%);
+      left: 50%;
+
+      @media @desktopContainerMedia {
+        top: 26px;
+      }
+
+      @media @mobileMedia640 {
+        top: 22px;
+      }
+    }
+  }
+}

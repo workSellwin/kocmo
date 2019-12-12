@@ -1,0 +1,99 @@
+.brands-inner-info {
+  display: flex;
+  padding-top: 17px;
+  padding-bottom: 18px;
+
+  @media @desktopContainerMedia {
+    padding-top: 10px;
+    padding-bottom: 23px;
+  }
+
+  @media @tabletMedia {
+    flex-direction: column;
+  }
+
+  &__logo {
+    flex: none;
+    margin-right: 22px;
+    width: 215px;
+
+    @media @tabletMedia {
+      width: 100%;
+      text-align: center;
+      margin-right: 0;
+    }
+  }
+
+  &__description {
+    padding-top: 23px;
+    color: #454545;
+    font-weight: 300;
+    .lineHeight(28, 16);
+    flex: none;
+    width: ~"calc(100% - 237px)";
+
+    @media @desktopContainerMedia {
+      .fsize(14);
+      .lineHeight(22, 14);
+      padding-top: 17px;
+    }
+
+    @media @tabletMedia {
+      width: 100%;
+    }
+
+    @media @mobileMedia640 {
+      height: 80px;
+      overflow: hidden;
+      padding-top: 10px;
+    }
+
+    &.active {
+      @media @mobileMedia640 {
+        height: auto;
+      }
+    }
+
+    p {
+      margin-bottom: 29px;
+
+      @media @desktopContainerMedia {
+        margin-bottom: 21px;
+      }
+
+      &:last-of-type {
+        margin-bottom: 0;
+      }
+    }
+  }
+
+  &__more {
+    display: none;
+    .fsize(14);
+    letter-spacing: -0.01em;
+    color: @link-hover-color;
+    margin-top: 2px;
+    cursor: pointer;
+
+    &::after {
+      content: "Скрыть";
+      font-size: 0;
+    }
+
+    @media @mobileMedia640 {
+      display: inline-block;
+    }
+
+    &.active {
+      font-size: 0;
+
+      &::after {
+        .fsize(14);
+      }
+    }
+  }
+
+  + .category-filter {
+    border-top: 1px solid #DFE8E8;
+  }
+}

@@ -1,0 +1,256 @@
+//= templates/head.html
+//= templates/top-banner.html
+//= templates/header.html
+
+<main class="main">
+    <div class="page-title-wrap">
+        <div class="container">
+            //= templates/breadcrumbs.html
+
+            <h1 class="page-title">ЛИЧНЫЙ КАБИНЕТ</h1>
+        </div>
+    </div>
+
+    <div class="cabinet-tabs">
+        <div class="container">
+            <ul class="cabinet-tabs__inner">
+                <li class="cabinet-tabs__item">
+                    <span class="cabinet-tabs__lnk">Мой профиль</span>
+                </li>
+                <li class="cabinet-tabs__item">
+                    <a href="#" class="cabinet-tabs__lnk"><span>МОИ ЗАКАЗЫ</span></a>
+                </li>
+                <li class="cabinet-tabs__item">
+                    <a href="#" class="cabinet-tabs__lnk"><span>ИЗБРАННОЕ</span></a>
+                </li>
+                <li class="cabinet-tabs__item">
+                    <a href="#" class="cabinet-tabs__lnk"><span>МОЯ СКИДКА</span></a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <form action="" method="post" class="cabinet-profile-form">
+        <div class="cabinet-profile container">
+            <div class="cabinet-profile__title">Личные данные</div>
+
+            <div class="cabinet-profile__fields">
+                <div class="cabinet-profile__fields-row">
+                    <div class="cabinet-profile__fields-half">
+                        <div class="form-field">
+                            <input name="" value="Алексей" class="form-field__input" type="text"
+                                   placeholder="Введите ваше имя">
+                        </div>
+                    </div>
+
+                    <div class="cabinet-profile__fields-half">
+                        <div class="form-field">
+                            <input name="" value="Плотников" class="form-field__input" type="text"
+                                   placeholder="Введите вашу фамилию">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="cabinet-profile__fields-row">
+                    <div class="cabinet-profile__fields-half">
+                        <div class="form-field">
+                            <input name="" value="plotnikov@example.com" class="form-field__input" type="email"
+                                   placeholder="Введите ваш email">
+                        </div>
+                    </div>
+
+                    <div class="cabinet-profile__fields-half">
+                        <div class="form-field">
+                            <input name="" value="+375 29 242-35-35"
+                                   class="form-field__input phone-mask js_phone-mask"
+                                   type="text"
+                                   placeholder="+375__-___-__-__">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="cabinet-profile__fields-row">
+                    <div class="cabinet-profile__fields-outer-half">
+                        <div class="cabinet-profile__fields-half">
+                            <div class="form-field">
+                                <select name="" class="js_custom-select">
+                                    <option value="default">Город</option>
+                                    <option value="1" selected>Минск</option>
+                                    <option value="2">Город 2</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="cabinet-profile__fields-half">
+                            <div class="form-field">
+                                <select name="" class="js_custom-select">
+                                    <option value="default" selected>Улица</option>
+                                    <option value="1" selected>Комсомольская</option>
+                                    <option value="2">Улица 2</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="cabinet-profile__fields-outer-half">
+                        <div class="cabinet-profile__fields-third">
+                            <div class="form-field">
+                                <input name="" value="д. 71" class="form-field__input" type="text"
+                                       placeholder="Дом">
+                            </div>
+                        </div>
+                        <div class="cabinet-profile__fields-third">
+                            <div class="form-field">
+                                <input name="" value="" class="form-field__input" type="text"
+                                       placeholder="Корпус">
+                            </div>
+                        </div>
+                        <div class="cabinet-profile__fields-third">
+                            <div class="form-field">
+                                <input name="" value="кв 122" class="form-field__input" type="text"
+                                       placeholder="Квартира">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="cabinet-profile__fields-row">
+                    <label class="checkbox js_checkbox cabinet-profile__fields-checkbox">
+                        <input type="checkbox" checked="checked" name="">Подписка на новости косметики и парфюмерии
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <hr>
+
+        <div class="cabinet-profile container">
+            <div class="cabinet-profile__title">Параметры</div>
+
+            <div class="cabinet-profile__fields">
+                <div class="cabinet-profile__fields-row">
+                    <div class="cabinet-profile__fields-half">
+                        <div class="cabinet-profile__fields-row">
+                            <div class="form-field form-field--full-width">
+                                <select name="" class="js_custom-select">
+                                    <option value="default" selected>Выберите ваш возраст</option>
+                                    <option value="1">Возраст 1</option>
+                                    <option value="2">Возраст 2</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="cabinet-profile__fields-row">
+                            <div class="form-field form-field--full-width">
+                                <select name="" class="js_custom-select">
+                                    <option value="default" selected>Выберите цвет глаз</option>
+                                    <option value="1">Цвет 1</option>
+                                    <option value="2">Цвет 2</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="cabinet-profile__fields-row">
+                            <div class="form-field form-field--full-width">
+                                <select name="" class="js_custom-select">
+                                    <option value="default" selected>Выберите тип кожи</option>
+                                    <option value="1">Тип 1</option>
+                                    <option value="2">Тип 2</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="cabinet-profile__fields-row">
+                            <div class="form-field form-field--full-width">
+                                <select name="" class="js_custom-select">
+                                    <option value="default" selected>Выберите цвет волос</option>
+                                    <option value="1">Цвет 1</option>
+                                    <option value="2">Цвет 2</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="cabinet-profile__fields-half cabinet-profile__discount-wrap">
+                        <!-- DiscountCard.discountCardAJAX() -->
+                        <div class="cabinet-profile__discount discount-card js_discount-card preloader-wrap">
+                            <div class="discount-card__header js_discount-card__header">
+                                <div class="discount-card__submit-one js_discount-card__submit-one btn">
+                                    ПРИВЯЗАТЬ КАРТУ КОСМО
+                                </div>
+                            </div>
+
+                            <div class="discount-card__content js_discount-card__content">
+                                <img src="assets/images/discount-empty.png" alt="">
+                                <div class="discount-card__content-info">
+                                    <div class="discount-card__content-title">
+                                        Еще нет<br>
+                                        <b>карты космо</b>?
+                                    </div>
+                                    <div class="discount-card__content-how">
+                                        Узнай как можно легко<br>
+                                        <a href="#">получить ее</a>!
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="preloader" style="display: none;">
+                                <svg width="64" height="64">
+                                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-preloader"></use>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <hr>
+
+        <div class="cabinet-profile container">
+            <div class="cabinet-profile__title">Сменить пароль</div>
+
+            <div class="cabinet-profile__fields">
+                <div class="cabinet-profile__fields-row">
+                    <div class="cabinet-profile__fields-half">
+                        <div class="form-field">
+                            <input name="" value="" class="form-field__input" type="text"
+                                   placeholder="Введите старый пароль">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="cabinet-profile__fields-row">
+                    <div class="cabinet-profile__fields-half">
+                        <div class="form-field">
+                            <input name="" value="" class="form-field__input" type="text"
+                                   placeholder="Введите новый пароль">
+                        </div>
+                    </div>
+
+                    <div class="cabinet-profile__fields-half">
+                        <div class="form-field">
+                            <input name="" value="" class="form-field__input" type="text"
+                                   placeholder="Повторите новый пароль">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <hr>
+
+        <div class="cabinet-profile cabinet-profile--footer container">
+            <div class="cabinet-profile__title"></div>
+
+            <div class="cabinet-profile__fields">
+                <input type="reset" class="btn btn--transparent cabinet-profile__reset js_custom-select-reset" value="Отменить">
+
+                <input type="submit" class="btn cabinet-profile__submit" value="Сохранить изменения">
+            </div>
+        </div>
+    </form>
+</main>
+
+//= templates/footer.html
+</body>
+</html>

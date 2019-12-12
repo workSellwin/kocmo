@@ -6,20 +6,6 @@ use Kocmo\Exchange\Bx;
 
 final class StaticFactory
 {
-
-    private $stages = [
-        '0' => 'section',
-        '10' => 'property',
-        '20' => 'db_product',
-        '30' => 'offer',
-        '40' => 'product',
-        '50' => 'store',
-        '60' => 'rest',
-        '70' => 'type_price',
-        '80' => 'price',
-        '90' => 'image',
-    ];
-
     static function factory($stage = '0'){
 
         switch($stage){
@@ -33,10 +19,10 @@ final class StaticFactory
                 return new Bx\Dbproduct();
                 break;
             case '30':
-                return new Bx\Offer();
+                return new Bx\Product();
                 break;
             case '40':
-                return new Bx\Product();
+                return new Bx\Offer();
                 break;
             case '50':
                 return new Bx\Store();
@@ -54,18 +40,11 @@ final class StaticFactory
                 return new Bx\Image();
                 break;
             default:
-                return null;
+                return new Bx\End();
         }
     }
 
     static function nextStep($step){
-
-        if($step == 30){
-            return $step + 20;
-        }
-        elseif($step == 90){
-
-        }
         return $step + 10;
     }
 }

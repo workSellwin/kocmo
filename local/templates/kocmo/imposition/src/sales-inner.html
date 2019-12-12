@@ -1,0 +1,488 @@
+//= templates/head.html
+//= templates/top-banner.html
+//= templates/header.html
+
+<main class="main">
+    <div class="page-title-wrap">
+        <div class="container">
+            //= templates/breadcrumbs.html
+
+            <h1 class="page-title">Акции</h1>
+        </div>
+    </div>
+
+    <div class="container inner-with-aside">
+        //= templates/aside.html
+
+        <div class="main-content">
+            <div class="sale__img bordered-inner">
+                <img src="assets/images/temp/sale.jpg" alt="">
+            </div>
+
+            <div class="sale__date">
+                Акция действительна до 25.02.2019
+            </div>
+
+            <div class="sale__article">
+                <p>Это наиболее распространенная модель очень простой механикой постоянные покупатели накапливают балы
+                    последующего обмена их на материальные выгоды (дисконт, бесплатный товар, специальное предложение и
+                    т.д.)</p>
+
+                <p>Несмотря на кажущуюся простоту данного метода, компании умудряются настолько усложнить программу, что
+                    сами начинают в ней путаться.</p>
+
+                <p>Очень хороший питательный бальзам, прекрасно питает и защищает губы в мороз и ветер. Пахнет очень
+                    приятно пчёлами. Пользуюсь уже 1 год, всегда ношу с собой в сумочке. Буду покупать ещё, рекомендую.
+                    Очень хорошо питает и защищает губы в морозную и ветреную погоду. Имеет приятный натуральный аромат
+                    пчёл. Хватает очень надолго, сам по себе бальзам большой. Нравится, что и состав натуральный и
+                    формат удобный, так как обычно все бальзамы в стиках на одной химии.</p>
+
+            </div>
+
+            <h2 class="sale__title">товары на акции</h2>
+
+            <form action="test-ajax.html" method="post" class="category-filter js_category-filter">
+                <div class="container category-filter__container">
+                    <span class="category-filter__title">Фильтр:</span>
+                    <div class="category-filter__inner">
+                        <div class="category-filter__order-place">
+                            <label class="checkbox js_checkbox">
+                                <input type="checkbox" name="shop">В интернет-магазине
+                            </label>
+                            <label class="checkbox js_checkbox">
+                                <input type="checkbox" name="order">Под заказ
+                            </label>
+                        </div>
+
+                        <div class="category-filter__inner-wrap">
+                            <div class="category-filter__item">
+                                <div class="category-filter__item-title js_filter-accordion">
+                                    Бренд
+                                </div>
+                                <div class="category-filter__item-inner">
+                                    <div class="category-filter__item-inner--scroll  js_filter-scroll">
+                                        <label class="checkbox js_checkbox">
+                                            <input type="checkbox" name="brand_askone">Askone
+                                        </label>
+                                        <label class="checkbox js_checkbox">
+                                            <input type="checkbox" name="brand_Able">Able
+                                        </label>
+                                        <label class="checkbox js_checkbox">
+                                            <input type="checkbox" name="brand_Banjour">Banjour
+                                        </label>
+                                        <label class="checkbox js_checkbox">
+                                            <input type="checkbox" name="brand_Bandsbotlle">Bandsbotlle
+                                        </label>
+                                        <label class="checkbox js_checkbox">
+                                            <input type="checkbox" name="brand_Crone">Crone
+                                        </label>
+                                        <label class="checkbox js_checkbox">
+                                            <input type="checkbox" name="brand_Crosstale">Crosstale
+                                        </label>
+                                        <label class="checkbox js_checkbox">
+                                            <input type="checkbox" name="brand_Askone2">Askone 2
+                                        </label>
+                                        <label class="checkbox js_checkbox">
+                                            <input type="checkbox" name="brand_Able2">Able 2
+                                        </label>
+                                        <label class="checkbox js_checkbox">
+                                            <input type="checkbox" name="brand_Banjour2">Banjour 2
+                                        </label>
+                                        <label class="checkbox js_checkbox">
+                                            <input type="checkbox" name="brand_Bandsbotlle2">Bandsbotlle 2
+                                        </label>
+                                        <label class="checkbox js_checkbox">
+                                            <input type="checkbox" name="brand_Crone2">Crone 2
+                                        </label>
+                                        <label class="checkbox js_checkbox">
+                                            <input type="checkbox" name="brand_Crosstale2">Crosstale 2
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="category-filter__item">
+                                <div class="category-filter__item-title js_filter-accordion">
+                                    Стоимость
+                                </div>
+                                <div class="category-filter__item-inner category-filter__item-inner--cost">
+                                    От <input type="text" name="from_price" placeholder="10 р" value=""
+                                              class="field-bordered">
+                                    <span class="category-filter__divider"></span>
+                                    До <input type="text" name="to_price" placeholder="100 р" value=""
+                                              class="field-bordered">
+                                </div>
+                            </div>
+
+                            <div class="category-filter__item">
+                                <div class="category-filter__item-title js_filter-accordion">
+                                    Статус
+                                </div>
+                                <div class="category-filter__item-inner">
+                                    <label class="checkbox js_checkbox">
+                                        <input type="checkbox" name="state_1">Акция
+                                    </label>
+                                    <label class="checkbox js_checkbox">
+                                        <input type="checkbox" name="state_2">Новинка
+                                    </label>
+                                    <label class="checkbox js_checkbox">
+                                        <input type="checkbox" name="state_3">Только в Космо
+                                    </label>
+                                    <label class="checkbox js_checkbox">
+                                        <input type="checkbox" name="state_4">Хит продаж
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="category-filter__sort custom-select-wrap">
+                        <span class="category-filter__sort-title">Сортировать по:</span>
+                        <select name="filter_sort" class="js_custom-filter-select">
+                            <option value="sort_default" selected>умолчанию</option>
+                            <option value="sort_increase">A-Z</option>
+                            <option value="sort_decrease">Z-A</option>
+                        </select>
+                    </div>
+                </div>
+            </form>
+
+            <div class="category-filter-active-fields-wrap">
+                <div class="container js_category-filter-active-fields"></div>
+            </div>
+
+            <div class="products">
+                <div class="preloader-wrap">
+                    <div class="products__container">
+                        <div class="products-item">
+                            <a href="#" class="products-item__img-wrap">
+                                <div class="products-item__labels">
+                                    <div class="products-item__label products-item__label--sale">-20%</div>
+                                    <div class="products-item__label products-item__label--new">new</div>
+                                    <div class="products-item__label--add">
+                                        <svg width="44" height="25">
+                                            <use xmlns:xlink="http://www.w3.org/1999/xlink"
+                                                 xlink:href="#svg-label-add"></use>
+                                        </svg>
+                                    </div>
+                                </div>
+                                <!-- 290px x 226px -->
+                                <img src="assets/images/temp/product.jpg" width="290" height="226"
+                                     class="products-item__img"
+                                     alt="">
+                            </a>
+                            <div class="products-item__title-wrap">
+                                <a href="#" class="products-item__title">Real Skin</a>
+                                <a href="#" class="products-item__options">15 вариантов</a>
+                            </div>
+                            <div class="products-item__description">
+                                Бальзам Sun Care Family для приема после душа загара, можете нанести сразу три этапа.
+                                250 мл.
+                            </div>
+                            <div class="products-item__reviews">
+                                <div class="products-item__stars">
+                                    <img src="assets/images/temp/stars.png" alt="">
+                                </div>
+                                <a href="#" class="products-item__reviews-lnk">2 отзыва</a>
+                            </div>
+                            <div class="products-item__price-wrap">
+                                <div class="products-item__price">23,90<span> руб</span></div>
+                                <div class="products-item__old-price">23,90<span> руб</span></div>
+                            </div>
+                            <div class="products-item__btns">
+                                <a href="#" class="btn btn--transparent products-item__add">
+                                    <svg width="25" height="25">
+                                        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-basket"></use>
+                                    </svg>
+                                    В корзину
+                                </a>
+                                <a href="#"
+                                   class="btn btn--transparent products-item__wishlist products-item__wishlist--active">
+                                    <svg width="25" height="25">
+                                        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-heart"></use>
+                                    </svg>
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="products-item">
+                            <a href="#" class="products-item__img-wrap">
+                                <div class="products-item__labels">
+                                    <div class="products-item__label products-item__label--sale">-20%</div>
+                                    <div class="products-item__label products-item__label--new">new</div>
+                                    <div class="products-item__label--add">
+                                        <svg width="44" height="25">
+                                            <use xmlns:xlink="http://www.w3.org/1999/xlink"
+                                                 xlink:href="#svg-label-add"></use>
+                                        </svg>
+                                    </div>
+                                </div>
+                                <!-- 290px x 226px -->
+                                <img src="assets/images/temp/product.jpg" width="290" height="226"
+                                     class="products-item__img"
+                                     alt="">
+                            </a>
+                            <div class="products-item__title-wrap">
+                                <a href="#" class="products-item__title">Real Skin</a>
+                                <a href="#" class="products-item__options">15 вариантов</a>
+                            </div>
+                            <div class="products-item__description">
+                                Бальзам Sun Care Family для приема после душа загара, можете нанести сразу три этапа.
+                                250 мл.
+                            </div>
+                            <div class="products-item__reviews">
+                                <div class="products-item__stars">
+                                    <img src="assets/images/temp/stars.png" alt="">
+                                </div>
+                                <a href="#" class="products-item__reviews-lnk">2 отзыва</a>
+                            </div>
+                            <div class="products-item__price-wrap">
+                                <div class="products-item__price">23,90<span> руб</span></div>
+                                <div class="products-item__old-price">23,90<span> руб</span></div>
+                            </div>
+                            <div class="products-item__btns">
+                                <a href="#" class="btn btn--transparent products-item__add">
+                                    <svg width="25" height="25">
+                                        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-basket"></use>
+                                    </svg>
+                                    В корзину
+                                </a>
+                                <a href="#"
+                                   class="btn btn--transparent products-item__wishlist products-item__wishlist--active">
+                                    <svg width="25" height="25">
+                                        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-heart"></use>
+                                    </svg>
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="products-item">
+                            <a href="#" class="products-item__img-wrap">
+                                <div class="products-item__labels">
+                                    <div class="products-item__label products-item__label--sale">-20%</div>
+                                    <div class="products-item__label products-item__label--new">new</div>
+                                    <div class="products-item__label--add">
+                                        <svg width="44" height="25">
+                                            <use xmlns:xlink="http://www.w3.org/1999/xlink"
+                                                 xlink:href="#svg-label-add"></use>
+                                        </svg>
+                                    </div>
+                                </div>
+                                <!-- 290px x 226px -->
+                                <img src="assets/images/temp/product.jpg" width="290" height="226"
+                                     class="products-item__img"
+                                     alt="">
+                            </a>
+                            <div class="products-item__title-wrap">
+                                <a href="#" class="products-item__title">Real Skin</a>
+                                <a href="#" class="products-item__options">15 вариантов</a>
+                            </div>
+                            <div class="products-item__description">
+                                Бальзам Sun Care Family для приема после душа загара, можете нанести сразу три этапа.
+                                250 мл.
+                            </div>
+                            <div class="products-item__reviews">
+                                <div class="products-item__stars">
+                                    <img src="assets/images/temp/stars.png" alt="">
+                                </div>
+                                <a href="#" class="products-item__reviews-lnk">2 отзыва</a>
+                            </div>
+                            <div class="products-item__price-wrap">
+                                <div class="products-item__price">23,90<span> руб</span></div>
+                                <div class="products-item__old-price">23,90<span> руб</span></div>
+                            </div>
+                            <div class="products-item__btns">
+                                <a href="#" class="btn btn--transparent products-item__add">
+                                    <svg width="25" height="25">
+                                        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-basket"></use>
+                                    </svg>
+                                    В корзину
+                                </a>
+                                <a href="#"
+                                   class="btn btn--transparent products-item__wishlist products-item__wishlist--active">
+                                    <svg width="25" height="25">
+                                        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-heart"></use>
+                                    </svg>
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="products-item">
+                            <a href="#" class="products-item__img-wrap">
+                                <div class="products-item__labels">
+                                    <div class="products-item__label products-item__label--sale">-20%</div>
+                                    <div class="products-item__label products-item__label--new">new</div>
+                                    <div class="products-item__label--add">
+                                        <svg width="44" height="25">
+                                            <use xmlns:xlink="http://www.w3.org/1999/xlink"
+                                                 xlink:href="#svg-label-add"></use>
+                                        </svg>
+                                    </div>
+                                </div>
+                                <!-- 290px x 226px -->
+                                <img src="assets/images/temp/product.jpg" width="290" height="226"
+                                     class="products-item__img"
+                                     alt="">
+                            </a>
+                            <div class="products-item__title-wrap">
+                                <a href="#" class="products-item__title">Real Skin</a>
+                                <a href="#" class="products-item__options">15 вариантов</a>
+                            </div>
+                            <div class="products-item__description">
+                                Бальзам Sun Care Family для приема после душа загара, можете нанести сразу три этапа.
+                                250 мл.
+                            </div>
+                            <div class="products-item__reviews">
+                                <div class="products-item__stars">
+                                    <img src="assets/images/temp/stars.png" alt="">
+                                </div>
+                                <a href="#" class="products-item__reviews-lnk">2 отзыва</a>
+                            </div>
+                            <div class="products-item__price-wrap">
+                                <div class="products-item__price">23,90<span> руб</span></div>
+                                <div class="products-item__old-price">23,90<span> руб</span></div>
+                            </div>
+                            <div class="products-item__btns">
+                                <a href="#" class="btn btn--transparent products-item__add">
+                                    <svg width="25" height="25">
+                                        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-basket"></use>
+                                    </svg>
+                                    В корзину
+                                </a>
+                                <a href="#"
+                                   class="btn btn--transparent products-item__wishlist products-item__wishlist--active">
+                                    <svg width="25" height="25">
+                                        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-heart"></use>
+                                    </svg>
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="products-item">
+                            <a href="#" class="products-item__img-wrap">
+                                <div class="products-item__labels">
+                                    <div class="products-item__label products-item__label--sale">-20%</div>
+                                    <div class="products-item__label products-item__label--new">new</div>
+                                    <div class="products-item__label--add">
+                                        <svg width="44" height="25">
+                                            <use xmlns:xlink="http://www.w3.org/1999/xlink"
+                                                 xlink:href="#svg-label-add"></use>
+                                        </svg>
+                                    </div>
+                                </div>
+                                <!-- 290px x 226px -->
+                                <img src="assets/images/temp/product.jpg" width="290" height="226"
+                                     class="products-item__img"
+                                     alt="">
+                            </a>
+                            <div class="products-item__title-wrap">
+                                <a href="#" class="products-item__title">Real Skin</a>
+                                <a href="#" class="products-item__options">15 вариантов</a>
+                            </div>
+                            <div class="products-item__description">
+                                Бальзам Sun Care Family для приема после душа загара, можете нанести сразу три этапа.
+                                250 мл.
+                            </div>
+                            <div class="products-item__reviews">
+                                <div class="products-item__stars">
+                                    <img src="assets/images/temp/stars.png" alt="">
+                                </div>
+                                <a href="#" class="products-item__reviews-lnk">2 отзыва</a>
+                            </div>
+                            <div class="products-item__price-wrap">
+                                <div class="products-item__price">23,90<span> руб</span></div>
+                                <div class="products-item__old-price">23,90<span> руб</span></div>
+                            </div>
+                            <div class="products-item__btns">
+                                <a href="#" class="btn btn--transparent products-item__add">
+                                    <svg width="25" height="25">
+                                        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-basket"></use>
+                                    </svg>
+                                    В корзину
+                                </a>
+                                <a href="#"
+                                   class="btn btn--transparent products-item__wishlist products-item__wishlist--active">
+                                    <svg width="25" height="25">
+                                        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-heart"></use>
+                                    </svg>
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="products-item">
+                            <a href="#" class="products-item__img-wrap">
+                                <div class="products-item__labels">
+                                    <div class="products-item__label products-item__label--sale">-20%</div>
+                                    <div class="products-item__label products-item__label--new">new</div>
+                                    <div class="products-item__label--add">
+                                        <svg width="44" height="25">
+                                            <use xmlns:xlink="http://www.w3.org/1999/xlink"
+                                                 xlink:href="#svg-label-add"></use>
+                                        </svg>
+                                    </div>
+                                </div>
+                                <!-- 290px x 226px -->
+                                <img src="assets/images/temp/product.jpg" width="290" height="226"
+                                     class="products-item__img"
+                                     alt="">
+                            </a>
+                            <div class="products-item__title-wrap">
+                                <a href="#" class="products-item__title">Real Skin</a>
+                                <a href="#" class="products-item__options">15 вариантов</a>
+                            </div>
+                            <div class="products-item__description">
+                                Бальзам Sun Care Family для приема после душа загара, можете нанести сразу три этапа.
+                                250 мл.
+                            </div>
+                            <div class="products-item__reviews">
+                                <div class="products-item__stars">
+                                    <img src="assets/images/temp/stars.png" alt="">
+                                </div>
+                                <a href="#" class="products-item__reviews-lnk">2 отзыва</a>
+                            </div>
+                            <div class="products-item__price-wrap">
+                                <div class="products-item__price">23,90<span> руб</span></div>
+                                <div class="products-item__old-price">23,90<span> руб</span></div>
+                            </div>
+                            <div class="products-item__btns">
+                                <a href="#" class="btn btn--transparent products-item__add">
+                                    <svg width="25" height="25">
+                                        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-basket"></use>
+                                    </svg>
+                                    В корзину
+                                </a>
+                                <a href="#"
+                                   class="btn btn--transparent products-item__wishlist products-item__wishlist--active">
+                                    <svg width="25" height="25">
+                                        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-heart"></use>
+                                    </svg>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="preloader" style="display: none;">
+                        <svg width="64" height="64">
+                            <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-preloader"></use>
+                        </svg>
+                    </div>
+                </div>
+
+                <div class="button-more-wrap">
+                    <!-- MainJs.productsMore -->
+                    <div class="button-more__btn js_products__btn">
+                        Показать больше
+                        <svg width="9" height="16">
+                            <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-arrow-down"></use>
+                        </svg>
+                    </div>
+                </div>
+
+                //= templates/pagination.html
+            </div>
+        </div>
+    </div>
+</main>
+
+//= templates/footer.html
+</body>
+</html>

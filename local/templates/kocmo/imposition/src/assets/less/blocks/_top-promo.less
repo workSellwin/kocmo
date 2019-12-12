@@ -1,0 +1,51 @@
+.top-promo {
+  padding-top: 51px;
+  padding-bottom: 53px;
+
+  @media @desktopContainerMedia {
+    padding-top: 31px;
+    padding-bottom: 43px;
+  }
+
+  @media @tabletMedia {
+    padding-top: 17px;
+    padding-bottom: 32px;
+  }
+
+  h2 {
+    font-weight: 400;
+    margin-bottom: 21px;
+
+    @media @desktopContainerMedia {
+      .fsize(18);
+      margin-bottom: 16px;
+    }
+
+    @media @tabletMedia {
+      .fsize(16);
+      text-align: center;
+      .lineHeight(22, 16);
+      margin-bottom: 12px;
+    }
+  }
+
+  span {
+    color: @violet-color;
+  }
+
+  p {
+    margin-bottom: 24px;
+    color: #3D3D3D;
+    .lineHeight(24, 16);
+
+    @media @desktopContainerMedia {
+      .fsize(14);
+      .lineHeight(20, 14);
+      margin-bottom: 20px;
+    }
+
+    &:last-of-type {
+      margin-bottom: 0;
+    }
+  }
+}

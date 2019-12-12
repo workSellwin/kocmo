@@ -28,14 +28,12 @@ class Section extends Helper
         parent::__construct($treeBuilder);
     }
 
-    public function update()
-    {
+    public function update() : bool {
         /** @var \Kocmo\Exchange\Tree\Section $this->treeBuilder*/
 
         if (is_array( $this->treeBuilder->getTree() )) {
 
             $allXmlId = $this->treeBuilder->getAllXmlId();
-            $xmlIdFromReq = [];
 
             if (count($allXmlId)) {
                 $res = \CIBlockSection::GetList(
@@ -46,16 +44,16 @@ class Section extends Helper
                 );
 
                 while ($fields = $res->fetch()) {
-                    $xmlIdFromReq[ $fields['XML_ID'] ] = $fields['ID'];
+                    $this->conformityHash[ $fields['XML_ID'] ] = $fields['ID'];
                 }
             }
             $cIBlockSection = new \CIBlockSection;
 
             foreach ($this->treeBuilder->structGenerator($this->treeBuilder->getTree()) as $section) {
 
-                if ( isset($xmlIdFromReq[ $section[$this->arParams['ID']] ]) ) {
+                if ( isset($this->conformityHash[ $section[$this->arParams['ID']] ]) ) {
 
-                    $section['ID'] = $xmlIdFromReq[$section['UID']];
+                    $section['ID'] = $this->conformityHash[$section['UID']];
                     $this->updateSection($section, $cIBlockSection);
                 }
                 else{
@@ -73,7 +71,6 @@ class Section extends Helper
 
     private function addSection(array $arFieldsFrom1C, $cIBlockSection = false)
     {
-
         $arFields = $this->prepareFields($arFieldsFrom1C);
 
         if ($arFields == false) {
@@ -120,7 +117,6 @@ class Section extends Helper
 
     private function prepareFields(array $from1CArr)
     {
-
         $neededFields = [
             'ACTIVE' => 'Y',
             'IBLOCK_SECTION_ID' => $this->conformityHash[$from1CArr[$this->arParams['PARENT_ID']]],

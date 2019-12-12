@@ -1,0 +1,38 @@
+.promo {
+  padding-top: 55px;
+  color: #454545;
+  font-weight: 300;
+  .fsize(16);
+  .lineHeight(28, 16);
+
+  @media @tabletMedia {
+    .fsize(14);
+    .lineHeight(24, 14);
+    padding-top: 35px;
+  }
+
+  p {
+    margin-bottom: 26px;
+
+    b, strong {
+      font-weight: 400;
+    }
+  }
+
+  &__title {
+    margin-bottom: 17px;
+    .fsize(30);
+    letter-spacing: -0.04em;
+    color: #2B2B2B;
+    font-weight: 400;
+
+    @media @tabletMedia {
+      .fsize(20);
+      margin-bottom: 11px;
+    }
+
+    span {
+      color: @violet-color;
+    }
+  }
+}

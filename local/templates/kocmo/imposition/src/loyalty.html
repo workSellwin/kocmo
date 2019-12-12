@@ -1,0 +1,252 @@
+//= templates/head.html
+//= templates/top-banner.html
+//= templates/header.html
+
+<main class="main">
+    <div class="page-title-wrap">
+        <div class="container">
+            //= templates/breadcrumbs.html
+
+            <h1 class="page-title">ПРОГРАММА ЛОЯЛЬНОСТИ</h1>
+        </div>
+    </div>
+
+    <div class="loyalty">
+        <div class="container">
+            <div class="tabs-wrap js_tabs-wrap">
+                <div class="tabs">
+                    <span data-id="loyalty-customer" class="tab tab--dotted js_tab active">Постоянный покупатель</span>
+                    <span data-id="loyalty-conditions" class="tab tab--dotted js_tab">Условия</span>
+                    <span data-id="loyalty-sales" class="tab tab--dotted js_tab">Размеры скидок</span>
+                </div>
+
+                <div class="panels">
+                    <div data-id="loyalty-customer" class="panel panel--customer js_panel active">
+                        <div class="two-columns-grid">
+                            <div class="two-columns-grid__item">
+                                <h3>Что мы предлагаем?</h3>
+
+                                <p><b>Сеть магазинов КОСМО</b> предлагает своим покупателям участвовать в программе
+                                    «Постоянный покупатель».
+                                </p>
+
+                                <p>Для каждого участника программы раскрываются дополнительные возможности:</p>
+
+                                <ul>
+                                    <li>приобретать товары в <b>магазинах КОСМО</b> со скидкой;</li>
+                                    <li>участвовать в различных акциях, розыгрышах, которые проводятся
+                                        среди владельцев дисконтных карт.
+                                    </li>
+                                </ul>
+
+                                <div class="loyalty__columns-item-btns">
+                                    <a href="#popup-card-registration" class="btn fancybox-overflow loyalty__register-btn">Регистрация карты</a>
+
+                                    <!-- LoyaltySale.loyaltySaleAJAX -->
+                                    <a href="#popup-check-sale" class="btn btn--transparent fancybox loyalty__check-btn js_check-sale">проверить
+                                        скидку</a>
+                                </div>
+
+                                <p>Мы рады видеть Вас среди постоянных покупателей <b>магазинов КОСМО</b>!</p>
+
+                                <a href="https://drive.google.com/file/d/1mNpxXAxGHWhq_yW4_A82O-Z-DNrr0ezT/view"
+                                   target="_blank"
+                                   class="loyalty__show-rules-btn clearfix">
+
+                                    <svg width="38" height="38">
+                                        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-page"></use>
+                                    </svg>
+
+                                    <span>Посмотреть правила «Программы лояльности»</span>
+                                </a>
+                            </div>
+
+                            <div class="two-columns-grid__item">
+                                <div class="loyalty__card">
+                                    <img src="assets/images/loyalty-customer-card.png" alt="">
+                                </div>
+
+                                <div class="loyalty__subinfo">
+                                    Более подробную информацию об условиях участия в программе сети КОСМО «Постоянный
+                                    покупатель» и их скидках можно узнать в соответствующем подразделе или в магазинах
+                                    Вашего города.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div data-id="loyalty-conditions" class="panel panel--conditions js_panel ">
+                        <div class="two-columns-grid">
+                            <div class="two-columns-grid__item">
+                                <h3>Как получить карту?</h3>
+
+                                <table>
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                <div class="list-circle-digit">
+                                                    <div class="list-circle-digit__inner">
+                                                        1
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td>Совершить разовую покупку товаров в магазинах КОСМО на сумму от 50 рублей, либо
+                                                приобрести карту на кассе по цене 2 рубля</td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="list-circle-digit">
+                                                    <div class="list-circle-digit__inner">
+                                                        2
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td>Заполнить анкету* держателя дисконтной карты КОСМО</td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="list-circle-digit">
+                                                    <div class="list-circle-digit__inner">
+                                                        3
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td>Передать заполненную анкету продавцу</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                                <div class="loyalty__conditions-footer">
+                                    <div class="loyalty__conditions-fyi">
+                                        Предоставляемая Вами в анкете информация является конфиденциальной и не подлежит
+                                        разглашению третьим лицам. * Подписью в анкете владелец дисконтной карты
+                                        подтверждает,
+                                        что ознакомлен и согласен с правилами дисконтной программы Космо
+                                    </div>
+
+                                    <a href="#" download class="loyalty__conditions-footer-download btn">Скачать
+                                        анкету</a>
+                                </div>
+                            </div>
+
+                            <div class="two-columns-grid__item">
+                                <div class="loyalty__condition-bg">
+                                    <img src="assets/images/loyalty-conditions-bg.png" alt="">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div data-id="loyalty-sales" class="panel panel--sales js_panel">
+                        <div class="two-columns-grid">
+                            <div class="two-columns-grid__item">
+                                <h3>Сколько составит скидка по карте?</h3>
+
+                                <p>При покупке товаров в сети <b>магазинов КОСМО</b> владельцам дисконтных карт
+                                    предоставляются
+                                    следующие скидки и бонусы:</p>
+
+                                <table>
+                                    <tbody>
+                                    <tr>
+                                        <td>
+                                            <div class="list-circle list-circle--theme-yellow">
+                                                <div class="list-circle__inner">
+                                                    3 <sup>%</sup>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            - при каждой покупке*
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div class="list-circle list-circle--theme-orange">
+                                                <div class="list-circle__inner">
+                                                    <sub>+</sub> 1 <sup>%</sup>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            - за каждые <b>200 руб. накоплений**</b>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div class="list-circle list-circle--theme-violet">
+                                                <div class="list-circle__inner">
+                                                    10 <sup>%</sup>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            - дополнительный бонус ко Дню Рождения***
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+
+                                <p>Примечание. Скидки не суммируются!</p>
+                            </div>
+
+                            <div class="two-columns-grid__item">
+                                <div class="loyalty__condition-bg">
+                                    <img src="assets/images/loyalty-sale-bg.png" alt="">
+                                </div>
+                            </div>
+                        </div>
+
+                        <hr>
+
+                        <div class="two-columns-grid two-columns-grid--sales-bottom">
+                            <div class="two-columns-grid__item">
+                                Обращаем Ваше внимание на то, что: <br><br>
+
+                                *1. Начальная скидка для обладателей дисконтных карт составляет 3%. Это минимальная
+                                скидка, предоставляемая независимо от размера покупки.
+                                <br><br>
+                                **2.За каждые накопленные 200 руб. с использованием карты к текущему проценту скидки по
+                                карте добавляется 1 (один) %. Накопления считаются за вычетом всех скидок в чеке.
+                                <br><br>
+                                при накоплении до 199,99 руб. скидка по карте составляет 3%<br>
+                                при накоплении 200-399,99 руб. скидка по карте составляет 4%<br>
+                                при накоплении 400-599,99 руб. скидка по карте составляет 5%<br>
+                                при накоплении 600-799,99 руб. скидка по карте составляет 6%<br>
+                                при накоплении 800-999,99 руб. скидка по карте составляет 7%<br>
+                                при накоплении 1000-1199,99 руб. скидка по карте составляет 8%<br>
+                                при накоплении 1200-1399,99 руб. скидка по карте составляет 9%<br>
+                                при накоплении 1400-1599,99 руб. скидка по карте составляет 10%<br>
+                                <br>
+                                Скидка по карте не распространяется на товары, участвующие в других акциях, а также не
+                                суммируется с другими видами скидок.
+                            </div>
+                            <div class="two-columns-grid__item">
+                                ***3. Карта позволяет Участнику получить скидку «В День рождения» посредством получения
+                                Купона на скидку. Купон на скидку ко Дню Рождения высылается на электронную почту
+                                Покупателя, указанную в анкете.
+                                <br><br>
+                                Купоном на скидку «В день рождения» можно воспользоваться один раз в течении 7 (семи)
+                                календарных дней до и 7 (семи) календарных дней после даты дня рождения.
+                                <br><br>
+                                Купон на кассе можно предъявить в бумажном виде либо на экране мобильного
+                                устройства.<br>
+                                Скидка по Купону на кассе предоставляется только в сочетании с Картой владельца Купона.
+                                <br><br>
+                                Размер предоставляемой скидки по Купону:<br>
+                                10% - для обладателей карт, скидка по которым составляет от 3% до 6%;<br>
+                                15% - для обладателей карт, скидка по которым составляет от 7% до 10%;<br>
+                                20% - для обладателей карт, скидка по которым составляет от 11% до 15%;<br>
+                            </div>
+                        </div>
+                        <div class="loyalty__more-btn js_loyalty__more-btn">читать далее</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+//= templates/footer.html
+</body>
+</html>

@@ -1,0 +1,11 @@
+.letter-disabled{
+    color:lightgray;
+    cursor: default;
+}
+.letter-disabled a{
+    color:lightgray;
+    cursor: default;
+}
+.letter-disabled a:hover{
+    color:lightgray;
+}

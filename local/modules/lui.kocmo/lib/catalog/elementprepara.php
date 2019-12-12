@@ -2,6 +2,8 @@
 
 namespace Lui\Kocmo\Catalog;
 
+use ElementPrice;
+
 class ElementPrepara
 {
 
@@ -47,24 +49,25 @@ class ElementPrepara
      */
     public function getMinPriceOffers()
     {
-        $price['PRICE'] = 0;
-        foreach ($this->arOffers as $offer) {
-            if ($price['PRICE'] == 0) {
-                $price['PRICE'] = $offer['PRICE'][0]['PRICE'];
-                $price['OFFER_ID'] = $offer['ID'];
-                $price['BASE_PRICE'] = $offer['PRICE'][0]['BASE_PRICE'];
-                $price['DISCOUNT'] = $offer['PRICE'][0]['DISCOUNT'];
-                $price['PERCENT'] = $offer['PRICE'][0]['PERCENT'];
-            } else {
-                if ($price['PRICE'] > $offer['PRICE'][0]['PRICE']) {
-                    $price['PRICE'] = $offer['PRICE'][0]['PRICE'];
-                    $price['OFFER_ID'] = $offer['ID'];
-                    $price['BASE_PRICE'] = $offer['PRICE'][0]['BASE_PRICE'];
-                    $price['DISCOUNT'] = $offer['PRICE'][0]['DISCOUNT'];
-                    $price['PERCENT'] = $offer['PRICE'][0]['PERCENT'];
+        $price['PRICE_NEW'] = 0;
+
+
+
+        if ($this->arOffers) {
+            foreach ($this->arOffers as $offer) {
+                $elemPrice = ElementPrice::getElementPrice($offer['ID']);
+                if ($price['PRICE_NEW'] <= 0) {
+                    $price = $elemPrice;
+                } else {
+                    if ($price['PRICE_NEW'] > $elemPrice['PRICE_NEW']) {
+                        $price = $elemPrice;
+                    }
                 }
             }
+        } else {
+            $price = ElementPrice::getElementPrice($this->arData['ITEM']['ID']);
         }
+
         return $price;
     }
 

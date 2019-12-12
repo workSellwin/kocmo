@@ -1,0 +1,118 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "id": 0,
+      "geometry":
+      {
+        "type": "Point",
+        "coordinates": [60.057792, 30.364898]
+      },
+      "properties":
+      {
+        "balloonContent": "<div class='ballon-header'>Верхняя улица, дом 10, АЗС  <div class='ballon-header__price'>17.85 руб./литр</div></div><div class='ballon-content'><i class='card'></i><i class='basket'></i><i class='compressor'></i><i class='hoover'></i><i class='wc'></i></div><div class='ballon-footer'><span class='ballon-footer__tel'>+7 (911) 831-28-13</span><span class='ballon-footer__schedule'>24 часа в сутки</span></div>"
+      }
+    },
+
+    {
+      "type": "Feature",
+      "id": 1,
+      "geometry":
+      {
+        "type": "Point",
+        "coordinates": [59.905362064211765, 29.642814499999908]
+      },
+      "properties":
+      {
+        "balloonContent": "<div class='ballon-header'>Ленинградская обл., Ломоносовский район, д. Лангерево, ул Пениковская, уч. 16 <div class='ballon-header__price'>16 руб./литр <div class='fyi'><div class='fyi__tooltip'>Описание… Описание… Описание… Описание…Описание… Описание… Описание… Описание…</div></div></div></div><div class='ballon-content'><i class='card'></i><i class='basket'></i><i class='compressor'></i><i class='hoover'></i><i class='wc'></i></div><div class='ballon-footer'><span class='ballon-footer__tel'>+7 (911) 987-48-35</span><span class='ballon-footer__schedule'>24 часа в сутки</span></div>"
+      }
+    },
+
+    {
+      "type": "Feature",
+      "id": 2,
+      "geometry":
+      {
+        "type": "Point",
+        "coordinates": [59.99161006412185,30.355609499999975]
+      },
+      "properties":
+      {
+        "balloonContent": "<div class='ballon-header'>Политехническая улица, дом 5 лит. Б <div class='ballon-header__price'>17.85 руб./литр</div></div><div class='ballon-content'><i class='card'></i><i class='basket'></i><i class='compressor'></i><i class='hoover'></i><i class='wc'></i></div><div class='ballon-footer'><span class='ballon-footer__tel'>+7 (911) 987-48-35</span><span class='ballon-footer__schedule'>24 часа в сутки</span></div>"
+      }
+    },
+
+    {
+      "type": "Feature",
+      "id": 3,
+      "geometry":
+      {
+        "type": "Point",
+        "coordinates": [59.95429956411944,30.454119000000016]
+      },
+      "properties":
+      {
+        "balloonContent": "<div class='ballon-header'>Объездное шоссе, дом 15, АЗС «Фаэтон» <div class='ballon-header__price'>17.85 руб./литр</div></div><div class='ballon-content'><i class='card'></i><i class='basket'></i><i class='compressor'></i><i class='hoover'></i><i class='wc'></i></div><div class='ballon-footer'><span class='ballon-footer__tel'>+7 (911) 987-48-35</span><span class='ballon-footer__schedule'>24 часа в сутки</span></div>"
+      }
+    },
+
+    {
+      "type": "Feature",
+      "id": 4,
+      "geometry":
+      {
+        "type": "Point",
+        "coordinates": [59.845297064306514,30.41812349999999]
+      },
+      "properties":
+      {
+        "balloonContent": "<div class='ballon-header'>Дунайский проспект, дом 62, АЗС «Фаэтон» <div class='ballon-header__price'>17.85 руб./литр</div></div><div class='ballon-content'><i class='card'></i><i class='basket'></i><i class='compressor'></i><i class='hoover'></i><i class='wc'></i></div><div class='ballon-footer'><span class='ballon-footer__tel'>+7 (911) 987-48-35</span><span class='ballon-footer__schedule'>24 часа в сутки</span></div>"
+      }
+    },
+
+    {
+      "type": "Feature",
+      "id": 5,
+      "geometry":
+      {
+        "type": "Point",
+        "coordinates": [59.95547556412251,30.252976999999966]
+      },
+      "properties":
+      {
+        "balloonContent": "<div class='ballon-header'>Уральская улица, дом 14 <div class='ballon-header__price'>17.85 руб./литр</div></div><div class='ballon-content'><i class='card'></i><i class='basket'></i><i class='compressor'></i><i class='hoover'></i><i class='wc'></i></div><div class='ballon-footer'><span class='ballon-footer__tel'>+7 (911) 987-48-35</span><span class='ballon-footer__schedule'>24 часа в сутки</span></div>"
+      }
+    },
+
+    {
+      "type": "Feature",
+      "id": 6,
+      "geometry":
+      {
+        "type": "Point",
+        "coordinates": [59.867362564269804,30.24770399999998]
+      },
+      "properties":
+      {
+        "balloonContent": "<div class='ballon-header'>Дорога на Турухтанные острова 12 лит. К, АЗС «Фаэтон» <div class='ballon-header__price'>17.85 руб./литр</div></div><div class='ballon-content'><i class='card'></i><i class='basket'></i><i class='compressor'></i><i class='hoover'></i><i class='wc'></i></div><div class='ballon-footer'><span class='ballon-footer__tel'>+7 (911) 987-48-35</span><span class='ballon-footer__schedule'>24 часа в сутки</span></div>"
+      }
+    },
+
+    {
+      "type": "Feature",
+      "id": 7,
+      "geometry":
+      {
+        "type": "Point",
+        "coordinates": [59.91344256420138,30.381400499999998]
+      },
+      "properties":
+      {
+        "balloonContent": "<div class='ballon-header'>Глиняная улица, дом 23 кор. 1, АЗС «Фаэтон» <div class='ballon-header__price'>17.85 руб./литр</div></div><div class='ballon-content'><i class='card'></i><i class='basket'></i><i class='compressor'></i><i class='hoover'></i><i class='wc'></i></div><div class='ballon-footer'><span class='ballon-footer__tel'>+7 (911) 987-48-35</span><span class='ballon-footer__schedule'>24 часа в сутки</span></div>"
+      }
+    }
+
+
+  ]
+}

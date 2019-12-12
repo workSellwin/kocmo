@@ -2,7 +2,10 @@
 
 
 namespace Kocmo\Exchange\Bx;
-use Bitrix\Catalog;
+
+use Bitrix\Catalog,
+    \Bitrix\Main\Type\DateTime,
+    \Bitrix\Catalog\Model;
 
 
 class Price extends Helper
@@ -15,24 +18,30 @@ class Price extends Helper
         parent::__construct($treeBuilder);
     }
 
-    public function update(){
+    public function update() : bool {
 
         $arReq = $this->treeBuilder->getRequestArr();
+
         $typePrice = \Bitrix\Catalog\GroupTable::getlist([
-            //'filter' => ['SORT' => 123],
             'select' => ['ID', 'XML_ID']
         ])->fetchAll();
+
         $typePrice = array_column($typePrice, NULL, "XML_ID");
 
-        $res = \CIBlockElement::GetList([], ["XML_ID" => array_keys($arReq)], false, false, ['ID', 'XML_ID']);
+        $res = \CIBlockElement::GetList(
+            [],
+            ["XML_ID" => array_keys($arReq)],
+            false,
+            false,
+            ['ID', 'XML_ID']
+        );
         $elementsId = [];
 
         while($fields = $res->fetch()){
-            //$elementsId[] = $fields['ID'];
             $elementsId[$fields['ID']] = $fields['XML_ID'];
         }
-
-        $dbPrices = \Bitrix\Catalog\Model\Price::getlist([
+        //pr($elementsId,14);return false;
+        $dbPrices = Model\Price::getlist([
             "filter" => ["PRODUCT_ID" => array_keys($elementsId), "CURRENCY" => $this->currency],
             "select" => ["ID", "PRODUCT_ID", "CATALOG_GROUP_ID"],
             "order" => ["PRODUCT_ID" => "asc"]
@@ -42,6 +51,7 @@ class Price extends Helper
         while($row = $dbPrices->fetch()){
             $prices[$row["PRODUCT_ID"] . '_' . $row["CATALOG_GROUP_ID"]] = $row["ID"];
         }
+
         unset($row);
 
         foreach($elementsId as $id => $xmlId) {
@@ -55,7 +65,7 @@ class Price extends Helper
                 try {
                     if (isset($prices[$id . '_' . $catalogGroup])) {
 
-                        $result = \Bitrix\Catalog\Model\Price::update($prices[$id . '_' . $catalogGroup], [
+                        $result = Model\Price::update($prices[$id . '_' . $catalogGroup], [
                             "PRODUCT_ID" => $id,
                             "CATALOG_GROUP_ID" => $catalogGroup,
                             "PRICE" => $price,
@@ -71,41 +81,33 @@ class Price extends Helper
                     }
 
                     if (!$result->isSuccess()) {
-                        pr($result);
+                        //pr($result);
                     }
                 } catch (\Exception $e) {
                     pr($e->getMessage());
                 }
             }
         }
+        $this->clearOldPrice();
+        $this->status = 'end';
 
-//        $iterator = Catalog\Model\Product::getlist([
-//            "filter" => ['ID' => array_keys($elementsId)]
-//        ]);
+        return true;
+    }
 
-//        $products = [];
-//
-//        while($row = $iterator->fetch()){
-//            //$products[] = $row;
-//            $price = str_replace(',', '.', $arReq[$elementsId[$row['ID']]][$this->arParams['PRICE']]);
-//            $price = floatval($price);
-//
-//            try {
-//                $result = \Bitrix\Catalog\Model\Price::add([
-//                    "PRODUCT_ID" => $row['ID'],
-//                    "CATALOG_GROUP_ID" => $typePrice[ $arReq[$elementsId[$row['ID']]][$this->arParams['TYPE_PRICE']] ]['ID'],
-//                    "PRICE" => $price,
-//                    "CURRENCY" => $this->currency,
-//                ]);
-//                //pr($result);
-//                if(!$result->isSuccess()){
-//                    pr($result);
-//                }
-//            } catch (\Exception $e){
-//                pr($e->getMessage());
-//            }
-//        }
+    function clearOldPrice(){
 
-        //pr($products);
+        if($this->timestamp !== null ) {
+
+            $dbPrices = Model\Price::getList(['filter' => ["<TIMESTAMP_X" => $this->timestamp]]);
+            $oldPrices = [];
+
+            while ($row = $dbPrices->fetch()) {
+                $oldPrices[] = $row['ID'];
+            }
+
+            foreach ($oldPrices as $id) {
+                Model\Price::delete($id);
+            }
+        }
     }
 }

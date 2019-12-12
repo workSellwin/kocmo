@@ -37,18 +37,15 @@ class Product extends Builder
 
     protected function setReqParam(){
 
-        if( $this->checkRef( $this->reqParam['UID'] ) ){
+        if( $this->utils->checkRef( $this->reqParam['UID'] ) ){
             $itemXmlId = $this->reqParam['UID'];
         }
-        elseif( $this->checkRef($_SESSION[$this->arParams['PRODUCT_LAST_UID']]) ){
-            $itemXmlId = $_SESSION[$this->arParams['PRODUCT_LAST_UID']];
+        elseif( $this->utils->checkRef( $this->utils->getModuleData( $this->arParams['PRODUCT_LAST_UID'] ) ) ){
+            $itemXmlId = $this->utils->getModuleData( $this->arParams['PRODUCT_LAST_UID'] );
         }
 
         $limit = $this->reqParam['PRODUCT_LIMIT'] ? $this->reqParam['PRODUCT_LIMIT'] : $this->arParams['PRODUCT_LIMIT'];
-        if( /*!$this->checkRef($_GET['item']) && !empty($_SESSION[$this->arParams['PRODUCT_LAST_UID']])
-            && $this->checkRef($_SESSION[$this->arParams['PRODUCT_LAST_UID']]) */
-            !empty($itemXmlId)
-        ){
+        if( !empty($itemXmlId) ){
             $this->strReqParams = 'item=' . $itemXmlId . '&count=' . $limit;
         }
 
@@ -67,9 +64,10 @@ class Product extends Builder
         }
 
         $arProps = $this->getPropsFromReq();
+
         foreach($arProps as $prop){
 
-            $guiMatch = $this->getStrFromGuid($prop['UID']);
+            $guiMatch = $this->utils->getStrFromGuid($prop['UID']);
             $this->arProperty[$guiMatch] = $prop;
         }
 
@@ -82,6 +80,10 @@ class Product extends Builder
         if ($response->getStatusCode() == 200) {
 
             $arProducts = json_decode($response->getBody(), true);
+
+            if( isset($arProducts['Error']) ){
+                throw new \Error("error: message: " . $arProducts['Error']);
+            }
 
             foreach( $arProducts as $key => $item ){
 
@@ -118,6 +120,7 @@ class Product extends Builder
 
                 $arForDb[$prepareItem['UID']]['JSON'] = json_encode($prepareItem);
                 $arForDb[$prepareItem['UID']]["IMG_GUI"] = $prepareItem[$this->arParams['PIC_FILE']];
+                $arForDb[$prepareItem['UID']]['PARENT'] = $prepareItem['PARENT'];
                 $arProducts[$key] = null;
             }
 
@@ -170,7 +173,7 @@ class Product extends Builder
         return $outArr;
     }
 
-        public function getRefValue($book, $gui){
+    public function getRefValue($book, $gui){
 
         if( !isset($this->referenceBooks[$book]) || !count($this->referenceBooks[$book])){
             $this->referenceBooks[$book] = $this->getRefereceBook($this->referenceBooksGuid[$book]);

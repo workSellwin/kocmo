@@ -1,0 +1,89 @@
+<form action="" method="post" class="form-register">
+    {% if result.ERRORS %}
+        <div class="alert alert-danger">
+            {{ implode('<br>',result.ERRORS) }}
+        </div>
+    {% endif %}
+    <div class="two-columns-grid two-columns-grid--form-register">
+        {% for code, item in result.ITEMS %}
+            {% set type=item.type %}
+            {% if type=='email' or type=='password' or type=='text' %}
+                <div class="two-columns-grid__item">
+                    <div class="form-field__required-wrap">
+                        <input
+                                type="{{ type }}" {{ item.required ? 'required' : '' }}
+                                name="REGISTER[{{ item.code }}]"
+                                value="{{ item.value }}"
+                                class="{{ item.required ? 'form-field__required-input js_field-required-input' : '' }}">
+                        <label class="form-field__required-label" for="form-register-name">{{ item.name }}
+                            {% if item.required %}
+                                <span class="required">*</span>
+                            {% endif %}
+                        </label>
+                    </div>
+                </div>
+            {% elseif type=='date' %}
+                <div class="two-columns-grid__item">
+                    <div class="form-field form-field--date">
+                        <input name="REGISTER[{{ item.code }}]"
+                               value="{{ item.value }}"
+                               class="form-field__input"
+                               type="text"
+                               onclick="BX.calendar({node: this, field: this, bTime: false});"
+                               placeholder="{{ item.name }}">
+                        <svg width="16" height="15">
+                            <use xmlns:xlink="http://www.w3.org/1999/xlink"
+                                 xlink:href="#svg-calendar"></use>
+                        </svg>
+                    </div>
+                </div>
+            {% elseif type=='radio' %}
+                <div class="two-columns-grid__item">
+                    <div class="form-register__checkbox-header">
+                        {{ item.name }} {% if item.required %}<span class="required">*</span>{% endif %}
+                    </div>
+
+                    <div class="form-register__checkbox-wrap">
+                        {% for code, option in item.options %}
+                            <label class="radio js_radio">
+                                <input type="radio" name="REGISTER[{{ item.code }}]" {{ option.checked }}
+                                       value="{{ option.code }}">
+                                {{ option.name }}
+                            </label>
+                        {% endfor %}
+                    </div>
+                    <div class="form-register__checkbox-footer">
+                        <label class="checkbox js_checkbox">
+                            <input type="checkbox" required name="form-register_agreement">Я согласен на
+                            сбор и обработку своих персональных
+                            данных
+                        </label>
+                    </div>
+                </div>
+            {% elseif type=='hidden' %}
+                <input type="hidden" name="REGISTER[{{ item.code }}]" value="{{ item.value }}">
+            {% endif %}
+
+        {% endfor %}
+        <div class="two-columns-grid__item form-register__gifts">
+            <label class="checkbox js_checkbox">
+                <input type="checkbox" checked="checked" name="form-register_gifts">Я хочу
+                получать эксклюзивные скидки и подарки
+            </label>
+        </div>
+    </div>
+    <input type="hidden" name="register_submit_button" value="{{ getMessage('AUTH_REGISTER') }}"/>
+    <div class="form-submit-wrap">
+        <button type="submit" class="form-submit btn">
+            ЗАРЕГИСТРИРОВАТЬСЯ
+            <svg width="25" height="9">
+                <use xmlns:xlink="http://www.w3.org/1999/xlink"
+                     xlink:href="#svg-arrow-right"></use>
+            </svg>
+        </button>
+    </div>
+    <div class="form-register__attention">
+        Нажимая кнопку Зарегистрироваться, Вы соглашаетесь
+        с условиями <a href="/pokupatelyu/publichnaya-oferta/" target="_blank" class="link">публичной оферты</a>
+    </div>
+</form>

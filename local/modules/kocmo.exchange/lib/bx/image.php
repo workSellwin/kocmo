@@ -2,7 +2,7 @@
 
 
 namespace Kocmo\Exchange\Bx;
-
+use \Kocmo\Exchange;
 
 /**
  * Class Image
@@ -22,18 +22,17 @@ class Image extends Helper
         parent::__construct($treeBuilder);
     }
 
-    public function update(){
+    public function update() : bool{
 
         $this->startTimestamp = time();
         $this->status = 'run';
 
-        $iterator = \Kocmo\Exchange\ProductImageTable::getList([
+        $iterator = Exchange\ProductImageTable::getList([
             //"limit" => 100,
         ]);
         $oElement = new \CIBlockElement();
 
         while($row = $iterator->fetch() ) {
-
             if($this->checkTime()){
                 return false;
             }
@@ -41,8 +40,9 @@ class Image extends Helper
             $arPic = $this->getPhoto($row['IMG_GUI']);
 
             if( is_array($arPic) ){
+
                 if( $oElement->Update($row['PRODUCT_ID'], ["DETAIL_PICTURE" => $arPic]) ){
-                    \Kocmo\Exchange\ProductImageTable::delete($row['ID']);
+                    Exchange\ProductImageTable::delete($row['ID']);
                 }
                 else{
 
@@ -50,11 +50,9 @@ class Image extends Helper
             }
         }
 
-        //if(6){
-            $this->status = 'end';
-        //}
-        $connection = \Bitrix\Main\Application::getConnection();
-        $connection->truncateTable(\Kocmo\Exchange\ProductImageTable::getTableName());
+        $this->status = 'end';
+       //$connection = \Bitrix\Main\Application::getConnection();
+        //$connection->truncateTable(\Kocmo\Exchange\ProductImageTable::getTableName());
 
         return true;
     }

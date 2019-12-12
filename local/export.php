@@ -7,6 +7,7 @@ use Bitrix\Main\Context,
     Kocmo\Exchange,
     Kocmo\Exchange\StaticFactory;
 
+file_put_contents($_SERVER['DOCUMENT_ROOT'] . '/export-log.txt', $_GET['step'] . "\n" . "time - " . date("H:i:s") . "\n");
 $request = Context::getCurrent()->getRequest();
 $uri = $request->getRequestedPage();
 
@@ -18,134 +19,19 @@ else{
 }
 
 $bx = StaticFactory::factory($step);
-$bx->update();
-if($step > 0) die();
-if ($bx->getStatus() == 'end') {
-    $step = StaticFactory::nextStep($step);
-    header('Location: ' . $uri . '?step=' . $step);
-    exit;
-}
-elseif($bx->getStatus() == 'run'){
-    header('Location: ' . $uri . '?step=' . $step);
-    exit;
-}
-/*
- * ​kocmo bx админка
- *
- * ​host060220193.of.by
- * kocmo
- * qwaSZX12!@
- *
- * ​​kocmo bx ftp
- * ftp.host060220193.of.by
- * lui@host060220193.of.by
- * qazWSX1
- *
- *
- */
+//echo '<pre>' . print_r($bx, true) . '</pre>';
+//die('ff');
+if($bx) {
+    $flag = $bx->update();
+echo $step;
 
-//if($step == 0){
-//    $bx = new Exchange\Bx\Section();
-//    if( $bx->update() ){
-//        header('Location: ' . $uri . '?step=10');
-//        exit;
-//    }
-//}
-//elseif($step == 10){
-//    $bx = new Bx\Property();
-//
-//    if( $bx->update() ){
-//        header('Location: ' . $uri . '?step=20');
-//        exit;
-//    }
-//}
-//elseif($step == 20){
-//    $bx = new Bx\Dbproduct();
-//    $result = $bx->update();
-//
-////    if(count($bx->getErrors())){
-////        pr($bx->getErrors());
-////        die();
-////    }
-//
-//    if( $result === true || true){
-//        header('Location: ' . $uri . '?step=30');
-//        exit;
-//    }
-//    elseif(is_string($result)){
-//        sleep(1);
-//        header('Location: ' . $uri . '?step=20&item=' . $result);
-//        exit;
-//    }
-//}
-//elseif($step == 30) {//offers
-//
-////    $bx = new Bx\Offer();
-////    $result = $bx->addProductsInDb();
-////
-////    if( $result === true || true){
-//        header('Location: ' . $uri . '?step=40');
-//        exit;
-////    }
-////    elseif(is_string($result)){
-////        sleep(1);
-////        header('Location: ' . $uri . '?step=30&item=' . $result);
-////        exit;
-////    }
-//}
-//elseif($step == 40){
-//
-//    $bx = new Bx\Product();
-//    $result = $bx->update();
-//
-//    if( $result === true){
-//        header('Location: ' . $uri . '?step=50');
-//        exit;
-//    }
-//    else{
-//        sleep(1);
-//        header('Location: ' . $uri . '?step=40');
-//        exit;
-//    }
-//}
-//elseif($step == 50) {//store
-//    $bx = new Bx\Store();
-//    if( $bx->update() ) {
-//        header('Location: ' . $uri . '?step=60');
-//        exit;
-//    }
-//}
-//elseif($step == 60) {//rest
-//    $bx = new Bx\Rest();
-//    if( $bx->update() ) {
-//        header('Location: ' . $uri . '?step=60');
-//        exit;
-//    }
-//    else{
-//        header('Location: ' . $uri . '?step=70');
-//        exit;
-//    }
-//}
-//elseif($step == 70) {//price type
-//    $bx = new Bx\Typeprice();
-//    if( $bx->update() ) {
-//        header('Location: ' . $uri . '?step=80');
-//        exit;
-//    }
-//}
-//elseif($step == 80) {//price
-//    $bx = new Bx\Price();
-//    if( $bx->update() ) {
-//        header('Location: ' . $uri . '?step=90');
-//        exit;
-//    }
-//}
-////elseif($step == 90){
-////    $bx = new Bx\Image();
-////
-////    if( $bx->updateDetailPictures() ){
-////    }
-////}
-//else{
-//    die('die');
-//}
+if($step > 30) die();
+    if ($bx->getStatus() == 'run') {
+        header('Location: ' . $uri . '?step=' . $step);
+        exit;
+    } elseif ($bx->getStatus() == 'end') {
+        $step = StaticFactory::nextStep($step);
+        header('Location: ' . $uri . '?step=' . $step);
+        exit;
+    }
+}

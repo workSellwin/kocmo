@@ -1,0 +1,40 @@
+.sales-slider__info-header-lnk:hover {
+    color: #8C249F;
+    border-bottom: 1px solid #8C249F;
+}
+
+.nav-dropdown .sub1{
+    width: 19.7886%;
+}
+
+.nav-dropdown .sub2{
+    width: 39.5771%;
+}
+
+.nav-dropdown .sub3{
+    width: 59.3657%;
+}
+
+.nav-dropdown .sub-img1{
+    width: 56.4159%;
+}
+
+.nav-dropdown .sub-img2{
+    width: 37.6106%;
+}
+
+.nav-dropdown .sub-img3{
+    width: 18.8053%;
+}
+
+.sub1 .nav-dropdown__sub-column{
+    width: -webkit-calc(100% - 29px);
+    width: -moz-calc(100% - 29px);
+    width: calc(100% - 29px);
+}
+
+.sub2 .nav-dropdown__sub-column{
+    width: -webkit-calc(50% - 29px);
+    width: -moz-calc(50% - 29px);
+    width: calc(50% - 29px);
+}

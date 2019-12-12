@@ -28,7 +28,7 @@ if (IsModuleInstalled("iblock")) {
                     if ($pictureSrc)
                         $arResizePicture = CFile::ResizeImageGet(
                             $arSections["PICTURE"],
-                            array("width" => 240, 'height' => 700),
+                            array("width" => 1000, 'height' => 1000),
                             BX_RESIZE_IMAGE_PROPORTIONAL,
                             true
                         );
@@ -38,23 +38,44 @@ if (IsModuleInstalled("iblock")) {
                     $arBrandFinish = [];
                     if ($arSections['DEPTH_LEVEL'] == 1) {
                         $arBrand = [];
-                        $propCode = 'MATERIAL';// свойства
-                        $arSelect = Array("ID", "NAME", "DATE_ACTIVE_FROM", 'PROPERTY_' . $propCode);
-                        $arFilter = Array("IBLOCK_ID" => $arIBlock["ID"], "SECTION_ID" => $arSections['ID'], "INCLUDE_SUBSECTIONS" => "Y", "ACTIVE" => "Y");
+                        $propCode = 'MARKA';// свойства
+                        $arSelect = Array("ID", "NAME", "DATE_ACTIVE_FROM",'IBLOCK_ID', 'PROPERTY_*');
+                        $arFilter = Array("IBLOCK_ID" => $arIBlock["ID"], "SECTION_ID" => $arSections['ID'], "INCLUDE_SUBSECTIONS" => "Y", "ACTIVE" => "Y","CATALOG_AVAILABLE"=>'Y');
                         $res = CIBlockElement::GetList(Array(), $arFilter, false, false, $arSelect);
-                        while ($arFields = $res->GetNext()) {
-                            if ($brand = $arFields['PROPERTY_' . $propCode . '_VALUE']) {
-                                $arBrand[trim($brand)] = trim($brand);
+                        $arXmlID=[];
+                        while ($ob = $res->GetNextElement()) {
+                            $arProps = $ob->GetProperties();
+                            if ($brand = $arProps[$propCode]) {
+                                $name = trim($brand['VALUE']);
+                                $arXmlID[$name] = $brand['VALUE_XML_ID'];
+                                $arBrand[$name] = [
+                                    'NAME'=>$brand['VALUE'],
+                                    'XML_ID'=>$brand['VALUE_XML_ID'],
+                                ];
                             }
                         }
+
+                        $arSelect = Array("ID", "NAME", "DATE_ACTIVE_FROM", 'DETAIL_PAGE_URL', 'IBLOCK_ID', 'PROPERTY_BRAND_BIND', "XML_ID");
+                        $arFilter = Array("IBLOCK_ID" => 7, "ACTIVE" => "Y", "PROPERTY_BRAND_BIND" => array_values($arXmlID));
+                        $res = CIBlockElement::GetList(Array(), $arFilter, false, false, $arSelect);
+                        $arURL=[];
+                        while ($arFields = $res->GetNext()) {
+                            $arURL[$arFields['PROPERTY_BRAND_BIND_VALUE']]=$arFields['DETAIL_PAGE_URL'];
+                        }
+
                         ksort($arBrand);
                         $n = 0;
+
                         foreach ($arBrand as $item) {
-                            $k = strtoupper(substr($item, 0, 1));
-                            $arBrandFinish[$k][$n]['NAME'] = $item;
+                            $k = strtoupper(substr($item['NAME'], 0, 1));
+                            $arBrandFinish[$k][$n] = [
+                                'NAME'=>$item['NAME'],
+                                'URL'=>$arURL[$item['XML_ID']],
+                            ];
                             $n++;
                         }
                     }
+
                     $arSectionsInfo[crc32($arSections["SECTION_PAGE_URL"])]['BRAND'] = $arBrandFinish;
 
                 }

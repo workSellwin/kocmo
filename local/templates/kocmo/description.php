@@ -1,4 +1,8 @@
-<?if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true)die();?><?
-IncludeTemplateLangFile(__FILE__);
-$arTemplate = Array("NAME"=>GetMessage('T_KOSMO_DESC_NAME'), "DESCRIPTION"=>GetMessage('T_KOSMO_DESC_DESC'));
+<?
+$arTemplate = array (
+  'NAME' => 'KOSMO',
+  'DESCRIPTION' => 'KOSMO Общие включаемые файлы, header.php и footer.php .',
+  'SORT' => '',
+  'TYPE' => '',
+);
 ?>

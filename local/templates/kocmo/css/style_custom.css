@@ -1,0 +1,101 @@
+.alert {
+    position: relative;
+    padding: .75rem 1.25rem;
+    margin-bottom: 1rem;
+    border: 1px solid transparent;
+    border-radius: .25rem;
+}
+
+.alert-danger {
+    color: #fff;;
+    background-color: #D01C60;
+    border-color: #f5c6cb;
+}
+
+.alert-success {
+    color: #155724;
+    background-color: #d4edda;
+    border-color: #c3e6cb;
+}
+
+.bx-rating {
+    color: #f6ac3c;
+    font-size: 16px;
+    white-space: nowrap;
+}
+
+.bx-rating i.fa {
+    cursor: pointer;
+    margin-right: 6px;
+}
+
+.fa.bx-star-active {
+    color: #f6ac3c;
+}
+
+.fa-star-o {
+    color: #9fa7a7;
+
+}
+
+.bx-rating .fa-star-o {
+    color: #9fa7a7;
+}
+
+.bx-rating i.reviews-prod {
+    cursor: auto;
+    margin-right: 1px !important;
+}
+
+.bx-rating .bx-star-active {
+    color: #f6ac3c;
+}
+
+.active_btn_basket {
+    background: #D01C60;
+    color: #fff;
+}
+
+.active_btn_basket svg {
+    fill: #fff;
+}
+
+.basket-discount__item-input.full {
+    width: 57.5%;
+}
+
+.error_count_product {
+    color: red;
+}
+
+.container.text {
+    color:rgb(26, 26, 26);
+    font-family:"Gotham Pro", sans-serif;
+    font-size:10px;
+    font-weight:300;
+    height:auto;
+    padding-bottom: 10px;
+}
+.ajax-message.active{
+    background: #E6276F;
+    color: white;
+    padding: 10px;
+    text-align: center;
+}
+
+.pl30{
+    padding-left: 30px;
+}
+
+@media (max-width: 1023px) {
+    .header__middle-logo {
+        left: 45%;
+    }
+}
+
+.category-filter__item,
+.category-filter__order-place,
+.category-filter__title,
+.category-filter__sort-title{
+    font-size: 13px;
+}

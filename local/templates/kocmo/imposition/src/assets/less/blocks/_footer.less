@@ -102,16 +102,20 @@
       height: 20px;
 
       @media @mobileMedia640 {
-        background: url(@spriteUrl) no-repeat -80px -113px;
-        width: 19px;
-        height: 16px;
+        &:not(.form-login__soc-item) {
+          background: url(@spriteUrl) no-repeat -80px -113px;
+          width: 19px;
+          height: 16px;
+        }
       }
 
       &:hover {
         background-position: -77px -60px;
 
         @media @mobileMedia640 {
-          background-position: -80px -113px;
+          &:not(.form-login__soc-item) {
+            background-position: -80px -113px;
+          }
         }
       }
     }
@@ -122,16 +126,20 @@
       height: 16px;
 
       @media @mobileMedia640 {
-        background: url(@spriteUrl) no-repeat -122px -114px;
-        width: 23px;
-        height: 13px;
+        &:not(.form-login__soc-item) {
+          background: url(@spriteUrl) no-repeat -122px -114px;
+          width: 23px;
+          height: 13px;
+        }
       }
 
       &:hover {
         background-position: -119px -62px;
 
         @media @mobileMedia640 {
-          background-position: -122px -114px;
+          &:not(.form-login__soc-item) {
+            background-position: -122px -114px;
+          }
         }
       }
     }
@@ -142,9 +150,11 @@
       height: 25px;
 
       @media @mobileMedia640 {
-        background: url(@spriteUrl) no-repeat -10px -113px;
-        width: 11px;
-        height: 20px;
+        &:not(.form-login__soc-item) {
+          background: url(@spriteUrl) no-repeat -10px -113px;
+          width: 11px;
+          height: 20px;
+        }
       }
 
 
@@ -152,7 +162,9 @@
         background-position: -9px -58px;
 
         @media @mobileMedia640 {
-          background-position: -10px -113px;
+          &:not(.form-login__soc-item) {
+            background-position: -10px -113px;
+          }
         }
       }
     }
@@ -163,16 +175,20 @@
       height: 19px;
 
       @media @mobileMedia640 {
-        background: url(@spriteUrl) no-repeat -168px -114px;
-        width: 22px;
-        height: 15px;
+        &:not(.form-login__soc-item) {
+          background: url(@spriteUrl) no-repeat -168px -114px;
+          width: 22px;
+          height: 15px;
+        }
       }
 
       &:hover {
         background-position: -165px -59px;
 
         @media @mobileMedia640 {
-          background-position: -168px -114px;
+          &:not(.form-login__soc-item) {
+            background-position: -168px -114px;
+          }
         }
       }
     }
@@ -183,16 +199,20 @@
       height: 24px;
 
       @media @mobileMedia640 {
-        background: url(@spriteUrl) no-repeat -42px -113px;
-        width: 15px;
-        height: 19px;
+        &:not(.form-login__soc-item) {
+          background: url(@spriteUrl) no-repeat -42px -113px;
+          width: 15px;
+          height: 19px;
+        }
       }
 
       &:hover {
         background-position: -40px -58px;
 
         @media @mobileMedia640 {
-          background-position: -42px -113px;
+          &:not(.form-login__soc-item) {
+            background-position: -42px -113px;
+          }
         }
       }
     }
@@ -452,7 +472,7 @@
 
     &:nth-of-type(4) {
       @media @mobileMedia480 {
-        width: auto!important;
+        width: auto !important;
       }
     }
 
@@ -463,7 +483,7 @@
       }
     }
 
-    &:nth-of-type(5), &:nth-of-type(6)  {
+    &:nth-of-type(5), &:nth-of-type(6) {
       @media @mobileMedia480 {
         padding-left: 10px;
         padding-right: 10px;

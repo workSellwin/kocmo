@@ -145,14 +145,45 @@ $generalParams = array(
 $obName = 'ob' . preg_replace('/[^a-zA-Z0-9_]/', 'x', $this->GetEditAreaId($navParams['NavNum']));
 $containerName = 'container-' . $navParams['NavNum']; ?>
 
+<style>
+    body .suggestions__btn {
+        text-transform: uppercase;
+        background: #8C249F;
+        color: #fff;
+        font-size: 1.125rem;
+        letter-spacing: 0.02rem;
+        padding: 0 36px;
+        height: 60px;
+        display: inline-block;
+        line-height: 60px;
+        margin: 0 auto;
+        -webkit-transition: 0.1s;
+        -o-transition: 0.1s;
+        -moz-transition: 0.1s;
+        transition: 0.1s;
+        cursor: pointer;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+    }
+</style>
+
+<?
+if(count($arResult['ITEM_ROWS']) > 0):?>
 
 <div class="suggestions">
     <div class="container">
         <h2 class="suggestions__title">Предложения <span>только для ВАС</span></h2>
-        <div id="AJAX_CONTAINER_SUGGESTIONS">
+        <div id="AJAX_CONTAINER_SUGGESTIONS" data-NavPageCount="<?= $arResult['NAV_RESULT']->NavPageCount ?>" data-Page="1">
             <div class="preloader-wrap js_mobile-scroll-slider mobile-scroll-slider">
                 <div class="suggestions__inner mobile-scroll-slider-wrapper">
                     <? if (!empty($arResult['ITEMS']) && !empty($arResult['ITEM_ROWS'])):
+
+                        $basket = new Basket();
+                        $arProd = $basket::getProductBasket();
+                        $arProd = array_column($arProd, 'PRODUCT_ID', 'PRODUCT_ID');
+
                         $areaIds = array();
                         foreach ($arResult['ITEMS'] as $item):
                             $uniqueId = $item['ID'] . '_' . md5($this->randString() . $component->getAction());
@@ -162,6 +193,9 @@ $containerName = 'container-' . $navParams['NavNum']; ?>
                         endforeach ?>
                         <!-- items-container -->
                         <?
+                        if (isset($_REQUEST['ajax_suggestions']) && $_REQUEST['ajax_suggestions'] == 'Y'):
+                            $GLOBALS['APPLICATION']->RestartBuffer(); ?>
+                        <?endif;
                         foreach ($arResult['ITEM_ROWS'] as $rowData):
                             $rowItems = array_splice($arResult['ITEMS'], 0, $rowData['COUNT']); ?>
                             <?
@@ -177,6 +211,7 @@ $containerName = 'container-' . $navParams['NavNum']; ?>
                                         "BIG_BUTTONS" => "Y",
                                         "SCALABLE" => "N",
                                         'CLASS' => 'mobile-scroll-slider-item products-item',
+                                        'ADD_BASKET' => $arProd,
                                     ),
                                     "PARAMS" => $generalParams + array("SKU_PROPS" => $arResult["SKU_PROPS"][$item["IBLOCK_ID"]])
                                 ),
@@ -185,6 +220,20 @@ $containerName = 'container-' . $navParams['NavNum']; ?>
                                 ); ?>
                             <? endforeach; ?>
                         <?endforeach;
+                        if (isset($_REQUEST['ajax_suggestions']) && $_REQUEST['ajax_suggestions'] == 'Y'):
+                            ?>
+                            <?global $OBJ_ITEMS; ?>
+                            <script type="text/javascript">
+                                if(typeof OBJ_ITEMS != 'undefined'){
+                                    var AJAX_ITEMS = <?echo CUtil::PhpToJSObject($OBJ_ITEMS['OBJ_ITEM'])?>;
+                                    OBJ_ITEMS = mergeJsObj(OBJ_ITEMS, AJAX_ITEMS);
+                                    initBtnItem(OBJ_ITEMS);
+                                    ReloadAjax();
+                                }
+                            </script>
+                            <?
+                            die();
+                        endif;
                         unset($generalParams, $rowItems);
                     endif; ?>
                 </div>
@@ -196,18 +245,46 @@ $containerName = 'container-' . $navParams['NavNum']; ?>
                 </div>
             </div>
 
-        </div>
-
-        <div class="suggestions__btn-wrap">
-            <? //для погинации ?PAGEN_4=1    js_suggestions__btn?>
-            <!-- MainJs.suggestionMore -->
-            <div class="suggestions__btn  js_my_btn_suggestions">
-                Показать больше
-                <svg width="9" height="16">
-                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-arrow-down"></use>
-                </svg>
+            <div class="button-more-wrap">
+                <!-- MainJs.suggestionMore -->
+                <div class="suggestions__btn  js_my_btn_suggestions">
+                    Показать больше
+                    <svg width="9" height="16">
+                        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-arrow-down"></use>
+                    </svg>
+                </div>
             </div>
-        </div>
 
+        </div>
     </div>
-</div>
+
+
+    <script type="text/javascript">
+        $('body').on('click', '.js_my_btn_suggestions', function () {
+            var count_page = +$('#AJAX_CONTAINER_SUGGESTIONS').attr('data-NavPageCount');
+            var page = +$('#AJAX_CONTAINER_SUGGESTIONS').attr('data-Page');
+            if(page <= count_page){
+                var url='/?PAGEN_4='+(page + 1);
+                $.post(
+                    url,
+                    {
+                        ajax_suggestions: "Y",
+                    },
+                    onAjaxSuccess
+                );
+
+                function onAjaxSuccess(data)
+                {
+                    $('#AJAX_CONTAINER_SUGGESTIONS .suggestions__inner').append(data);
+                    $('#AJAX_CONTAINER_SUGGESTIONS').attr('data-Page', (page + 1));
+
+                    if($('#AJAX_CONTAINER_SUGGESTIONS').attr('data-Page') >= count_page){
+                        $('.js_my_btn_suggestions').remove();
+                    }
+                }
+
+            }
+        })
+    </script>
+
+<?endif;?>
