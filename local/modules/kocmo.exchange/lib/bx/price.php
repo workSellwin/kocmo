@@ -3,9 +3,8 @@
 
 namespace Kocmo\Exchange\Bx;
 
-use Bitrix\Catalog,
-    \Bitrix\Main\Type\DateTime,
-    \Bitrix\Catalog\Model;
+use \Bitrix\Catalog\Model,
+    \Bitrix\Catalog\GroupTable;
 
 
 class Price extends Helper
@@ -18,11 +17,16 @@ class Price extends Helper
         parent::__construct($treeBuilder);
     }
 
-    public function update() : bool {
+    public function update($full = true, array $exchangeData = []) : bool {
 
+        if(!$full){
+            $this->treeBuilder->setOutputArr($exchangeData);
+        }
+
+        $this->treeBuilder->setPrice();
         $arReq = $this->treeBuilder->getRequestArr();
 
-        $typePrice = \Bitrix\Catalog\GroupTable::getlist([
+        $typePrice = GroupTable::getlist([
             'select' => ['ID', 'XML_ID']
         ])->fetchAll();
 
@@ -40,12 +44,13 @@ class Price extends Helper
         while($fields = $res->fetch()){
             $elementsId[$fields['ID']] = $fields['XML_ID'];
         }
-        //pr($elementsId,14);return false;
+
         $dbPrices = Model\Price::getlist([
             "filter" => ["PRODUCT_ID" => array_keys($elementsId), "CURRENCY" => $this->currency],
             "select" => ["ID", "PRODUCT_ID", "CATALOG_GROUP_ID"],
             "order" => ["PRODUCT_ID" => "asc"]
         ]);
+
         $prices = [];
 
         while($row = $dbPrices->fetch()){
@@ -84,11 +89,13 @@ class Price extends Helper
                         //pr($result);
                     }
                 } catch (\Exception $e) {
-                    pr($e->getMessage());
+                    $this->errors[] = $e->getMessage();
                 }
             }
         }
-        $this->clearOldPrice();
+        if($full) {
+            $this->clearOldPrice();
+        }
         $this->status = 'end';
 
         return true;

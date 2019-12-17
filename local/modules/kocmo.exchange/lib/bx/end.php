@@ -42,7 +42,7 @@ class End
 
             $el = new \CIBlockElement();
 
-            $elementsStatus = $this->utils->getElementsStatus(["IBLOCK_ID" => [2, 3]]);//все элементы с их статусами
+            $elementsStatus = $this->utils->getElementsStatus(["IBLOCK_ID" => [2, 3], '!SORT' => 988]);//все элементы с их статусами
             $productPrices = $this->utils->getElementPrices();//все элементы имеющие цены
             $productQuantity = $this->utils->getProductsQuantity();//все товары с количеством
 
@@ -51,12 +51,12 @@ class End
             foreach ($elementsStatus as $id => $status) {
 
                 if($status == 'Y'){
-                    if( !isset($productQuantity[$id] )|| !isset($productPrices[$id]) ){
+                    if( !isset($productPrices[$id]) || !isset($productQuantity[$id]) ){
                         $el->Update($id, ['ACTIVE' => 'N']);
                     }
                 }
                 else{
-                    if( isset($productPrices[$id]) && isset( $productQuantity[$id] ) ) {
+                    if( isset($productPrices[$id]) && isset($productQuantity[$id]) ) {
                         $el->Update($id, ['ACTIVE' => 'Y']);
                     }
                 }
@@ -128,11 +128,11 @@ class End
         }
     }
 
-//    public function updateAvailable()
-//    {
-//        $bx = new Rest();
-//        $bx->updateAvailable();
-//    }
+    public function updateAvailable()
+    {
+        $bx = new Rest();
+        $bx->updateAvailable();
+    }
 //
 //    public function activateElement()
 //    {
@@ -185,8 +185,24 @@ class End
 //        }
 //    }
 
-    public function activateProducts(){
-
-
-    }
+//    public function updateAvailable()
+//    {
+//
+//        $productAmount = $this->getProductAmount();
+//        $productQuantity = $this->utils->getProductsQuantity();
+//
+//        $obProduct = new \CCatalogProduct();
+//
+//        foreach ($productAmount as $id => $quantity) {
+//
+//            if ($quantity < 2) {
+//                $quantity = 0;
+//            }
+//
+//            if($quantity != $productQuantity[$id]){
+//                $productQuantity[$id] = $quantity;
+//                $obProduct->Update($id, ['QUANTITY' => $quantity]);
+//            }
+//        }
+//    }
 }

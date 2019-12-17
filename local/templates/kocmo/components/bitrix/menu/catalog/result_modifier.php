@@ -99,3 +99,31 @@ foreach ($arResult as &$item) {
 }
 
 $arResult = getChilds($arResult);
+
+
+$name = '';
+
+$arParams['SELECTED_INDEX'] = getSelectedIndex($arResult);
+
+function getSelectedIndex($arResult)
+{
+    $selectedIndex = false;
+
+    foreach ($arResult as $item) {//найти выбранный пункт
+
+        if (!empty($item['SELECTED'])) {
+
+            if ($selectedIndex === false || $selectedIndex < $item['ITEM_INDEX']) {
+                $selectedIndex = $item['ITEM_INDEX'];
+            }
+            if( count($item['CHILD']) ){
+                $index = getSelectedIndex($item['CHILD']);
+
+                if( intval($index) > $selectedIndex ){
+                    $selectedIndex = $index;
+                }
+            }
+        }
+    }
+    return $selectedIndex;
+}

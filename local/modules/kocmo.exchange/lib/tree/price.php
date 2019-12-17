@@ -9,8 +9,15 @@ class Price extends Builder
     function __construct()
     {
         parent::__construct();
+    }
+
+    public function setPrice(){
+
         $this->entry = $this->arParams['PRICE_ENTRY'];
-        $this->fillInOutputArr();
+
+        if( !count($this->outputArr) ){
+            $this->fillInOutputArr();
+        }
 
         $arTemp = [];
 

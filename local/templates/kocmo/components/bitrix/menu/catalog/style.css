@@ -1,0 +1,5 @@
+.nav-dropdown__title[data-selected],
+span.nav__lnk,
+span.nav-dropdown__lnk{
+    cursor:not-allowed;
+}

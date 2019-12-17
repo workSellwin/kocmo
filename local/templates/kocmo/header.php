@@ -18,7 +18,6 @@ else{
 }
 
 if($redirects[ $url ]){
-   //pr( $_SERVER['SERVER_NAME'] . $redirects[$url], 14);
     header('Location: ' . 'http://' . $_SERVER['SERVER_NAME'] . $redirects[$url] );
     exit;
 }

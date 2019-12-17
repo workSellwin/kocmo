@@ -45,13 +45,14 @@ class Product extends Builder
         }
 
         $limit = $this->reqParam['PRODUCT_LIMIT'] ? $this->reqParam['PRODUCT_LIMIT'] : $this->arParams['PRODUCT_LIMIT'];
+
         if( !empty($itemXmlId) ){
             $this->strReqParams = 'item=' . $itemXmlId . '&count=' . $limit;
         }
 
     }
 
-    public function fillInOutputArr(){//?
+    public function fillInOutputArr(){
 
         $getParamsStr = '?' . $this->getReqParams();
         $this->send($this->arParams['PROD_POINT_OF_ENTRY'] . $getParamsStr);
@@ -62,14 +63,7 @@ class Product extends Builder
         if(empty($this->pointOfEntry)){
             return false;
         }
-
-        $arProps = $this->getPropsFromReq();
-
-        foreach($arProps as $prop){
-
-            $guiMatch = $this->utils->getStrFromGuid($prop['UID']);
-            $this->arProperty[$guiMatch] = $prop;
-        }
+        $this->setProperty();
 
         $getParamsStr =  '?' . $this->getReqParams();
 
@@ -87,36 +81,7 @@ class Product extends Builder
 
             foreach( $arProducts as $key => $item ){
 
-                $prepareItem = [];
-
-                foreach( $item as $k => $v ){
-
-                    if($k == $this->arParams['ID']){
-                        $g_uid = $this->arParams['ID'];
-                    }
-                    elseif($k == $this->arParams['PARENT']){
-                        $g_uid = $this->arParams['PARENT'];
-                    }
-                    elseif($k == $this->arParams['PROPERTIES']){
-                        $g_uid = $this->arParams['PROPERTIES'];
-                    }
-                    else{
-                        $g_uid = $this->arProperty[$k][$this->arParams['NAME']];
-                    }
-
-                    if( $k == $this->arParams['PROPERTIES'] ){
-
-                        $tempProps = [];
-
-                        foreach ($v as $propGui => $propVal){
-                            $tempProps[ $this->arProperty[$propGui][$this->arParams['NAME']] ] = $propVal;
-                        }
-                        $prepareItem[ $g_uid ] = $tempProps;
-                    }
-                    else{
-                        $prepareItem[ $g_uid ] = $v;
-                    }
-                }
+                $prepareItem  = $this->prepareItem($item);
 
                 $arForDb[$prepareItem['UID']]['JSON'] = json_encode($prepareItem);
                 $arForDb[$prepareItem['UID']]["IMG_GUI"] = $prepareItem[$this->arParams['PIC_FILE']];
@@ -129,6 +94,57 @@ class Product extends Builder
         }
 
        return count($arForDb) ? $arForDb : false;
+    }
+
+    public function setProperty(){
+
+        $arProps = $this->getPropsFromReq();
+
+        foreach($arProps as $prop){
+
+            $guiMatch = $this->utils->getStrFromGuid($prop['UID']);
+            $this->arProperty[$guiMatch] = $prop;
+        }
+    }
+
+    public function prepareItem (array $item){
+
+        $prepareItem = [];
+
+        if( !count($this->arProperty) ){
+            $this->setProperty();
+        }
+
+        foreach( $item as $k => $v ){
+
+            if($k == $this->arParams['ID']){
+                $g_uid = $this->arParams['ID'];
+            }
+            elseif($k == $this->arParams['PARENT']){
+                $g_uid = $this->arParams['PARENT'];
+            }
+            elseif($k == $this->arParams['PROPERTIES']){
+                $g_uid = $this->arParams['PROPERTIES'];
+            }
+            else{
+                $g_uid = $this->arProperty[$k][$this->arParams['NAME']];
+            }
+
+            if( $k == $this->arParams['PROPERTIES'] ){
+
+                $tempProps = [];
+
+                foreach ($v as $propGui => $propVal){
+                    $tempProps[ $this->arProperty[$propGui][$this->arParams['NAME']] ] = $propVal;
+                }
+                $prepareItem[ $g_uid ] = $tempProps;
+            }
+            else{
+                $prepareItem[ $g_uid ] = $v;
+            }
+
+        }
+        return $prepareItem;
     }
 
     public function getPropsFromReq()

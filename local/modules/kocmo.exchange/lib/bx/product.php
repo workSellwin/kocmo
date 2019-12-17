@@ -10,7 +10,6 @@ namespace Kocmo\Exchange\Bx;
 
 use \Bitrix\Catalog,
     \Kocmo\Exchange,
-    \Bitrix\Main,
     \Bitrix\Main\DB;
 
 class Product extends Helper
@@ -77,15 +76,15 @@ class Product extends Helper
         return $end;
     }
 
-    public function updateOne($arProduct)
+    public function updateOne($json)
     {
 
         $this->setMatchXmlId();
         $sectionsMatch = $this->getAllSectionsXmlId();
         $this->setEnumMatch();
 
-        $row = json_decode($arProduct['JSON'], true);
-
+        $row = json_decode($json, true)[0];
+        $row = $this->treeBuilder->prepareItem($row);
         $props = [];
 
         if (count($row[$this->arParams['PROPERTIES']])) {
@@ -144,6 +143,7 @@ class Product extends Helper
         $id = 0;
 
         try {
+            pr($arFields, 14);
             $id = $this->addProduct($arFields);
         } catch (\Exception $e) {
             $this->errors[] = $e;
@@ -278,13 +278,10 @@ class Product extends Helper
             $oElement = new \CIBlockElement();
         }
 
-        $isOffer = false;
-
         if( empty($arFields["PROPERTY_VALUES"]["CML2_LINK"]) ){
             $prod = $this->getProductFromIBlock($arFields["XML_ID"]);
         }
         else{
-            $isOffer = true;
             $parentId = $arFields["PROPERTY_VALUES"]["CML2_LINK"];
             $tempVal = array_search($parentId, $this->productMatchXmlId);
 
@@ -310,7 +307,7 @@ class Product extends Helper
             if (intval($id) > 0) {
 
                 if (intval($rowId) > 0) {
-                    //$deleteResult = Exchange\DataTable::delete($rowId);
+                    $deleteResult = Exchange\DataTable::delete($rowId);
                 }
 
                 Catalog\Model\Product::add(['fields' => ['ID' => $id]]);//add to b_catalog_product
@@ -326,7 +323,7 @@ class Product extends Helper
                 $id = $prod;
 
                 if (intval($rowId) > 0) {
-                    //$deleteResult = Exchange\DataTable::delete($rowId);
+                    $deleteResult = Exchange\DataTable::delete($rowId);
                 }
             }
         }

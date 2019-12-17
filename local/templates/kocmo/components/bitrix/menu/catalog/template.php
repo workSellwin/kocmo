@@ -29,20 +29,21 @@ if (!file_exists('StartSubColumn')) {
         if ($thisLine % $maxLIne != 0) echo "</div>";
     }
 }
-
-
+//$APPLICATION->RestartBuffer();
+//pr($arResult, 14);
+//die('fff');
 ?>
 <div class="header__bottom">
     <div class="container header__bottom-inner">
         <ul class="nav">
-            <li class="nav__item"><a class="nav__lnk" href="/sales/">Акции</a></li>
-            <li class="nav__item"><a class="nav__lnk"
-                                     href="/catalog/?available_yes=y&filter_sort=sort_increase&set_filter=y&filter_catalog_prod_54_2553136946=Y">Новинки</a>
-            </li>
             <? foreach ($arResult as $arMenuL1) { ?>
                 <? $active = $arMenuL1['SELECTED'] ? 'active' : ''; ?>
                 <li class="nav__item <?= $active ?>">
-                    <a href="<?= $arMenuL1['LINK'] ?>?available_yes=y" class="nav__lnk"><?= $arMenuL1['TEXT'] ?></a>
+                    <?if($arParams['SELECTED_INDEX'] !== $arMenuL1["ITEM_INDEX"]):?>
+                        <a href="<?= $arMenuL1['LINK'] ?>?available_yes=y" class="nav__lnk"><?= $arMenuL1['TEXT'] ?></a>
+                    <?else:?>
+                        <span class="nav__lnk"><?= $arMenuL1['TEXT'] ?></span>
+                    <?endif;?>
                     <? if ($arMenuL1['CHILD']) { ?>
                         <? $thisLine = 0; ?>
                         <? $thisLine++; ?>
@@ -60,14 +61,28 @@ if (!file_exists('StartSubColumn')) {
                                 $thisLine++; ?>
                                 <? foreach ($arMenuL1['CHILD'] as $arMenuL2) { ?>
                                     <? StartSubColumn($maxLIne, $thisLine); ?>
-                                    <div class="nav-dropdown__title"
-                                         onclick="location.href='<?= $arMenuL2['LINK'] ?>'"><?= $arMenuL2['TEXT'] ?></div>
+                                    <div class="nav-dropdown__title"<?
+
+                                         if( $arParams['SELECTED_INDEX'] !== $arMenuL2['ITEM_INDEX'] ){
+                                             echo "onclick=\"location.href='" . $arMenuL2['LINK'] . "'\"";
+                                         }
+                                         else{
+                                             echo "data-selected=''";
+                                         }
+                                         ?>>
+                                        <?= $arMenuL2['TEXT']?>
+                                    </div>
                                     <? $thisLine++; ?>
                                     <? EndSubColumn($maxLIne, $thisLine); ?>
                                     <? foreach ($arMenuL2['CHILD'] as $arMenuL3) { ?>
                                         <? StartSubColumn($maxLIne, $thisLine); ?>
-                                        <a href="<?= $arMenuL3['LINK'] ?>"
-                                           class="nav-dropdown__lnk"><?= $arMenuL3['TEXT'] ?></a>
+                                        <?if( $arParams['SELECTED_INDEX'] == $arMenuL3['ITEM_INDEX'] ) :?>
+                                            <span class="nav-dropdown__lnk"><?= $arMenuL3['TEXT'] ?></span>
+                                        <?else:?>
+                                            <a href="<?= $arMenuL3['LINK'];?>"
+                                               class="nav-dropdown__lnk"><?= $arMenuL3['TEXT'] ?></a>
+                                        <?endif;?>
+
                                         <? $thisLine++; ?>
                                         <? EndSubColumn($maxLIne, $thisLine); ?>
                                     <? } ?>
@@ -99,7 +114,6 @@ if (!file_exists('StartSubColumn')) {
                     <? } ?>
                 </li>
             <? } ?>
-            <li class="nav__item"><a class="nav__lnk" href="/brands/">Бренды</a></li>
         </ul>
     </div>
 </div>
