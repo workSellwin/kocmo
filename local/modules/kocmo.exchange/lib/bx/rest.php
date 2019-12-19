@@ -21,17 +21,6 @@ class Rest extends Helper
 
         $treeBuilder = new \Kocmo\Exchange\Tree\Rest();
         parent::__construct($treeBuilder);
-//        $this->stores = $this->getStores();
-//        $storeXmlId = $this->setCurStore();
-//
-//        if (!empty($storeXmlId) && $this->utils->checkRef($storeXmlId) && in_array($storeXmlId, $this->stores)) {
-//
-//            $this->storeXmlId = $storeXmlId;
-//            $this->treeBuilder->setStoreRest($storeXmlId);
-//        } else {
-//            $this->storeXmlId = false;
-//            throw new \Exception("store not found!");
-//        }
     }
 
     private function setCurStore()
@@ -140,37 +129,38 @@ class Rest extends Helper
 
                         } else {
 
-//                            $result = Catalog\StoreProductTable::add([
-//                                "PRODUCT_ID" => $id,
-//                                "AMOUNT" => $amount,
-//                                "STORE_ID" => array_search($storeXmlId, $this->stores)
-//                            ]);
+                            $result = Catalog\StoreProductTable::add([
+                                "PRODUCT_ID" => $id,
+                                "AMOUNT" => $amount,
+                                "STORE_ID" => array_search($storeXmlId, $this->stores)
+                            ]);
                         }
 
-//                        if ($result->isSuccess()) {
-//
-//                            $rowId[] = $result->getId();
-//                        }
-//                        else{
-//                            pr($id, 14);
-//                        }
+                        if ($result->isSuccess()) {
+
+                            $rowId[] = $result->getId();
+                        }
+                        else{
+                            $this->errors[] = $result->getErrors();
+                        }
                     } catch (DB\SqlQueryException $e) {
                         //уже есть
                     } catch (\Exception $e) {
-                        //
                     }
                 }
             }
         }
-        //$this->clearOldRest($rowId);
-        $this->nextStore();
-        $lastStoreId = $this->utils->getModuleData($this->arParams['LAST_STORE_ID']);
 
-        if( empty($lastStoreId) ){
-            $this->status = 'end';
-        }
-        else{
-            $this->status = 'run';
+        if ($full) {
+            //$this->clearOldRest($rowId);
+            $this->nextStore();
+            $lastStoreId = $this->utils->getModuleData($this->arParams['LAST_STORE_ID']);
+
+            if (empty($lastStoreId)) {
+                $this->status = 'end';
+            } else {
+                $this->status = 'run';
+            }
         }
 
         return true;

@@ -93,7 +93,7 @@ class Product extends Builder
             throw new \Error("error: status: " . $response->getStatusCode());
         }
 
-       return count($arForDb) ? $arForDb : false;
+        return count($arForDb) ? $arForDb : false;
     }
 
     public function setProperty(){
@@ -178,7 +178,7 @@ class Product extends Builder
     }
 
     private function getRefereceBook($gui){
-        
+
         $client = new \GuzzleHttp\Client();
         $response = $client->request('GET', $this->arParams['REFERENCE_URL'] . $gui);
 

@@ -76,15 +76,15 @@ class Product extends Helper
         return $end;
     }
 
-    public function updateOne($json)
+    public function updateOne($row)
     {
 
         $this->setMatchXmlId();
         $sectionsMatch = $this->getAllSectionsXmlId();
         $this->setEnumMatch();
 
-        $row = json_decode($json, true)[0];
         $row = $this->treeBuilder->prepareItem($row);
+
         $props = [];
 
         if (count($row[$this->arParams['PROPERTIES']])) {
@@ -123,7 +123,7 @@ class Product extends Helper
         }
 
         $arFields = array(
-            "ACTIVE" => "Y",
+            //"ACTIVE" => "Y",
             "IBLOCK_ID" => $this->catalogId,
             "IBLOCK_SECTION" => $arrIblockSectionId,
             "XML_ID" => $row[$this->arParams['ID']],
@@ -143,7 +143,6 @@ class Product extends Helper
         $id = 0;
 
         try {
-            pr($arFields, 14);
             $id = $this->addProduct($arFields);
         } catch (\Exception $e) {
             $this->errors[] = $e;
@@ -317,7 +316,7 @@ class Product extends Helper
 
         }
         else {
-
+            unset($arFields["CODE"]);
             if ($oElement->Update($prod, $arFields)) {
 
                 $id = $prod;
@@ -327,9 +326,6 @@ class Product extends Helper
                 }
             }
         }
-        //pr($parentId, 14);
-        //pr($id, 14);
-        //die('fff');
         return intval($id);
     }
 

@@ -86,10 +86,9 @@ class Property extends Helper
 
     public function update() : bool {
 
-        //echo '<pre>' . print_r($this->prepareProperties, true) . '</pre>';;die('fff');
         foreach( $this->prepareProperties as $key => $value ){
 
-            if( !$this->checkProp($key) ){//?
+            if( !$this->checkProp($key) ){
 
                 try {
                     $arFields = $this->getDefaultArFields($value);

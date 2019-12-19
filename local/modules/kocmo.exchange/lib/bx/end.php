@@ -42,7 +42,7 @@ class End
 
             $el = new \CIBlockElement();
 
-            $elementsStatus = $this->utils->getElementsStatus(["IBLOCK_ID" => [2, 3], '!SORT' => 988]);//все элементы с их статусами
+            $elementsStatus = $this->utils->getElementsStatus(["IBLOCK_ID" => [2], '!SORT' => 988]);//все элементы с их статусами
             $productPrices = $this->utils->getElementPrices();//все элементы имеющие цены
             $productQuantity = $this->utils->getProductsQuantity();//все товары с количеством
 
@@ -114,7 +114,7 @@ class End
             }
 
             $el = new \CIBlockElement;
-
+//pr($brandsElem, 14);
             foreach ($brandsElem as $enumXmlId => $brandId) {
 
                 if (isset($brandsEnum[$enumXmlId])) {

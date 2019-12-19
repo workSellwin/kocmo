@@ -187,8 +187,14 @@ class Utils
 
 
     public function getProductsId(array $xmlId){
-
-        $res = \CIBlockElement::GetList([], ["IBLOCK_ID" => [2, 3], "XML_ID" => $xmlId, '!SORT' => 988], false, false, ['ID', "XML_ID"]);
+        //["IBLOCK_ID" => [2, 3], "XML_ID" => $xmlId, '!SORT' => 988]
+        $res = \CIBlockElement::GetList(
+            [],
+            ["IBLOCK_ID" => [2], "XML_ID" => $xmlId],
+            false,
+            false,
+            ['ID', "XML_ID"]
+        );
         $products = [];
 
         while($fields = $res->fetch() ){
