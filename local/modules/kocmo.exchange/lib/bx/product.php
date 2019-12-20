@@ -369,7 +369,6 @@ class Product extends Helper
 
         $res = \CIBlockElement::GetList(
             [],
-            //["IBLOCK_ID" => $this->catalogId],
             ["IBLOCK_ID" => $iBlockIds],
             false,
             false,

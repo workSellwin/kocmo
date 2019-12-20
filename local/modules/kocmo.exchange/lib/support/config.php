@@ -68,6 +68,16 @@ class Config implements Interfaces\Config
 
     private $moduleOptions = [
         "IBLOCK_CATALOG_ID" => "exchange-catalog_id",
+        "IBLOCK_OFFERS_ID" => "exchange-offers_id",
+        "SECT_POINT_OF_ENTRY" => "exchange-section-href",
+        "PROD_POINT_OF_ENTRY" => "exchange-product-href",
+        "PROP_POINT_OF_ENTRY" => "exchange-props-href",
+        "GET_IMAGE_URI" => "exchange-image-href",
+        "REFERENCE_URL" => "exchange-schema-href",
+        "TYPE_PRICE_ENTRY" => "exchange-price-type-href",
+        "PRICE_ENTRY" => "exchange-price-href",
+        "STORE_ENTRY" => "exchange-store-href",
+        "REST_ENTRY" => "exchange-rest-href",
     ];
 
     function __construct(string $space)
@@ -79,6 +89,7 @@ class Config implements Interfaces\Config
     function getConfig(){
 
         if( isset($this->data[$this->space]) ){
+            $this->setConfigFromModuleOptions();
             return $this->data[$this->space];
         }
         else{
@@ -89,7 +100,13 @@ class Config implements Interfaces\Config
     private function setConfigFromModuleOptions(){
 
         foreach( $this->moduleOptions as $key => $option ){
-            $this->data[$key] = $this->utils->getModuleData($option);
+
+            $temp = $this->utils->getModuleData($option);
+
+            if($temp){
+                $this->data[$this->space][$key] = $temp;
+            }
+
         }
     }
 }

@@ -60,7 +60,8 @@ if (isset($_POST) && count($_POST)) {
     $names = array_column($hrefs, 'NAME');
 
     foreach ($_POST as $name => $param) {
-        if (in_array($name, $names) && !empty($param) ) {
+
+        if (in_array($name, $names) /* && !empty($param) */ ) {
             Option::set($moduleName, $prefix . $name, $param);
         }
     }
@@ -106,9 +107,9 @@ $tabControl->Begin();
         <? endforeach; ?>
         <? $tabControl->BeginNextTab(); ?>
         <tr>
-            <td valign="top">id товара</td>
-            <td><input type="number" name="product-id" value="" size="40"></td>
-            <td><input type="button" name="update-product" value="Обновить"></td>
+            <td valign="top"><?= Loc::getMessage('EXTERNAL_KEY') ?></td>
+            <td><input type="text" name="product-xml-id" value="" size="40"></td>
+            <td><input type="button" name="update-product" value="<?= Loc::getMessage('REFRESH') ?>"></td>
         </tr>
         <script>
             document.addEventListener('DOMContentLoaded', function () {
@@ -117,14 +118,14 @@ $tabControl->Begin();
 
                 updateBtn.addEventListener('click', event => {
 
-                    let id = document.querySelector('input[name="product-id"]').value;
+                    let xmlId = document.querySelector('input[name="product-xml-id"]').value;
 
-                    if(id) {
+                    if(xmlId) {
 
                         let xhr = new XMLHttpRequest();
 
                         let PARAMS = {
-                            'ID': id
+                            'XML_ID': xmlId
                         };
                         PARAMS = JSON.stringify(PARAMS);
                         xhr.open('get', '/ajax/?ACTION=UpdateProduct&METHOD=update&PARAMS=' + PARAMS);
@@ -144,4 +145,6 @@ $tabControl->Begin();
         <? $tabControl->End(); ?>
         <? $tabControl->Buttons([]); ?>
     </form>
+
 </div>
+

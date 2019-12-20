@@ -54,16 +54,18 @@ class Dbproduct extends Helper
                     unset($item['PARENT']);
 
                     $result = Exchange\DataTable::add($item);
+
                     if($result->isSuccess()){
                         $this->utils->setModuleData($this->arParams['PRODUCT_LAST_UID'], $item["UID"]);
                     }
-                    //pr($result, 14);return true;
                 } catch ( DB\SqlQueryException $e ){
                     //например попытка добавить с не уникальным UID
+                    file_put_contents($_SERVER['DOCUMENT_ROOT'] . '/local/error.log', $e->getMessage() . "\n", FILE_APPEND);
                     $this->errors[] = $e->getMessage();
                 }
             }
         }
+
         if($last === true){
             $this->utils->setModuleData($this->arParams['PRODUCT_LAST_UID'], '');
             $this->status = 'end';

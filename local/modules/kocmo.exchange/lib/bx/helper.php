@@ -69,9 +69,8 @@ abstract class Helper
     protected function setParams(){
 
         $this->utils = new Exchange\Utils();
-        $arParam = require $GLOBALS['kocmo.exchange.config-path'];
-        $dir = end( explode('/', __DIR__) );
-        $this->arParams = $arParam[$dir];
+        $oConfig = new Exchange\Support\Config('bx');
+        $this->arParams = $oConfig->getConfig();
     }
 
     protected function getFile($externalId){

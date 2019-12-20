@@ -28,9 +28,8 @@ abstract class Builder
 
         if(!empty($GLOBALS['kocmo.exchange.config-path'])) {
 
-            $arParam = require $GLOBALS['kocmo.exchange.config-path'];
-            $dir = end(explode('/', __DIR__));
-            $this->arParams = $arParam[$dir];
+            $oConfig = new Exchange\Support\Config('tree');
+            $this->arParams = $oConfig->getConfig();
         }
         $this->setReqParam();
     }

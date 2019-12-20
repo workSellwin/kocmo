@@ -6,8 +6,9 @@ use Kocmo\Exchange\Bx;
 
 class Section extends Base
 {
-    function __construct()
+    public function __construct()
     {
+        parent::__construct();
     }
 
     function update ($param = []) : bool {

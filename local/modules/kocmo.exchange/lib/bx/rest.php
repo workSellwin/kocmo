@@ -152,7 +152,7 @@ class Rest extends Helper
         }
 
         if ($full) {
-            //$this->clearOldRest($rowId);
+            $this->clearOldRest($rowId);
             $this->nextStore();
             $lastStoreId = $this->utils->getModuleData($this->arParams['LAST_STORE_ID']);
 

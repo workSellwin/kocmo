@@ -39,6 +39,7 @@ class Price extends Helper
             false,
             ['ID', 'XML_ID']
         );
+
         $elementsId = [];
 
         while($fields = $res->fetch()){
@@ -94,7 +95,7 @@ class Price extends Helper
             }
         }
         if($full) {
-            $this->clearOldPrice();
+            //$this->clearOldPrice();
         }
         $this->status = 'end';
 
