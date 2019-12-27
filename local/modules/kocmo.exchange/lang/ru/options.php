@@ -1,9 +1,17 @@
 <?
 $MESS["CLEAR_OPTIONS"] = "Очистить все свойства?";
 $MESS["MAIN_OPTIONS"] = "Настройки";
-$MESS["UPDATE_TAB"] = "Обновить товар";
 $MESS["MODULE_OPTIONS"] = "Настройки параметров модуля";
-$MESS["UPDATE_OPTIONS"] = "Обновить товар";
+$MESS["UPDATE_PRODUCT_TAB"] = "Обновить товар";
+$MESS["UPDATE_PRODUCT_OPTIONS"] = "Обновить товар";
+$MESS["UPDATE_TAB"] = "Обновить каталог";
+$MESS["UPDATE_OPTIONS"] = "Обновить каталог на сайте";
+$MESS["UPDATE_PRICES"] = "Обновить цены";
+$MESS["UPDATE_SECTIONS"] = "Обновить разделы";
+$MESS["UPDATE_PROPERTIES"] = "Обновить свойства";
+$MESS["ADD_AGENT_FOR_UPDATE_REST"] = "Установить агента на обновление всех остатков";
+$MESS["UPDATE_REST"] = "Обновить остатки для склада";
+$MESS["UPDATE_BRANDS"] = "Обновить бренды";
 
 $MESS["HREF_GET_SECTIONS"] = "Ссылка на сервис, для получения разделов";
 $MESS["HREF_GET_PRODUCTS"] = "Ссылка на сервис, для получения товаров";

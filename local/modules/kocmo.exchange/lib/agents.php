@@ -29,4 +29,12 @@ class Agents
         }
         return 'Kocmo\\Exchange\\Agents::start(' . "$step, '$status'" . ');';
     }
+
+    static public function actualizeStock(){
+
+        $bx = StaticFactory::factory(60);
+        $bx->actualizeStock();
+
+        return 'Kocmo\\Exchange\\Agents::actualizeStock();';
+    }
 }

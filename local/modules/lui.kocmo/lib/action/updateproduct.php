@@ -6,6 +6,7 @@ namespace Lui\Kocmo\Action;
 
 use Bitrix\Main\LoaderException,
     Lui\Kocmo\Interfaces\ActionsInterfaces,
+    \Bitrix\Main\Loader,
     Kocmo\Exchange;
 
 class UpdateProduct implements ActionsInterfaces
@@ -17,21 +18,22 @@ class UpdateProduct implements ActionsInterfaces
         $param = json_decode($param, true);
 
         try {
-            \Bitrix\Main\Loader::includeModule('kocmo.exchange');
-        } catch( \Bitrix\Main\LoaderException $e){
+            Loader::includeModule('kocmo.exchange');
+        } catch( LoaderException $e){
             $returnVal["ERRORS"][] =  $e->getMessage();
         }
 
-        try {
-            $o = new Exchange\Entityupdate($param['ID']);
-        } catch(\Exception $e){
-            $returnVal["ERRORS"][] =  $e->getMessage();
-        }
+        $o = new Exchange\Import\Product();
+        $o->update([$param['XML_ID']]);
 
-        if($o->isSuccess()){
-            $returnVal["VALUE"] = $o->getProductId();
+        if(!$o->isSuccess()){
+            array_merge($returnVal["ERRORS"], $o->getErrors());
+        }
+        else{
+            //$returnVal["VALUE"] = $o->getProductId();
             $returnVal["SUCCESS"] = 1;
         }
+
         return $returnVal;
     }
 

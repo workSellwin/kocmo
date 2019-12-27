@@ -116,15 +116,13 @@ class Utils
         return $productQuantity;
     }
 
-    public function getCatalogQuantity($limit = 1){
+    public function getCatalogQuantity(){
 
         Loader::includeModule('catalog');
 
         $productQuantity = [];
 
-        $iterator = \Bitrix\Catalog\ProductTable::getList([
-            "filter" => [">QUANTITY" => $limit]
-        ]);
+        $iterator = \Bitrix\Catalog\ProductTable::getList([]);
 
         while($row = $iterator->fetch()){
             $productQuantity[$row['ID']] = $row['QUANTITY'];

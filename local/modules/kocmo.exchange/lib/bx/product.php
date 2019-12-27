@@ -51,7 +51,9 @@ class Product extends Helper
             unset($row['DETAIL_PICTURE'], $row['ROW_ID']);
 
             try {
+
                 $id = $this->addProduct($row, $oElement, $rowId);
+
             } catch (\Exception $e) {
                 $this->errors[] = $e;
             }
@@ -277,25 +279,7 @@ class Product extends Helper
             $oElement = new \CIBlockElement();
         }
 
-        if( empty($arFields["PROPERTY_VALUES"]["CML2_LINK"]) ){
-            $prod = $this->getProductFromIBlock($arFields["XML_ID"]);
-        }
-        else{
-            $parentId = $arFields["PROPERTY_VALUES"]["CML2_LINK"];
-            $tempVal = array_search($parentId, $this->productMatchXmlId);
-
-            if( strpos($tempVal, 'p_' ) !== 0) {
-                $parentXmlId = 'p_' . $tempVal;
-
-                if (!isset($this->productMatchXmlId[$parentXmlId])) {
-
-                    $el = new \CIBlockElement;
-                    $el->Update($parentId, ["XML_ID" => $parentXmlId]);
-                    $this->productMatchXmlId[$parentXmlId] = $parentId;
-                }
-            }
-            $prod = $this->getOfferFromIBlock($arFields["XML_ID"]);
-        }
+        $prod = $this->getProductFromIBlock($arFields["XML_ID"]);
 
         $id = 0;
 
@@ -313,10 +297,11 @@ class Product extends Helper
             } else {
                 throw new \Exception("Error: " . $oElement->LAST_ERROR);
             }
-
         }
         else {
+
             unset($arFields["CODE"]);
+
             if ($oElement->Update($prod, $arFields)) {
 
                 $id = $prod;
@@ -326,6 +311,7 @@ class Product extends Helper
                 }
             }
         }
+
         return intval($id);
     }
 
@@ -369,6 +355,7 @@ class Product extends Helper
 
         $res = \CIBlockElement::GetList(
             [],
+            //["IBLOCK_ID" => $this->catalogId],
             ["IBLOCK_ID" => $iBlockIds],
             false,
             false,

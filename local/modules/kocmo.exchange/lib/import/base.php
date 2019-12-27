@@ -10,6 +10,7 @@ class Base
     protected $loggerInfo = null;
     protected $loggerError = null;
     protected $errors = [];
+    protected $values = [];
 
     function __construct()
     {
@@ -17,6 +18,22 @@ class Base
         $this->loggerInfo->pushHandler( new StreamHandler($_SERVER['DOCUMENT_ROOT'] . '/api/info.log', Logger::INFO) );
         $this->loggerError = new Logger('exchange error');
         $this->loggerError->pushHandler( new StreamHandler($_SERVER['DOCUMENT_ROOT'] . '/api/error.log', Logger::ERROR) );
+    }
+
+    /**
+     * @return array
+     */
+    public function getValues(): array
+    {
+        return $this->values;
+    }
+
+    /**
+     * @param string $value
+     */
+    public function setValues(string $value)
+    {
+        $this->values[] = $value;
     }
 
     /**

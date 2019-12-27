@@ -35,6 +35,16 @@ class UserData
             }
         }
         if (!$data) $data = [];
+
+        if (strlen($data['PERSONAL_STREET'])>10) {
+            $a=substr(substr($data['PERSONAL_STREET'],2),0,-3);
+            $a=explode('%;%',$a);
+            $data['ADRESS']['STREET']=$a[0];
+            $data['ADRESS']['HOUSE']=$a[1];
+            $data['ADRESS']['CORPS']=$a[2];
+            $data['ADRESS']['APARTMENT']=$a[3];
+        }
+
         $this->arData = $data;
     }
 

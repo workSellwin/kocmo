@@ -234,23 +234,48 @@ class Rest extends Helper
     public function updateAvailable()
     {
 
-        $productAmount = $this->getProductAmount();
+        $productAmount = $this->getProductAmount();//по 17 и 35 магазину
         $productQuantity = $this->utils->getCatalogQuantity();
 
         $obProduct = new \CCatalogProduct();
 
-        foreach ($productAmount as $id => $quantity) {
+        foreach ($productQuantity as $id => $quantity) {
 
-            if ($quantity < 2) {
-                $quantity = 0;
+            if( isset($productAmount[$id]) ){//есть в магазинах
+
+                if ($quantity != $productAmount[$id]) {
+                    $obProduct->Update($id, ['QUANTITY' => $productAmount[$id]]);
+
+                    $event = new \Bitrix\Main\Event(
+                        "kocmo.exchange",
+                        "OnAfterElemUpdateQuantity",
+                        [
+                            'ID' => $id,
+                            'QUANTITY' => $productAmount[$id],
+                            'QUANTITY_OLD' => $quantity
+                        ]
+                    );
+
+                    $event->send();
+                }
             }
+            else{
 
-            if( !isset($productQuantity[$id]) ){
-                $productQuantity[$id] = 0;
-            }
+                if ($quantity != 0) {
+                    $obProduct->Update($id, ['QUANTITY' => 0]);
 
-            if($quantity != $productQuantity[$id]){
-                $obProduct->Update($id, ['QUANTITY' => $quantity]);
+                    $event = new \Bitrix\Main\Event(
+                        "kocmo.exchange",
+                        "OnAfterElemUpdateQuantity",
+                        [
+                            'ID' => $id,
+                            'QUANTITY' => 0,
+                            'QUANTITY_OLD' => $quantity
+                        ]
+                    );
+
+                    $event->send();
+                }
             }
         }
     }
@@ -272,17 +297,17 @@ class Rest extends Helper
                 if($row['AMOUNT'] > 1){
                     $productAmount[$row['PRODUCT_ID']] += $row['AMOUNT'];
                 }
-                else{
-                    $productAmount[$row['PRODUCT_ID']] += 0;
-                }
+//                else{
+//                    $productAmount[$row['PRODUCT_ID']] += 0;
+//                }
 
             } else {
                 if($row['AMOUNT'] > 1) {
                     $productAmount[$row['PRODUCT_ID']] = $row['AMOUNT'];
                 }
-                else{
-                    $productAmount[$row['PRODUCT_ID']] += 0;
-                }
+//                else{
+//                    $productAmount[$row['PRODUCT_ID']] += 0;
+//                }
             }
         }
         return $productAmount;
@@ -350,5 +375,18 @@ class Rest extends Helper
                 Catalog\StoreProductTable::delete($rest);
             }
         }
+    }
+
+    public function actualizeStock(){
+
+        $this->utils->setModuleData('LAST_STORE_ID', '17');
+        $this->update();
+        $this->utils->setModuleData('LAST_STORE_ID', '35');
+        $this->update();
+        $this->utils->setModuleData('LAST_STORE_ID', '');
+        $this->updateAvailable();
+
+        $bx = \Kocmo\Exchange\StaticFactory::factory(100);
+        $bx->updateElementStatus();
     }
 }

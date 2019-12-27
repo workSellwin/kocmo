@@ -100,9 +100,7 @@ class Config implements Interfaces\Config
     private function setConfigFromModuleOptions(){
 
         foreach( $this->moduleOptions as $key => $option ){
-
             $temp = $this->utils->getModuleData($option);
-
             if($temp){
                 $this->data[$this->space][$key] = $temp;
             }

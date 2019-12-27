@@ -45,6 +45,7 @@ class Dbproduct extends Helper
                 }
 
                 try{
+
                     if( empty($item['PARENT']) || $item['PARENT'] == $item['UID'] || true){// || true
                         $item['ENTRY'] = 'product';
                     }
@@ -53,17 +54,21 @@ class Dbproduct extends Helper
                     }
                     unset($item['PARENT']);
 
+
                     $result = Exchange\DataTable::add($item);
 
                     if($result->isSuccess()){
                         $this->utils->setModuleData($this->arParams['PRODUCT_LAST_UID'], $item["UID"]);
                     }
                 } catch ( DB\SqlQueryException $e ){
-                    //например попытка добавить с не уникальным UID
-                    file_put_contents($_SERVER['DOCUMENT_ROOT'] . '/local/error.log', $e->getMessage() . "\n", FILE_APPEND);
+                    //например попытка добавитьS с не уникальным UID
                     $this->errors[] = $e->getMessage();
+                    //проматываем этот item
+                    $this->utils->setModuleData($this->arParams['PRODUCT_LAST_UID'], $item["UID"]);
                 }
             }
+            print_r($this->errors);
+            return false;
         }
 
         if($last === true){

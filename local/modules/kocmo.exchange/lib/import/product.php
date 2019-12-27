@@ -28,6 +28,7 @@ class Product extends Base
             }
 
             foreach($param as $xmlId) {
+
                 $tree = new Exchange\Tree\Product(['UID' => $xmlId, 'PRODUCT_LIMIT' => 1]);
                 $tree->fillInOutputArr();
                 $ra = $tree->getRequestArr();
@@ -49,14 +50,18 @@ class Product extends Base
                     if (!$id) {
                         $this->setError($xmlId . ": not updated\n");
                     }
+                    else{
+                        $this->setValues($xmlId);
+                    }
                 }
             }
+            return true;
         }
-        elseif( isset($param[0]) && isset($param[0]['UID']) ) {
-            $bx = Exchange\StaticFactory::factory(30);
-            $bx->updateOne($param[0]);
-        }
+//        elseif( isset($param[0]) && isset($param[0]['UID']) ) {
+//            $bx = Exchange\StaticFactory::factory(30);
+//            $bx->updateOne($param[0]);
+//        }
 
-        return true;
+        return false;
     }
 }

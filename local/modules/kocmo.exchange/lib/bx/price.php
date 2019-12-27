@@ -39,7 +39,6 @@ class Price extends Helper
             false,
             ['ID', 'XML_ID']
         );
-
         $elementsId = [];
 
         while($fields = $res->fetch()){
@@ -76,6 +75,7 @@ class Price extends Helper
                             "CATALOG_GROUP_ID" => $catalogGroup,
                             "PRICE" => $price,
                             "CURRENCY" => $this->currency,
+                            'TIMESTAMP_X' => $this->timestamp
                         ]);
                     } else {
                         $result = \Bitrix\Catalog\Model\Price::add([
@@ -95,7 +95,7 @@ class Price extends Helper
             }
         }
         if($full) {
-            //$this->clearOldPrice();
+            $this->clearOldPrice();
         }
         $this->status = 'end';
 

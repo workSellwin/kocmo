@@ -23,15 +23,15 @@ class Store extends Helper
             if (!isset($stores[$store [$this->arParams['ID']]])) {
 
                 try {
+
                     $w = Catalog\StoreTable::add([
                         "TITLE" => $store[$this->arParams['NAME']],
                         "CODE" => $this->utils->getCode($store [$this->arParams['NAME']]),
                         "XML_ID" => $store[$this->arParams['ID']],
                         "ADDRESS" => $store[$this->arParams['ADDRESS']],
                     ]);
-                    //pr($w->getErrors());
                 } catch (\Exception $e) {
-                    pr($e->getMessage());
+                    $this->errors[] = $e->getMessage();
                 }
             }
         }

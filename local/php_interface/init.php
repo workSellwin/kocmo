@@ -159,3 +159,10 @@ function OnSalePayOrderActionUpdateEGift($order_id, $status)
         }
     }
 }
+
+AddEventHandler('kocmo.exchange', 'OnAfterElemUpdateQuantity', 'uA');
+
+function uA($productId, $quantity)
+{
+    pr([$productId, $quantity], 14);
+}
