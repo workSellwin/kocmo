@@ -1,6 +1,14 @@
 {
     "require": {
         "guzzlehttp/guzzle": "^6.3",
-        "monolog/monolog": "^2.0"
-    }
+        "monolog/monolog": "^2.0",
+        "ipol/dpd.sdk": "dev-master"
+    },
+	"repositories": [
+		{
+			"type": "vcs",
+			"url": "https://bitbucket.org/DPDinRussia/dpd.sdk"
+		}
+	],
+	"minimum-stability": "dev"
 }

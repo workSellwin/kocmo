@@ -101,17 +101,47 @@ class End
 
                 $brandsElem[$fields['PROPERTY_BRAND_BIND_VALUE']] = $fields['ID'];
             }
-
+            unset($res);
             $el = new \CIBlockElement;
+//pr( count($brandsElem), 14);
+//pr( $brandsElem, 14);
+            $timestamp = ConvertTimeStamp(time(), "FULL");
 
-            foreach ($brandsElem as $enumXmlId => $brandId) {
+            foreach($brandsEnum as $enumXmlId => $brand){
 
-                if (isset($brandsEnum[$enumXmlId])) {
-                    $el->Update($brandId, ['ACTIVE' => 'Y']);
-                } else {
-                    $el->Update($brandId, ['ACTIVE' => 'N']);
+                if( isset( $brandsElem[$enumXmlId] ) ){
+                    $el->Update($brandsElem[$enumXmlId], ['ACTIVE' => 'Y']);
+                }
+                else{
+
+                    $PROP['BRAND_BIND'] = $enumXmlId;
+
+                    $arLoadProductArray = Array(
+                        "MODIFIED_BY" => $GLOBALS['USER']->GetID(),
+                        "IBLOCK_SECTION_ID" => false,
+                        "IBLOCK_ID" => $this->brandsIBlockId,
+                        "PROPERTY_VALUES"=> $PROP,
+                        "NAME" => $brand,
+                        "CODE" => \CUtil::translit($brand, 'ru'),
+                        "ACTIVE" => "Y",
+                    );
+
+                    $el->Add($arLoadProductArray);
                 }
             }
+
+            $res = \CIBlockElement::GetList(
+                [],
+                ["<TIMESTAMP_X" => $timestamp, "IBLOCK_ID" => $this->brandsIBlockId],
+                false,
+                false,
+                ["ID"]
+            );
+
+            while( $fields = $res->fetch() ){
+                $el->Update($fields['ID'], ['ACTIVE' => 'N']);
+            }
+
         } catch (LoaderException $e) {
             $this->errors[] = $e->getMessage();
         }
