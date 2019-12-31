@@ -1,0 +1,31 @@
+
+Подключаем модуль PDO
+
+mv /etc/php.d/pdo.ini.disabled /etc/php.d/pdo.ini
+mv /etc/php.d/pdo_sqlite.ini.disabled /etc/php.d/pdo_sqlite.ini
+mv /etc/php.d/pdo_mysql.ini.disabled /etc/pdo_mysql.d/pdo.ini
+mv /etc/php.d/pdo_dblib.ini.disabled /etc/php.d/pdo_dblib.ini
+Если получаем ошибку
+
+Can't connect to local MySQL server through socket '/var/lib/mysql/mysql.sock'
+То смотрим в файле /etc/my.cnf где находится сокет
+
+socket = /var/lib/mysqld/mysqld.sock
+Добавляем в /etc/php.ini этот путь
+
+pdo_mysql.default_socket=/var/lib/mysqld/mysqld.sock
+
+
+Если вы устанавливаете решение на виртуальную машину Bitrix в ней так же необходимо активировать данные модули.
+
+Для включения модулей pdo и pdo_mysql на виртуальной машине Bitrix необходимо выполнить следующие действия:
+
+cd /etc/php.d
+rm -rf 20-pdo.ini
+mv 20-pdo.ini.disabled 20-pdo.ini
+rm -rf 30-pdo_mysql.ini
+mv 30-pdo_mysql.ini.disabled 30-pdo_mysql.ini
+После этого отредактировать файл /etc/php.ini, где в параметр
+pdo_mysql.default_socket
+установить значение /var/lib/mysqld/mysqld.sock.
+Перезагрузить httpd командой systemctl restart httpd.
