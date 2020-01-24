@@ -1,5 +1,6 @@
 <?php
 
+use Asdrubael\S3\CloudStorageClient;
 use Bitrix\Main\Application;
 use Bitrix\Main\Loader;
 use Lui\Kocmo\Request\Post\SetPayment;
@@ -166,3 +167,26 @@ function uA($productId, $quantity)
 {
     pr([$productId, $quantity], 14);
 }
+
+AddEventHandler('main', 'OnFileSave', ['FileHandler', 'OnFileSaveHandler']);
+AddEventHandler('main', 'OnFileDelete', ['FileHandler', 'OnFileDeleteHandler']);
+AddEventHandler('main', 'OnGetFileSRC', ['FileHandler', 'OnGetFileSRCHandler']);
+AddEventHandler("main", "OnAfterResizeImage", ['FileHandler', "OnAfterResizeImageHandler"]);
+//AddEventHandler("iblock", "OnBeforeIBlockElementUpdate", ["ElementHandler", "OnBeforeIBlockElementUpdateHandler"]);
+AddEventHandler("iblock", "OnBeforeIBlockElementAdd", ["ElementHandler", "OnBeforeIBlockElementUpdateHandler"]);
+
+//AddEventHandler("iblock", "OnAfterIBlockElementDelete", Array("ElementHandler", "OnAfterIBlockElementDeleteHandler"));
+AddEventHandler("main", "OnEndBufferContent", "bufferHandler");
+
+function bufferHandler(&$content)
+{
+    $content = replace_output($content);
+}
+
+function replace_output($d)
+{
+    return str_replace(['http%3A//', 'https%3A//'],['http://', 'https://'], $d);
+}
+
+
+

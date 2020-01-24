@@ -146,14 +146,121 @@ define('KOCMO_TEMPLATE_PATH', SITE_TEMPLATE_PATH . '/imposition/build/assets');
                     Акционная листовка
                 </a>
 
+
+                <style>
+                    #popup-mob-search{
+                        width:670px;
+                        margin: 30px;
+                    }
+                    .popup__fancybox-close{
+                        top: -4px;
+                        right: 18px;
+                    }
+                    #popup-mob-search .mob-search-form{
+                        width:100%
+                    }
+                    #popup-mob-search .mob-search-form input{
+                        width:100%;
+                        font-size: 1rem;
+                        line-height: 1.4;
+                        padding: 15px;
+                    }
+
+                    @media screen and (max-width: 800px) {
+                        #popup-mob-search{
+                            width:600px;
+                        }
+                        .popup__fancybox-close{
+                            top: 0;
+                        }
+                    }
+                    @media screen and (max-width: 700px){
+                        #popup-mob-search{
+                            width:500px;
+                        }
+                    }
+                    @media screen and (max-width: 600px){
+                        #popup-mob-search{
+                            width:450px;
+                        }
+                        .popup__fancybox-close{
+                            right: 5px;
+                        }
+                    }
+                    @media screen and (max-width: 540px){
+                        #popup-mob-search{
+                            width:400px;
+                        }
+                        .popup__fancybox-close{
+                            right: 5px;
+                        }
+                    }
+                    @media screen and (max-width: 500px){
+                        #popup-mob-search{
+                            width:360px;
+                        }
+                        .popup__fancybox-close{
+                            right: 5px;
+                        }
+                    }
+                    @media screen and (max-width: 450px){
+                        #popup-mob-search{
+                            width:310px;
+                        }
+                        .popup__fancybox-close{
+                            right: 5px;
+                        }
+                    }
+                    @media screen and (max-width: 400px){
+                        #popup-mob-search{
+                            width:260px;
+                        }
+                        .popup__fancybox-close{
+                            right: 5px;
+                        }
+                    }
+                    @media screen and (max-width: 350px){
+                        #popup-mob-search{
+                            width:210px;
+                        }
+                        .popup__fancybox-close{
+                            right: 5px;
+                        }
+                    }
+                    @media screen and (max-width: 300px){
+                        #popup-mob-search{
+                            width:160px;
+                        }
+                        .popup__fancybox-close{
+                            right: 5px;
+                        }
+                    }
+                </style>
+
                 <div class="personality-state">
-                    <a href="#"
-                       class="personality-state__item personality-state__item--fixed-show personality-state__item--mobile-show">
+                    <a href="#popup-mob-search"
+                       class="fancybox mob-search-icon personality-state__item personality-state__item--fixed-show personality-state__item--mobile-show">
                         <svg width="25" height="25">
                             <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-magnifier"></use>
                         </svg>
                         Поиск по сайту
                     </a>
+                    <div id="popup-mob-search" style="display: none;">
+                        <a href="#" onclick="$.fancybox.close();return false;" class="popup__fancybox-close"></a>
+                        <form class="mob-search-form" method="get" action="/catalog/" name="">
+
+                            <input type="text" name="q"
+                                   value="<?= htmlspecialchars($_REQUEST['q']) ? htmlspecialchars($_REQUEST['q']) : '' ?>"
+                                   class="header-search__text"
+                                   placeholder="Введите свой поисковый запрос">
+                        </form>
+                        <script>
+                            let mobileSearch = document.querySelector('.mob-search-icon');
+                            mobileSearch.addEventListener('click', function (event) {
+                                //alert(22);
+                            })
+                        </script>
+                    </div>
                     <? $APPLICATION->IncludeComponent(
                         "h2o:favorites.line",
                         "header",

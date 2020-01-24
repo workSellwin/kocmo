@@ -20,7 +20,7 @@ use \Bitrix\Main\Localization\Loc;
  * |    <!-- component-end -->
  */
 
-$this->setFrameMode(true); ?>
+$this->setFrameMode(true);?>
 
     <style>
         .suggestions_sale__btn {

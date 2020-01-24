@@ -1,15 +1,16 @@
 <?
+require_once($_SERVER['DOCUMENT_ROOT'] . "/bitrix/modules/main/include/prolog_before.php");
 \Bitrix\Main\Loader::includeModule('kocmo.exchange');
 
 $options  = [
-'KLIENT_NUMBER'   => '1104009121',//'1001027795',
-'KLIENT_NUMBER_BY'   => '1104009121',//'1001027795',
-'KLIENT_KEY'      => 'CA461909F1DFED320BFBCA5B90A002AD5756D6BF',//'182A17BD6FC5557D1FCA30FA1D56593EB21AEF88',
-'KLIENT_CURRENCY' => 'BYN',
-'IS_TEST'         => true,
-'DB' => [	'DSN' => 'mysql:dbname=sitemanager;host=localhost',
-'PASSWORD' => 'rSJ(b%UBvnXWYViJ!KUm',
-'USERNAME' => 'bitrix0'],
+    'KLIENT_NUMBER'   => '1104009121',//'1001027795'//'1104009121',
+    'KLIENT_NUMBER_BY'   => '1104009121',//'1001027795',
+    'KLIENT_KEY'      => 'CA461909F1DFED320BFBCA5B90A002AD5756D6BF',//'182A17BD6FC5557D1FCA30FA1D56593EB21AEF88',
+    'KLIENT_CURRENCY' => 'BYN',
+    'IS_TEST'         => false,
+    'DB' => [	'DSN' => 'mysql:dbname=sitemanager;host=localhost',
+        'PASSWORD' => 'rSJ(b%UBvnXWYViJ!KUm',
+        'USERNAME' => 'bitrix0'],
 ];
 $config  = new \Ipol\DPD\Config\Config($options);
 
@@ -18,32 +19,32 @@ $shipment->setSender('Беларусь',  'Минская','г Минск');
 $shipment->setReceiver('Беларусь', 'Минская', 'Щомыслица');
 //pr($shipment,14);
 /**
-* Отправка от
-* false - от двери
-* true  - от терминала
-*/
+ * Отправка от
+ * false - от двери
+ * true  - от терминала
+ */
 $shipment->setSelfPickup(false);
 
 /**
-* Отправка до
-* false - от двери
-* true  - от терминала
-*/
+ * Отправка до
+ * false - от двери
+ * true  - от терминала
+ */
 $shipment->setSelfDelivery(false);
 
 $shipment->setItems([
-[
-'NAME'       => 'Тестовый заказ ТТ',
-'QUANTITY'   => '8',
-'PRICE'      => 2412.00,
-'VAT_RATE'   => 'Без НДС',
-'WEIGHT'     => 1000,
-'DIMENSIONS' => [
-'LENGTH' => 200,
-'WIDTH'  => 100,
-'HEIGHT' => 50,
-]
-],
+    [
+        'NAME'       => 'Тестовый заказ ТТ',
+        'QUANTITY'   => '8',
+        'PRICE'      => 2412.00,
+        'VAT_RATE'   => 'Без НДС',
+        'WEIGHT'     => 1000,
+        'DIMENSIONS' => [
+            'LENGTH' => 200,
+            'WIDTH'  => 100,
+            'HEIGHT' => 50,
+        ]
+    ],
 ]);
 
 $order = \Ipol\DPD\DB\Connection::getInstance($config)->getTable('order')->makeModel();
@@ -51,7 +52,7 @@ $order->setShipment($shipment);
 
 $order->orderId = 1222;
 
-$order->serviceCode = 'NDY';
+$order->serviceCode = 'CSM';//'NDY';
 
 $order->senderName = 'Наименование отправителя';
 $order->senderFio = 'ФИО отправителя';
